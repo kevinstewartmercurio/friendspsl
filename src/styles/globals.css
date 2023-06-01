@@ -31,6 +31,10 @@ body {
   font-family: 'Courier New', Courier, monospace;
 }
 
+th {
+  font-weight: 400;
+}
+
 .input-container label {
   color: #9ca3af;
   position: absolute;

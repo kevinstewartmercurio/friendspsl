@@ -4,12 +4,7 @@ const path = require("path")
 const XLSX = require("xlsx")
 const cheerio = require("cheerio")
 
-type Event = {
-    player: string,
-    date?: Date,
-    location: string,
-    field?: string
-}
+import { Event } from ".."
 
 const teamNumberToScheduleURL: {[key: number]: string} = {
     1: "https://pada.org/t/team-01-11612/schedule/event_id/active_events_only/game_type/upcoming",
