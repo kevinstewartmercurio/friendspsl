@@ -1,118 +1,96 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import { useState, useEffect, ChangeEvent, MouseEvent } from "react"
 
 export default function Home() {
-  return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    const [playerCount, setPlayerCount] = useState<number>(1)
+    const [playersLst, setPlayersLst] = useState<string[]>([""])
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+    const handlePlayerChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+        setPlayersLst((prevLst) => {
+            const newLst = prevLst.map((item, idx) => {
+                if (idx === index) {
+                    return e.target.value
+                } else {
+                    return item
+                }
+            })
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+            return newLst
+        })
+    }
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+    const incrementPlayerCount = () => {
+      setPlayerCount((prev) => prev + 1)
+      setPlayersLst((prev) => [...prev, ""])
+    }
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
+    const decrementPlayerCount = (index: number) => {
+      setPlayerCount((prev) => prev - 1)
+      setPlayersLst((prev) => prev.filter((_, idx) => idx !== (index + 1)))
+    }
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
+      e.preventDefault()
+
+      const result = await fetch("/api/generateSchedule", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({playersLst: playersLst})
+      })
+        .then((res) => {
+            if (res.ok) {
+                return res.json()
+            }
+        })
+        .then((data) => {
+            console.log(data)
+        })
+    }
+    
+    return (
+        <>
+            <div className="w-full px-10 py-6 flex justify-center">
+                <div>
+                    <form onSubmit={(e) => handleSubmit(e)}>
+                        <div className="flex flex-row">
+                            <div className="input-container w-[440px] mb-2 relative flex flex-col">
+                                <input id="player0" type="text" value={playersLst[0]} onChange={(e) => {handlePlayerChange(e, 0)}}
+                                    className="bg-gray-300 border-gray-300 border-[1.5px] rounded-lg w-full h-12 px-4 pt-2 outline-none"/>
+                                <label htmlFor="player0" className={playersLst[0] && "filled"}>
+                                    Player Name
+                                </label>
+                            </div>
+                        </div>
+                        {Array.from({length: playerCount - 1}, (_, index) => (
+                            <div key={index} className="flex flex-row">
+                                <div className="input-container w-[440px] mb-2 relative flex flex-col">
+                                    <input id={`player${index + 1}`} type="text" value={playersLst[index + 1]} onChange={(e) => {handlePlayerChange(e, index + 1)}}
+                                        className="bg-gray-300 border-gray-300 border-[1.5px] rounded-lg w-full h-12 px-4 pt-2 outline-none"/>
+                                    <label htmlFor={`player${index + 1}`} className={playersLst[index + 1] && "filled"}>
+                                        Player Name
+                                    </label>
+                                </div>
+                                <button className="text-gray-200 bg-[#1c5c63] border-[#1c5c63] border-[1.5px] rounded-lg w-12 ml-2 mb-2 flex justify-center items-center outline-none" onClick={(e) => {
+                                  e.preventDefault()
+                                  decrementPlayerCount(index)
+                                }}> 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        ))}
+                        <div className="w-[440px] mt-4 flex flex-row">
+                            <button className="text-gray-200 bg-[#1c5c63] border-[#1c5c63] border-[1.5px] rounded-lg w-1/3 h-12 flex justify-center items-center outline-none" onClick={(e) => {
+                              e.preventDefault()
+                              incrementPlayerCount()
+                            }}>
+                                Add Player
+                            </button>
+                            <input type="submit" value="Generate Schedule" className="text-gray-200 bg-gray-800 border-gray-800 border-[1.5px] rounded-lg w-2/3 h-12 ml-2 flex justify-center items-center outline-none hover:cursor-pointer" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </>
+    )
 }
