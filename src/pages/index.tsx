@@ -19,7 +19,7 @@ export default function Home() {
     const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][]>([])
     const [scheduleGenerated, setScheduleGenerated] = useState<boolean>(false)
     const [readyToGenerate, setReadyToGenerate] = useState<boolean>(true)
-    const [unrecognizedName, setUnrecognizedName] = useState<boolean>(false)
+    const [errorType, setErrorType] = useState<string>("") 
 
     useEffect(() => {
         if (masterSchedule.length > 0) {
@@ -35,7 +35,7 @@ export default function Home() {
     const handleSubmit = async (playersLst: string[]) => {
         setScheduleGenerated(false)
         setReadyToGenerate(false)
-        setUnrecognizedName(false)
+        setErrorType("")
         
         await fetch("/api/generateSchedule", {
             method: "POST",
@@ -45,8 +45,10 @@ export default function Home() {
             .then((res) => {
                 if (res.ok) {
                     return res.json()
-                } else {
-                    setUnrecognizedName(true)
+                } else if (res.status === 400) {
+                    setErrorType("Unrecognized name")
+                } else if (res.status === 500) {
+                    setErrorType("Server error")
                 }
             })
             .then((data) => {
@@ -66,7 +68,7 @@ export default function Home() {
                     <Header handlePopup={handlePopup} />
                 </div>
                 <div>
-                    <Input handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} unrecognizedName={unrecognizedName} />
+                    <Input handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
                 </div>
                 <div>
                     <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />

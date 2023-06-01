@@ -12,7 +12,7 @@ export function Schedule(props: {masterSchedule: [Date, Event[]][], scheduleGene
     return (
         <>
             <div className="w-full mt-16 flex justify-center">
-                <table className="text-gray-300 w-5/6 font-normal">
+                <table className="text-gray-300 w-5/6 text-sm md:text-base font-normal">
                     <thead className="text-left">
                         <tr>
                             <th className="pl-3">
