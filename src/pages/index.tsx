@@ -4,6 +4,8 @@ import { Header } from "@/components/Header"
 import { Input } from "@/components/Input"
 import { Schedule } from "@/components/Schedule"
 import { Footer } from "@/components/Footer"
+import { HowItWorks } from "@/components/HowItWorks"
+import { HowItsBuilt } from "@/components/HowItsBuilt"
 
 export type Event = {
     player: string,
@@ -24,7 +26,7 @@ export default function Home() {
     }, [masterSchedule])
 
     const handlePopup = (popupStr: string) => {
-
+        setPopup(popupStr)
     }
 
     const handleSubmit = async (playersLst: string[]) => {
@@ -47,17 +49,21 @@ export default function Home() {
     
     return (
         <>
-            <div>
-                <Header handlePopup={handlePopup} />
-            </div>
-            <div>
-                <Input handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} />
-            </div>
-            <div>
-                <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />
-            </div>
-            <div>
-                <Footer />
+            {popup !== "How it Works" ? (<></>) : (<HowItWorks handlePopup={handlePopup} />)}
+            {popup !== "How it's Built" ? (<></>) : (<HowItsBuilt handlePopup={handlePopup} />)}
+            <div className={`${popup !== "" ? "blur-sm" : ""}`}>
+                <div>
+                    <Header handlePopup={handlePopup} />
+                </div>
+                <div>
+                    <Input handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} />
+                </div>
+                <div>
+                    <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />
+                </div>
+                <div>
+                    <Footer />
+                </div>
             </div>
         </>
     )

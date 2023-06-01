@@ -5,28 +5,28 @@ export function Header(props: {handlePopup: (popupStr: string) => void}) {
                 <div className="w-1/2 text-4xl font-medium py-4 flex justify-start items-center">
                     <a href="/">
                         <span className="text-[#82eaff]">
-                            Pada
+                            F
                         </span>
                         <span className="text-[#ffcefb]">
-                            Friend
+                            (riends)
                         </span>
                         <span className="text-[#82eaff]">
-                            Viewer
+                            PSL
                         </span>
                     </a>
                 </div>
                 <div className="text-gray-300 w-1/2 flex flex-row justify-end items-center">
                     <button className="border-transparent border-[1.5px] px-0.5 hover:border-b-gray-300" onClick={(e) => {
                         e.preventDefault()
-                        props.handlePopup("How it works")
+                        props.handlePopup("How it Works")
                     }}>
-                        How it works
+                        How it Works
                     </button>
-                    <button className="border-transparent border-[1.5px] ml-8 px-0.5 hover:border-b-gray-300" onClick={(e) => {
+                    <button className="border-transparent border-[1.5px] ml-10 px-0.5 hover:border-b-gray-300" onClick={(e) => {
                         e.preventDefault()
-                        props.handlePopup("How it's built")
+                        props.handlePopup("How it's Built")
                     }}>
-                        How it's built
+                        How it's Built
                     </button>
                 </div>
             </div>
