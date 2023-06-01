@@ -68,18 +68,12 @@ export function Input(props: {handleSubmit: (playersLst: string[]) => void, sche
                         e.preventDefault()
 
                         if (props.readyToGenerate) {
-                            // check if playersLst has any nonempty strings
-                            let playersLstEmpty = true
-                            for (let player of playersLst) {
-                                if (player !== "") {
-                                    playersLstEmpty = false
-                                    break
-                                }
-                            }
+                            // remove all empty strings from playersLst
+                            const strippedPlayersLst = playersLst.filter((player) => player !== "")
 
-                            if (!playersLstEmpty) {
+                            if (strippedPlayersLst.length > 0) {
                                 setSubmitText("One moment please...")
-                                props.handleSubmit(playersLst)
+                                props.handleSubmit(strippedPlayersLst)
                             }
                         }
                     }}>
