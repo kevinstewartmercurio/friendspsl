@@ -2,8 +2,8 @@ import { Event } from "@/pages"
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-export function Schedule(props: {masterSchedule: any}) {
-    if (props.masterSchedule.length === 0) {
+export function Schedule(props: {masterSchedule: [Date, Event[]][], scheduleGenerated: boolean}) {
+    if (!props.scheduleGenerated) {
         return (
             <></>
         )

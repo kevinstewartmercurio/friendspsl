@@ -1,8 +1,17 @@
-import { useState, ChangeEvent } from "react"
+import { useState, useEffect, ChangeEvent } from "react"
 
-export function Input(props: {handleSubmit: (playersLst: string[]) => void}) {
+export function Input(props: {handleSubmit: (playersLst: string[]) => void, scheduleGenerated: boolean}) {
     const [playerCount, setPlayerCount] = useState<number>(1)
     const [playersLst, setPlayersLst] = useState<string[]>([""])
+    const [submitText, setSubmitText] = useState<string>("Generate Schedule")
+    const [wait, setWait] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (props.scheduleGenerated) {
+            setSubmitText("Generate Schedule")
+            setWait(false)
+        }
+    }, [props.scheduleGenerated])
 
     const handlePlayerChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
         setPlayersLst((prevLst) => {
@@ -30,10 +39,12 @@ export function Input(props: {handleSubmit: (playersLst: string[]) => void}) {
     
     return (
         <>
-            <div className="w-full px-10 py-6 flex justify-center">
+            {/* header height: 104px, footer height: 104px */}
+            <div className={`w-full px-10 py-6 flex justify-center ${props.scheduleGenerated ? "" : "min-h-[calc(100vh-104px-104px)] items-center"}`}>
                 <div>
                     <form onSubmit={(e) => {
                         e.preventDefault()
+                        setSubmitText("One moment please...")
                         props.handleSubmit(playersLst)
                     }}>
                         <div className="flex flex-row">
@@ -67,11 +78,15 @@ export function Input(props: {handleSubmit: (playersLst: string[]) => void}) {
                         <div className="w-[440px] mt-4 flex flex-row">
                             <button className="text-[#82eaff] bg-[#014961] border-[#014961] border-[1.5px] rounded-lg w-1/3 h-12 flex justify-center items-center outline-none hover:text-[#014961] hover:bg-[#82eaff] duration-300" onClick={(e) => {
                               e.preventDefault()
-                              incrementPlayerCount()
+
+                              if (!wait) {
+                                setWait(true)
+                                incrementPlayerCount()
+                              }
                             }}>
                                 Add Player
                             </button>
-                            <input type="submit" value="Generate Schedule" className="text-gray-300 bg-gray-800 border-gray-800 border-[1.5px] rounded-lg w-2/3 h-12 ml-2 flex justify-center items-center outline-none hover:cursor-pointer hover:text-gray-800 hover:bg-gray-300 duration-300" />
+                            <input type="submit" value={submitText} className="text-gray-300 bg-gray-800 border-gray-800 border-[1.5px] rounded-lg w-2/3 h-12 ml-2 flex justify-center items-center outline-none hover:cursor-pointer hover:text-gray-800 hover:bg-[#ffcefb] duration-300" />
                         </div>
                     </form>
                 </div>
