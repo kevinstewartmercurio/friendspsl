@@ -32,7 +32,7 @@ export function HowItWorks(props: {handlePopup: (popupStr: string) => void}) {
                         &nbsp;tab.
                     </div>
                     <div className="mt-4 pr-8">
-                        Additionally, all names are checked against a slightly modified version of the 2023 FPSL Draft data (altered to remove extra spaces, capitalize names, etc.). If you are unable to generate a schedule for a name you believe is spelled correctly, please&nbsp; 
+                        Additionally, all names are checked against a slightly modified version of the 2023 FPSL Draft data (altered to remove extra spaces, capitalize names, etc.). If you are unable to generate a schedule for a name you believe is spelled correctly please&nbsp; 
                         <a href="mailto:kevinstewartmercurio@gmail.com" className="underline">
                             contact me
                         </a>

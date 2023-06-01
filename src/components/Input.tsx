@@ -1,17 +1,15 @@
 import { useState, useEffect, ChangeEvent } from "react"
 
-export function Input(props: {handleSubmit: (playersLst: string[]) => void, scheduleGenerated: boolean}) {
+export function Input(props: {handleSubmit: (playersLst: string[]) => void, scheduleGenerated: boolean, readyToGenerate: boolean, unrecognizedName: boolean}) {
     const [playerCount, setPlayerCount] = useState<number>(1)
     const [playersLst, setPlayersLst] = useState<string[]>([""])
     const [submitText, setSubmitText] = useState<string>("Generate Schedule")
-    const [wait, setWait] = useState<boolean>(false)
 
     useEffect(() => {
-        if (props.scheduleGenerated) {
+        if (props.readyToGenerate) {
             setSubmitText("Generate Schedule")
-            setWait(false)
         }
-    }, [props.scheduleGenerated])
+    }, [props.readyToGenerate])
 
     const handlePlayerChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
         setPlayersLst((prevLst) => {
@@ -42,10 +40,36 @@ export function Input(props: {handleSubmit: (playersLst: string[]) => void, sche
             {/* header height: 104px, footer height: 104px */}
             <div className={`w-full px-10 py-6 flex justify-center ${props.scheduleGenerated ? "" : "min-h-[calc(100vh-104px-104px)] items-center"}`}>
                 <div>
+                    {!props.unrecognizedName ? <></> : (
+                        <div className="bg-gray-300 border-red-700 border-[3px] rounded-lg w-[440px] mb-6 px-4 py-2">
+                            <span className="text-red-700">
+                                Error:&nbsp;
+                            </span>
+                            At least one of the provided names was not found in the 2023 FPSL Draft data. If you are unable to generate a schedule for a name you believe is spelled correctly please&nbsp;
+                            <a href="mailto:kevinstewartmercurio@gmail.com" className="underline">
+                                contact me
+                            </a>
+                            .
+                        </div>
+                    )}
                     <form onSubmit={(e) => {
                         e.preventDefault()
-                        setSubmitText("One moment please...")
-                        props.handleSubmit(playersLst)
+
+                        if (props.readyToGenerate) {
+                            // check if playersLst has any nonempty strings
+                            let playersLstEmpty = true
+                            for (let player of playersLst) {
+                                if (player !== "") {
+                                    playersLstEmpty = false
+                                    break
+                                }
+                            }
+
+                            if (!playersLstEmpty) {
+                                setSubmitText("One moment please...")
+                                props.handleSubmit(playersLst)
+                            }
+                        }
                     }}>
                         <div className="flex flex-row">
                             <div className="input-container w-[440px] mb-2 relative flex flex-col">
@@ -77,12 +101,8 @@ export function Input(props: {handleSubmit: (playersLst: string[]) => void, sche
                         ))}
                         <div className="w-[440px] mt-4 flex flex-row">
                             <button className="text-[#82eaff] bg-[#014961] border-[#014961] border-[1.5px] rounded-lg w-1/3 h-12 flex justify-center items-center outline-none hover:text-[#014961] hover:bg-[#82eaff] duration-300" onClick={(e) => {
-                              e.preventDefault()
-
-                              if (!wait) {
-                                setWait(true)
+                                e.preventDefault()
                                 incrementPlayerCount()
-                              }
                             }}>
                                 Add Player
                             </button>
