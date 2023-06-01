@@ -26,7 +26,7 @@ export function Header(props: {handlePopup: (popupStr: string) => void}) {
                     </button>
                     <button className="border-transparent border-[1.5px] ml-10 px-0.5 hover:border-b-gray-300" onClick={(e) => {
                         e.preventDefault()
-                        props.handlePopup("How its Built")
+                        props.handlePopup("How it's Built")
                     }}>
                         How it's Built
                     </button>
