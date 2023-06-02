@@ -51,62 +51,64 @@ type PlayerlessEvent = {
 }
 
 export default async function handler(req: NextRequest) {
-    await client.connect()
-    const db = client.db(process.env.MONGODB_DBNAME)
-    const coll = db.collection(process.env.MONGODB_COLLNAME)
+    return new NextResponse(JSON.stringify({}), {status: 201})
 
-    const numberToTeamSchedule: {[key: number | string]: {[key: number]: PlayerlessEvent} | Date} = {date: new Date()}
+    // await client.connect()
+    // const db = client.db(process.env.MONGODB_DBNAME)
+    // const coll = db.collection(process.env.MONGODB_COLLNAME)
 
-    const teamSchedulePromisesLst = teamScheduleURLs.map(async (url) => {
-        const teamSchedule = await fetch(url, {method: "GET"})
-            .then((res) => {
-                if (res.ok) {
-                    return res.text()
-                }
-            })
-            .then((data) => {
-                const $ = cheerio.load(data)
+    // const numberToTeamSchedule: {[key: number | string]: {[key: number]: PlayerlessEvent} | Date} = {date: new Date()}
 
-                const dateSpans = $("span.push-left").filter((_index: number, element: any) => $(element).children("a").length === 0).toArray()
-                const locationAnchors = $("span.push-left").find("a").toArray()
-                const fieldSpans = $("span.push-left").filter((_index: number, element: any) => $(element).find("a").length > 0).toArray()
-                let scheduleObj: {[key: number]: PlayerlessEvent} = {}
+    // const teamSchedulePromisesLst = teamScheduleURLs.map(async (url) => {
+    //     const teamSchedule = await fetch(url, {method: "GET"})
+    //         .then((res) => {
+    //             if (res.ok) {
+    //                 return res.text()
+    //             }
+    //         })
+    //         .then((data) => {
+    //             const $ = cheerio.load(data)
 
-                for (let i = 0; i < dateSpans.length; i++) {
-                    let tempEvent: PlayerlessEvent = {
-                        date: new Date($(dateSpans[i]).text()),
-                        location: $(locationAnchors[i]).text()
-                    }
+    //             const dateSpans = $("span.push-left").filter((_index: number, element: any) => $(element).children("a").length === 0).toArray()
+    //             const locationAnchors = $("span.push-left").find("a").toArray()
+    //             const fieldSpans = $("span.push-left").filter((_index: number, element: any) => $(element).find("a").length > 0).toArray()
+    //             let scheduleObj: {[key: number]: PlayerlessEvent} = {}
 
-                    if ($(locationAnchors[i]).text() !== "PLD (Parking Lot Duty)") {
-                        tempEvent["field"] = $(fieldSpans[i]).text().trim().slice(-2)
-                    }
+    //             for (let i = 0; i < dateSpans.length; i++) {
+    //                 let tempEvent: PlayerlessEvent = {
+    //                     date: new Date($(dateSpans[i]).text()),
+    //                     location: $(locationAnchors[i]).text()
+    //                 }
 
-                    scheduleObj[i] = tempEvent
-                }
+    //                 if ($(locationAnchors[i]).text() !== "PLD (Parking Lot Duty)") {
+    //                     tempEvent["field"] = $(fieldSpans[i]).text().trim().slice(-2)
+    //                 }
 
-                return scheduleObj
-            })
-            .catch((error) => console.error(error))
+    //                 scheduleObj[i] = tempEvent
+    //             }
+
+    //             return scheduleObj
+    //         })
+    //         .catch((error) => console.error(error))
         
-        return teamSchedule
-    })
+    //     return teamSchedule
+    // })
 
-    await Promise.all(teamSchedulePromisesLst)
-        .then((values) => {
-            values.forEach((val, index) => {
-                numberToTeamSchedule[index + 1] = val as {[key: number]: PlayerlessEvent}
-            })
-        })
-        .catch((error) => console.error(error))
+    // await Promise.all(teamSchedulePromisesLst)
+    //     .then((values) => {
+    //         values.forEach((val, index) => {
+    //             numberToTeamSchedule[index + 1] = val as {[key: number]: PlayerlessEvent}
+    //         })
+    //     })
+    //     .catch((error) => console.error(error))
 
-    await coll.deleteMany()
-    const result = await coll.insertOne(numberToTeamSchedule)
+    // await coll.deleteMany()
+    // const result = await coll.insertOne(numberToTeamSchedule)
     
-    client.close()
-    if (result) {
-        return new NextResponse(JSON.stringify({message: "Cron job success."}), {status: 201})
-    } else {
-        return new NextResponse(JSON.stringify({}), {status: 500})
-    }
+    // client.close()
+    // if (result) {
+    //     return new NextResponse(JSON.stringify({message: "Cron job success."}), {status: 201})
+    // } else {
+    //     return new NextResponse(JSON.stringify({}), {status: 500})
+    // }
 }
