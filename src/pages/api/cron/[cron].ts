@@ -59,7 +59,7 @@ export default async function handler(req: NextRequest) {
 
     const numberToTeamSchedule: {[key: number | string]: {[key: number]: PlayerlessEvent} | Date} = {date: new Date()}
 
-    const teamSchedulePromisesLst = teamScheduleURLs.map(async (url, index) => {
+    const teamSchedulePromisesLst = teamScheduleURLs.map(async (url) => {
         const teamSchedule = await fetch(url, {method: "GET"})
             .then((res) => {
                 if (res.ok) {
@@ -103,8 +103,12 @@ export default async function handler(req: NextRequest) {
         .catch((error) => console.error(error))
 
     await coll.deleteMany()
-    await coll.insertOne(numberToTeamSchedule)
+    const result = await coll.insertOne(numberToTeamSchedule)
     
     client.close()
-    return new NextResponse(JSON.stringify({message: "Cron job success."}), {status: 200})
+    if (result) {
+        return new NextResponse(JSON.stringify({message: "Cron job success."}), {status: 201})
+    } else {
+        return new NextResponse(JSON.stringify({}), {status: 500})
+    }
 }
