@@ -36,6 +36,7 @@ export function Schedule(props: {masterSchedule: [Date, Event[]][], scheduleGene
                     <tbody>
                         {props.masterSchedule.map((outerItem: [Date, Event[]], outerIndex: number) => {
                             const tempDate = new Date(outerItem[0])
+                            tempDate.setDate(tempDate.getDate() + 1) // solving the off by a day issue?
                             const dateTxt = `${months[tempDate.getMonth()]} ${tempDate.getDate()}, ${tempDate.getFullYear()}`
 
                             const conditionalBackground = `${outerIndex % 2 === 0 ? "bg-[#014961]" : "bg-[#003950]"}`
