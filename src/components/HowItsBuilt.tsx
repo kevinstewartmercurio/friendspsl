@@ -19,10 +19,10 @@ export function HowItsBuilt(props: {handlePopup: (popupStr: string) => void}) {
                         </div>
                     </div>
                     <div className="mt-6 pr-8">
-                        This project was built using Next.js, Tailwind, and TypeScript and it's being hosted with Vercel.
+                        This project was built using Next.js, Tailwind, TypeScript, and MongoDB and it's being hosted with Vercel.
                     </div>
                     <div className="mt-6 pr-8">
-                        In its current state this project does not use any database functionality. The server checks the list of provided names against a spreadsheet containing all 32 FPSL rosters to determine what team each player is on, and with that information an API request is sent (the time consuming step) to the relevant teams' schedule pages to compile a master schedule for all requested players.
+                        After you provide your list of names, the server checks that list against a spreadsheet containing all 32 FPSL rosters to determine what team each player is on. With that information, all relevant team schedules are referenced to compile one master schedule for all requested players. Team schedules are pulled daily from the PADA website and stored in a database to minimize the potential number of requests being sent to the PADA website.
                     </div>
                 </div>
             </div>

@@ -3,13 +3,13 @@ import type { NextApiRequest, NextApiResponse } from "next"
 const path = require("path")
 const XLSX = require("xlsx")
 const cheerio = require("cheerio")
-// require("dotenv").config({path: "../.env"})
-// const { MongoClient } = require('mongodb')
+require("dotenv").config({path: "../.env"})
+const { MongoClient } = require('mongodb')
 
-// const client = new MongoClient(process.env.MONGODB_URI, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// })
+const client = new MongoClient(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 
 import { Event } from ".."
 
@@ -67,9 +67,16 @@ const getPlayerTeamNumber = (player: string): number => {
 }
 
 const getPlayerSchedules = async (playersLst: string[]): Promise<Event[][]> => {
-    // await client.connect()
-    // const db = client.db(process.env.MONGODB_DBNAME)
-    // const coll = db.collection(process.env.MONGODB_COLLNAME)
+    await client.connect()
+    const db = client.db(process.env.MONGODB_DBNAME)
+    const coll = db.collection(process.env.MONGODB_COLLNAME)
+    const dbSchedulesRef = await coll.find({})
+    const dbSchedulesPromise = dbSchedulesRef.toArray()
+        .then((docs: any) => {
+            return docs[0]
+        })
+        .catch((error: any) => console.error(error))
+    const dbSchedules = await dbSchedulesPromise
     
     let playerSchedulesLst: Event[][] = []
 
@@ -79,49 +86,26 @@ const getPlayerSchedules = async (playersLst: string[]): Promise<Event[][]> => {
             throw new Error(`Name "${player}" was not found.`)
         }
 
-        let teamScheduleURL = teamNumberToScheduleURL[teamNumber]
+        const playerlessEventLst = dbSchedules[teamNumber]
+        let playerSchedule: Event[] = []
+        for (let i = 0; i < Object.keys(playerlessEventLst).length; i++) {
+            let tempEvent: Event = {
+                player: player,
+                date: playerlessEventLst[i].date,
+                location: playerlessEventLst[i].location,
+            }
 
-        const playerSchedule = await fetch(teamScheduleURL, {
-            method: "GET"
-        })
-            .then((res) => {
-                if (res.ok) {
-                    return res.text()
-                } else {
-                    throw new Error("Failed to fetch from team schedule URL.")
-                }
-            })
-            .then((data) => {
-                const $ = cheerio.load(data)
+            if (playerlessEventLst[i].field) {
+                tempEvent.field = playerlessEventLst[i].field
+            }
 
-                const dateSpans = $("span.push-left").filter((_index: number, element: any) => $(element).children("a").length === 0).toArray()
-                const locationAnchors = $("span.push-left").find("a").toArray()
-                const fieldSpans = $("span.push-left").filter((_index: number, element: any) => $(element).find("a").length > 0).toArray()
-                let scheduleLst = []
-
-                for (let i = 0; i < dateSpans.length; i++) {
-                    let tempSchedule: Event = {
-                        player: player,
-                        date: new Date($(dateSpans[i]).text()),
-                        location: $(locationAnchors[i]).text()
-                    }
-
-                    if ($(locationAnchors[i]).text() !== "PLD (Parking Lot Duty)") {
-                        tempSchedule["field"] = $(fieldSpans[i]).text().trim().slice(-2)
-                    }
-
-                    scheduleLst.push(tempSchedule)
-                }
-
-                return scheduleLst
-            })
-            .catch((error) => console.error(error))
-        
-        if (playerSchedule) {
-            playerSchedulesLst.push(playerSchedule)
+            playerSchedule.push(tempEvent)
         }
+        
+        playerSchedulesLst.push(playerSchedule)
     }
 
+    client.close()
     return playerSchedulesLst
 }
 
@@ -189,7 +173,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const playerSchedulesLst = await getPlayerSchedules(req.body.playersLst as string[])
 
         if (!playerSchedulesLst) {
-            return res.status(500).json({error: "Failed to create individual player schedules."})
+            return res.status(500).json({error: "Failed to compile individual player schedules."})
         }
 
         const masterSchedule = parseSchedules(playerSchedulesLst)

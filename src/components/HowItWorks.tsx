@@ -22,17 +22,7 @@ export function HowItWorks(props: {handlePopup: (popupStr: string) => void}) {
                         After providing a list of player names you can click "Generate Schedule" to see all upcoming events for those players.
                     </div>
                     <div className="mt-4 pr-8">
-                        Note that the time it takes to generate a schedule increases with the number of player names provided. For more information on why this happens see the&nbsp;
-                        <button className="underline" onClick={(e) => {
-                            e.preventDefault()
-                            props.handlePopup("How it's Built")
-                        }}>
-                            How it's Built
-                        </button>
-                        &nbsp;tab.
-                    </div>
-                    <div className="mt-4 pr-8">
-                        Additionally, all names are checked against a slightly modified version of the 2023 FPSL Draft data (altered to remove extra spaces, capitalize names, etc.). If you are unable to generate a schedule for a name you believe is spelled correctly please&nbsp; 
+                        All names are checked against a slightly modified version of the 2023 FPSL Draft data (altered to remove extra spaces, capitalize names, etc.). If you are unable to generate a schedule for a name you believe is spelled correctly please&nbsp; 
                         <a href="mailto:kevinstewartmercurio@gmail.com" className="underline">
                             contact me
                         </a>
