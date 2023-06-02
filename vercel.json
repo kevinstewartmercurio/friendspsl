@@ -16,7 +16,7 @@
     "crons": [
       {
         "path": "/pullSchedules",
-        "schedule": "0 2 * * * America/New_York"
+        "schedule": "0 6 * * *"
       }
     ]
   }
