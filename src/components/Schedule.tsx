@@ -2,6 +2,18 @@ import { Event } from "@/pages"
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
+function parseDate(inStr: string): string {
+    const year = inStr.slice(0, 4)
+    const month = months[parseInt(inStr.slice(5,7)) - 1]
+    let day = inStr.slice(8, 10)
+    
+    if (day[0] === "0") {
+        day = day.slice(-1)
+    }
+
+    return `${month} ${day}, ${year}`
+}
+
 export function Schedule(props: {masterSchedule: [Date, Event[]][], scheduleGenerated: boolean}) {
     if (!props.scheduleGenerated) {
         return (
@@ -35,9 +47,7 @@ export function Schedule(props: {masterSchedule: [Date, Event[]][], scheduleGene
                     </thead>
                     <tbody>
                         {props.masterSchedule.map((outerItem: [Date, Event[]], outerIndex: number) => {
-                            const tempDate = new Date(outerItem[0])
-                            tempDate.setDate(tempDate.getDate() + 1) // solving the off by a day issue?
-                            const dateTxt = `${months[tempDate.getMonth()]} ${tempDate.getDate()}, ${tempDate.getFullYear()}`
+                            const dateTxt = parseDate(outerItem[0] as unknown as string)
 
                             const conditionalBackground = `${outerIndex % 2 === 0 ? "bg-[#014961]" : "bg-[#003950]"}`
                             const conditionalRoundedLeft = `${outerIndex % 2 === 0 ? "rounded-l-lg" : ""} ${outerIndex === props.masterSchedule.length - 1 ? "rounded-l-lg" : ""}`
