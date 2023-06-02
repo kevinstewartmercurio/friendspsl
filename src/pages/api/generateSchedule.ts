@@ -3,6 +3,13 @@ import type { NextApiRequest, NextApiResponse } from "next"
 const path = require("path")
 const XLSX = require("xlsx")
 const cheerio = require("cheerio")
+// require("dotenv").config({path: "../.env"})
+// const { MongoClient } = require('mongodb')
+
+// const client = new MongoClient(process.env.MONGODB_URI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+// })
 
 import { Event } from ".."
 
@@ -60,6 +67,10 @@ const getPlayerTeamNumber = (player: string): number => {
 }
 
 const getPlayerSchedules = async (playersLst: string[]): Promise<Event[][]> => {
+    // await client.connect()
+    // const db = client.db(process.env.MONGODB_DBNAME)
+    // const coll = db.collection(process.env.MONGODB_COLLNAME)
+    
     let playerSchedulesLst: Event[][] = []
 
     for (let player of playersLst) {

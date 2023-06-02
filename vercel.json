@@ -1,0 +1,23 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "pullSchedules.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/dpullSchedules",
+        "dest": "pullSchedules.js",
+        "methods": ["GET"]
+      }
+    ],
+    "cron": {
+      "daily": {
+        "cron": "0 2 * * * America/New_York",
+        "command": "npm run vercel-build"
+      }
+    }
+  }
+  
