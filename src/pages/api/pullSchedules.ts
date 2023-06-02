@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextApiRequest, NextApiResponse } from "next"
 
 const { MongoClient } = require('mongodb')
 require("dotenv").config({path: "../.env"})
@@ -50,65 +50,82 @@ type PlayerlessEvent = {
     field?: string
 }
 
-export default async function handler(req: NextRequest) {
-    return new NextResponse(JSON.stringify({}), {status: 201})
+function compareDates(d1: Date, d2: Date): boolean {
+    // returns true if d1 and d2 are different days, false otherwise
+    if (d1 === undefined) {
+        return true
+    }
 
-    // await client.connect()
-    // const db = client.db(process.env.MONGODB_DBNAME)
-    // const coll = db.collection(process.env.MONGODB_COLLNAME)
+    const d1EST = new Date(d1.toLocaleString("en-US", {timeZone: "America/New_York"}))
+    const d2EST = new Date(d2.toLocaleString("en-US", {timeZone: "America/New_York"}))
 
-    // const numberToTeamSchedule: {[key: number | string]: {[key: number]: PlayerlessEvent} | Date} = {date: new Date()}
+    return (
+        (d1EST.getFullYear() !== d2EST.getFullYear()) || (d1EST.getMonth() !== d2EST.getMonth()) || (d1EST.getDate() !== d2EST.getDate())
+    )
+}
 
-    // const teamSchedulePromisesLst = teamScheduleURLs.map(async (url) => {
-    //     const teamSchedule = await fetch(url, {method: "GET"})
-    //         .then((res) => {
-    //             if (res.ok) {
-    //                 return res.text()
-    //             }
-    //         })
-    //         .then((data) => {
-    //             const $ = cheerio.load(data)
+export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
+    await client.connect()
+    const db = client.db(process.env.MONGODB_DBNAME)
+    const coll = db.collection(process.env.MONGODB_COLLNAME)
 
-    //             const dateSpans = $("span.push-left").filter((_index: number, element: any) => $(element).children("a").length === 0).toArray()
-    //             const locationAnchors = $("span.push-left").find("a").toArray()
-    //             const fieldSpans = $("span.push-left").filter((_index: number, element: any) => $(element).find("a").length > 0).toArray()
-    //             let scheduleObj: {[key: number]: PlayerlessEvent} = {}
+    const oldSchedules = await coll.find({})
+    const oldDateStrPromise = oldSchedules.toArray()
+        .then((docs: any) => {
+            return docs[0].date
+        })
+        .catch((error: any) => console.error(error))
+    const oldDate = await oldDateStrPromise
+    if (compareDates(oldDate, new Date())) {
+        const numberToTeamSchedule: {[key: number | string]: {[key: number]: PlayerlessEvent} | Date} = {date: new Date()}
 
-    //             for (let i = 0; i < dateSpans.length; i++) {
-    //                 let tempEvent: PlayerlessEvent = {
-    //                     date: new Date($(dateSpans[i]).text()),
-    //                     location: $(locationAnchors[i]).text()
-    //                 }
+        const teamSchedulePromisesLst = teamScheduleURLs.map(async (url) => {
+            const teamSchedule = await fetch(url, {method: "GET"})
+                .then((res) => {
+                    if (res.ok) {
+                        return res.text()
+                    }
+                })
+                .then((data) => {
+                    const $ = cheerio.load(data)
 
-    //                 if ($(locationAnchors[i]).text() !== "PLD (Parking Lot Duty)") {
-    //                     tempEvent["field"] = $(fieldSpans[i]).text().trim().slice(-2)
-    //                 }
+                    const dateSpans = $("span.push-left").filter((_index: number, element: any) => $(element).children("a").length === 0).toArray()
+                    const locationAnchors = $("span.push-left").find("a").toArray()
+                    const fieldSpans = $("span.push-left").filter((_index: number, element: any) => $(element).find("a").length > 0).toArray()
+                    let scheduleObj: {[key: number]: PlayerlessEvent} = {}
 
-    //                 scheduleObj[i] = tempEvent
-    //             }
+                    for (let i = 0; i < dateSpans.length; i++) {
+                        let tempEvent: PlayerlessEvent = {
+                            date: new Date($(dateSpans[i]).text()),
+                            location: $(locationAnchors[i]).text()
+                        }
 
-    //             return scheduleObj
-    //         })
-    //         .catch((error) => console.error(error))
-        
-    //     return teamSchedule
-    // })
+                        if ($(locationAnchors[i]).text() !== "PLD (Parking Lot Duty)") {
+                            tempEvent["field"] = $(fieldSpans[i]).text().trim().slice(-2)
+                        }
 
-    // await Promise.all(teamSchedulePromisesLst)
-    //     .then((values) => {
-    //         values.forEach((val, index) => {
-    //             numberToTeamSchedule[index + 1] = val as {[key: number]: PlayerlessEvent}
-    //         })
-    //     })
-    //     .catch((error) => console.error(error))
+                        scheduleObj[i] = tempEvent
+                    }
 
-    // await coll.deleteMany()
-    // const result = await coll.insertOne(numberToTeamSchedule)
+                    return scheduleObj
+                })
+                .catch((error) => console.error(error))
+            
+            return teamSchedule
+        })
+
+        await Promise.all(teamSchedulePromisesLst)
+            .then((values) => {
+                values.forEach((val, index) => {
+                    numberToTeamSchedule[index + 1] = val as {[key: number]: PlayerlessEvent}
+                })
+            })
+            .catch((error) => console.error(error))
+
+        await coll.deleteMany()
+        await coll.insertOne(numberToTeamSchedule)
+    }
     
-    // client.close()
-    // if (result) {
-    //     return new NextResponse(JSON.stringify({message: "Cron job success."}), {status: 201})
-    // } else {
-    //     return new NextResponse(JSON.stringify({}), {status: 500})
-    // }
+    client.close()
+    return res.status(200).json({})
 }

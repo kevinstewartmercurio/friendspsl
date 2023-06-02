@@ -1,9 +1,0 @@
-{
-  "crons": [
-    {
-      "path": "/src/pages/api/cron",
-      "schedule": "31 7 * * *"
-    }
-  ]
-}
-  

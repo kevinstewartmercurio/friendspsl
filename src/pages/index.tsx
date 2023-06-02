@@ -33,6 +33,8 @@ export default function Home() {
     }
 
     const handleSubmit = async (playersLst: string[]) => {
+        await fetch("/api/pullSchedules", {method: "GET"})
+
         setScheduleGenerated(false)
         setReadyToGenerate(false)
         setErrorType("")
