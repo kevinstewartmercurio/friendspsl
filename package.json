@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "vercel-build": "node pullSchedules.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "@types/node": "20.2.5",
