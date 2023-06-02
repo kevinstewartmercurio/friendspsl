@@ -13,7 +13,7 @@
         "methods": ["GET"]
       }
     ],
-    "cron": {
+    "crons": {
       "daily": {
         "cron": "0 2 * * * America/New_York",
         "command": "npm run vercel-build"
