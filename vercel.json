@@ -1,23 +1,9 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "pullSchedules.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/dpullSchedules",
-        "dest": "pullSchedules.js",
-        "methods": ["GET"]
-      }
-    ],
-    "crons": [
-      {
-        "path": "/pullSchedules",
-        "schedule": "0 6 * * *"
-      }
-    ]
-  }
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "30 6 * * *"
+    }
+  ]
+ }
   
