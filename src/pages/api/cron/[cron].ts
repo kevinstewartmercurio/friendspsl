@@ -50,7 +50,9 @@ type PlayerlessEvent = {
     field?: string
 }
 
-export default async function handler(_req: NextRequest) {
+export default async function handler(req: NextRequest) {
+    console.log(req.nextUrl.pathname)
+
     await client.connect()
     const db = client.db(process.env.MONGODB_DBNAME)
     const coll = db.collection(process.env.MONGODB_COLLNAME)
