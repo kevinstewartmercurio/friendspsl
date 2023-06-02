@@ -13,11 +13,11 @@
         "methods": ["GET"]
       }
     ],
-    "crons": {
-      "daily": {
-        "cron": "0 2 * * * America/New_York",
-        "command": "npm run vercel-build"
+    "crons": [
+      {
+        "path": "/pullSchedules",
+        "schedule": "0 2 * * * America/New_York"
       }
-    }
+    ]
   }
   
