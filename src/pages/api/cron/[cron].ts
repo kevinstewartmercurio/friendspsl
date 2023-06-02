@@ -104,5 +104,5 @@ export default async function handler(_req: NextRequest) {
     await coll.insertOne(numberToTeamSchedule)
     
     client.close()
-    return new NextResponse(JSON.stringify({}), {status: 200})
+    return new NextResponse(JSON.stringify({message: "Cron job success."}), {status: 200})
 }
