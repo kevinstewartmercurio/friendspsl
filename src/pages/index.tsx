@@ -20,6 +20,7 @@ export default function Home() {
     const [scheduleGenerated, setScheduleGenerated] = useState<boolean>(false)
     const [readyToGenerate, setReadyToGenerate] = useState<boolean>(true)
     const [errorType, setErrorType] = useState<string>("") 
+    const [league, setLeague] = useState("fpsl")
 
     useEffect(() => {
         if (masterSchedule.length > 0) {
@@ -33,7 +34,11 @@ export default function Home() {
     }
 
     const handleSubmit = async (playersLst: string[]) => {
-        await fetch("/api/pullSchedules", {method: "GET"})
+        await fetch("/api/pullSchedules", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({league: "fpsl"})
+        })
 
         setScheduleGenerated(false)
         setReadyToGenerate(false)
@@ -42,7 +47,7 @@ export default function Home() {
         await fetch("/api/generateSchedule", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({playersLst: playersLst})
+            body: JSON.stringify({league: "fpsl", playersLst: playersLst})
         })
             .then((res) => {
                 if (res.ok) {

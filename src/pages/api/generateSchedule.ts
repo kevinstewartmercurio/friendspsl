@@ -13,43 +13,13 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 
 import { Event } from ".."
 
-const teamNumberToScheduleURL: {[key: number]: string} = {
-    1: "https://pada.org/t/team-01-11612/schedule/event_id/active_events_only/game_type/upcoming",
-    2: "https://pada.org/t/team-02-8456/schedule/event_id/active_events_only/game_type/upcoming",
-    3: "https://pada.org/t/team-03-7271/schedule/event_id/active_events_only/game_type/upcoming",
-    4: "https://pada.org/t/team-04-6494/schedule/event_id/active_events_only/game_type/upcoming",
-    5: "https://pada.org/t/team-05-4271/schedule/event_id/active_events_only/game_type/upcoming",
-    6: "https://pada.org/t/team-06-3916/schedule/event_id/active_events_only/game_type/upcoming",
-    7: "https://pada.org/t/team-07-2461/schedule/event_id/active_events_only/game_type/upcoming",
-    8: "https://pada.org/t/team-08-2290/schedule/event_id/active_events_only/game_type/upcoming",
-    9: "https://pada.org/t/team-09-1259/schedule/event_id/active_events_only/game_type/upcoming",
-    10: "https://pada.org/t/team-10-1168/schedule/event_id/active_events_only/game_type/upcoming",
-    11: "https://pada.org/t/team-11-853/schedule/event_id/active_events_only/game_type/upcoming",
-    12: "https://pada.org/t/team-12-810/schedule/event_id/active_events_only/game_type/upcoming",
-    13: "https://pada.org/t/team-13-533/schedule/event_id/active_events_only/game_type/upcoming",
-    14: "https://pada.org/t/team-14-503/schedule/event_id/active_events_only/game_type/upcoming",
-    15: "https://pada.org/t/team-15-437/schedule/event_id/active_events_only/game_type/upcoming",
-    16: "https://pada.org/t/team-16-407/schedule/event_id/active_events_only/game_type/upcoming",
-    17: "https://pada.org/t/team-17-243/schedule/event_id/active_events_only/game_type/upcoming",
-    18: "https://pada.org/t/team-18-227/schedule/event_id/active_events_only/game_type/upcoming",
-    19: "https://pada.org/t/team-19-190/schedule/event_id/active_events_only/game_type/upcoming",
-    20: "https://pada.org/t/team-20-180/schedule/event_id/active_events_only/game_type/upcoming",
-    21: "https://pada.org/t/team-21-152/schedule/event_id/active_events_only/game_type/upcoming",
-    22: "https://pada.org/t/team-22-146/schedule/event_id/active_events_only/game_type/upcoming",
-    23: "https://pada.org/t/team-23-136/schedule/event_id/active_events_only/game_type/upcoming",
-    24: "https://pada.org/t/team-24-126/schedule/event_id/active_events_only/game_type/upcoming",
-    25: "https://pada.org/t/team-25-96/schedule/event_id/active_events_only/game_type/upcoming",
-    26: "https://pada.org/t/team-26-83/schedule/event_id/active_events_only/game_type/upcoming",
-    27: "https://pada.org/t/team-27-77/schedule/event_id/active_events_only/game_type/upcoming",
-    28: "https://pada.org/t/team-28-74/schedule/event_id/active_events_only/game_type/upcoming",
-    29: "https://pada.org/t/team-29-64/schedule/event_id/active_events_only/game_type/upcoming",
-    30: "https://pada.org/t/team-30-65/schedule/event_id/active_events_only/game_type/upcoming",
-    31: "https://pada.org/t/team-31-62/schedule/event_id/active_events_only/game_type/upcoming",
-    32: "https://pada.org/t/team-32-57/schedule/event_id/active_events_only/game_type/upcoming"
-}
+const getPlayerTeamNumber = (league: string, player: string): number => {
+    const leagueToXLSXPath: {[key: string]: string} = {
+        // uhle: "public/UHLe_Rosters_2023.xlsx",
+        fpsl: "public/FPSL_Draft_2023.xlsx"
+    }
 
-const getPlayerTeamNumber = (player: string): number => {
-    const filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")
+    const filePath = path.join(process.cwd(), leagueToXLSXPath[league])
     const workbook = XLSX.readFile(filePath)
     const sheetName = workbook.SheetNames[0]
     const worksheet = workbook.Sheets[sheetName]
@@ -66,11 +36,12 @@ const getPlayerTeamNumber = (player: string): number => {
     return -1
 }
 
-const getPlayerSchedules = async (playersLst: string[]): Promise<Event[][]> => {
+const getPlayerSchedules = async (league: string, playersLst: string[]): Promise<Event[][]> => {
     await client.connect()
     const db = client.db(process.env.MONGODB_DBNAME)
-    const coll = db.collection(process.env.MONGODB_COLLNAME)
-    const dbSchedulesRef = await coll.find({})
+    const schedules = db.collection(process.env.MONGODB_COLLNAME)
+
+    const dbSchedulesRef = await schedules.find({league: league})
     const dbSchedulesPromise = dbSchedulesRef.toArray()
         .then((docs: any) => {
             return docs[0]
@@ -81,7 +52,7 @@ const getPlayerSchedules = async (playersLst: string[]): Promise<Event[][]> => {
     let playerSchedulesLst: Event[][] = []
 
     for (let player of playersLst) {
-        let teamNumber = getPlayerTeamNumber(player)
+        let teamNumber = getPlayerTeamNumber(league, player)
         if (teamNumber === -1) {
             throw new Error(`Name "${player}" was not found.`)
         }
@@ -170,7 +141,7 @@ const parseSchedules = (playerSchedulesLst: Event[][]): [Date, Event[]][] => {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const playerSchedulesLst = await getPlayerSchedules(req.body.playersLst as string[])
+        const playerSchedulesLst = await getPlayerSchedules(req.body.league, req.body.playersLst)
 
         if (!playerSchedulesLst) {
             return res.status(500).json({error: "Failed to compile individual player schedules."})
