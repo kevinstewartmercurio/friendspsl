@@ -7,7 +7,6 @@ const cheerio = require("cheerio")
 import { fpslScheduleUrls } from "@/scheduleUrls"
 
 const leagueToScheduleUrls: {[key: string]: string[]} = {
-    // uhle: uhleScheduleUrls,
     fpsl: fpslScheduleUrls
 }
 

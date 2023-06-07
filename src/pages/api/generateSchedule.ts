@@ -15,7 +15,6 @@ import { Event } from ".."
 
 const getPlayerTeamNumber = (league: string, player: string): number => {
     const leagueToXLSXPath: {[key: string]: string} = {
-        // uhle: "public/UHLe_Rosters_2023.xlsx",
         fpsl: "public/FPSL_Draft_2023.xlsx"
     }
 
