@@ -29,11 +29,13 @@ const getPlayerTeamNumber = (league: string, player: string): number => {
         if (worksheet.hasOwnProperty(cellAddress)) {
             const cellValue = worksheet[cellAddress].v
             if (cellValue === player) {
+                console.log(`returning ${parseInt(cellAddress.slice(1))}`)
                 return parseInt(cellAddress.slice(1))
             }
         }
     }
 
+    console.log("returning -1 from getPlayerTeamNumber")
     return -1
 }
 
