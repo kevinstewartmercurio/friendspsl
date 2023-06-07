@@ -56,6 +56,7 @@ const getPlayerSchedules = async (league: string, playersLst: string[]): Promise
 
     for (let player of playersLst) {
         let teamNumber = getPlayerTeamNumber(league, player)
+        console.log("teamNumber = ", teamNumber)
         if (teamNumber === -1) {
             throw new Error(`Name "${player}" was not found.`)
         }
