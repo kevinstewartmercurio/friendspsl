@@ -21,9 +21,13 @@ const getPlayerTeamNumber = (league: string, player: string): number => {
     console.log(leagueToXLSXPath[league])
 
     const filePath = path.join(process.cwd(), leagueToXLSXPath[league])
+    console.log("here1")
     const workbook = XLSX.readFile(filePath)
+    console.log("here2")
     const sheetName = workbook.SheetNames[0]
+    console.log("here3")
     const worksheet = workbook.Sheets[sheetName]
+    console.log("here4")
 
     for (const cellAddress in worksheet) {
         if (worksheet.hasOwnProperty(cellAddress)) {
