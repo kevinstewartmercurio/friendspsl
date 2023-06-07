@@ -14,10 +14,11 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 import { Event } from ".."
 
 const getPlayerTeamNumber = (league: string, player: string): number => {
-    console.log(league)
     const leagueToXLSXPath: {[key: string]: string} = {
         fpsl: "public/FPSL_Draft_2023.xlsx"
     }
+
+    console.log(leagueToXLSXPath[league])
 
     const filePath = path.join(process.cwd(), leagueToXLSXPath[league])
     const workbook = XLSX.readFile(filePath)
