@@ -43,6 +43,8 @@ export default function Home() {
         setScheduleGenerated(false)
         setReadyToGenerate(false)
         setErrorType("")
+
+        console.log("schedules pulled", playersLst)
         
         await fetch("/api/generateSchedule", {
             method: "POST",
