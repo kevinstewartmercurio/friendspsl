@@ -14,6 +14,7 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 import { Event } from ".."
 
 const getPlayerTeamNumber = (league: string, player: string): number => {
+    console.log(league)
     const leagueToXLSXPath: {[key: string]: string} = {
         fpsl: "public/FPSL_Draft_2023.xlsx"
     }
@@ -47,14 +48,12 @@ const getPlayerSchedules = async (league: string, playersLst: string[]): Promise
         })
         .catch((error: any) => console.error(error))
     const dbSchedules = await dbSchedulesPromise
-    console.log("here, dbSchedules assigned a value")
     
     let playerSchedulesLst: Event[][] = []
 
     for (let player of playersLst) {
         let teamNumber = getPlayerTeamNumber(league, player)
         if (teamNumber === -1) {
-            console.log("here, couldn't find player team number")
             throw new Error(`Name "${player}" was not found.`)
         }
 
