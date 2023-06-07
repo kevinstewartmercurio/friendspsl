@@ -20,7 +20,8 @@ const getPlayerTeamNumber = (league: string, player: string): number => {
 
     console.log(leagueToXLSXPath[league])
 
-    const filePath = path.join(process.cwd(), leagueToXLSXPath[league])
+    // "public/FPSL_Draft_2023.xlsx"
+    const filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")
     console.log("here1")
     const workbook = XLSX.readFile(filePath)
     console.log("here2")
