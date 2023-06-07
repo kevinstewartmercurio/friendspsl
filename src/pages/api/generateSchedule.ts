@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next"
 
 const path = require("path")
 const XLSX = require("xlsx")
-const cheerio = require("cheerio")
 require("dotenv").config({path: "../.env"})
 const { MongoClient } = require('mongodb')
 
@@ -14,33 +13,27 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 import { Event } from ".."
 
 const getPlayerTeamNumber = (league: string, player: string): number => {
-    const leagueToXLSXPath: {[key: string]: string} = {
-        fpsl: "public/FPSL_Draft_2023.xlsx"
-    }
+    // let filePath: any
+    // if (league === "uhle") {
+    //     filePath = path.join(process.cwd(), "public/UHLe_Rosters_2023.xlsx")
+    // } else if (league === "fpsl") {
+    //     filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")   
+    // }
 
-    console.log(leagueToXLSXPath[league])
-
-    // "public/FPSL_Draft_2023.xlsx"
     const filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")
-    console.log("here1")
     const workbook = XLSX.readFile(filePath)
-    console.log("here2")
     const sheetName = workbook.SheetNames[0]
-    console.log("here3")
     const worksheet = workbook.Sheets[sheetName]
-    console.log("here4")
 
     for (const cellAddress in worksheet) {
         if (worksheet.hasOwnProperty(cellAddress)) {
             const cellValue = worksheet[cellAddress].v
             if (cellValue === player) {
-                console.log(`returning ${parseInt(cellAddress.slice(1))}`)
                 return parseInt(cellAddress.slice(1))
             }
         }
     }
 
-    console.log("returning -1 from getPlayerTeamNumber")
     return -1
 }
 
@@ -61,7 +54,6 @@ const getPlayerSchedules = async (league: string, playersLst: string[]): Promise
 
     for (let player of playersLst) {
         let teamNumber = getPlayerTeamNumber(league, player)
-        console.log("teamNumber = ", teamNumber)
         if (teamNumber === -1) {
             throw new Error(`Name "${player}" was not found.`)
         }
