@@ -41,6 +41,11 @@ const leagueToRosterUrls: {[key: string]: string[]} = {
     uhle: uhle2023RosterUrls,
     picl: picl2023RosterUrls
 }
+const leagueToSpreadsheetPaths: {[key: string]: string} = {
+    fpsl: "public/FPSL_Draft_2023.xlsx",
+    uhle: "public/UHLe_Rosters_2023.xlsx",
+    picl: "public/PICL_Rosters_2023.xlsx"
+}
 
 type PlayerlessEvent = {
     date: Date,
@@ -153,6 +158,12 @@ const writeNamesToSpreadsheet = (names: string[][], spreadsheetPath: string) => 
     XLSX.writeFile(workbook, filePath)
 }
 
+// populates the input spreadsheet with names fetched from the input list of roster page urls
+const linksToSpreadsheet = async (urls: string[], filePath: string): Promise<void> => {
+    const names = await linksToLeagueNames(urls)
+    writeNamesToSpreadsheet(names as string[][], filePath)
+}
+
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -223,6 +234,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         await schedules.deleteOne({league: league})
         await schedules.insertOne(newNumberToTeamSchedules)
+    }
+
+    // updates roster spreadsheets for each league (excluding fpsl 2023, which stores draft data)
+    for (let league of leagues.slice(1)) {
+        await linksToSpreadsheet(leagueToRosterUrls[league], leagueToSpreadsheetPaths[league])
     }
     
     res.status(200).end("Running cron job...")
