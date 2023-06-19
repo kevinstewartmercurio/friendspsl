@@ -97,6 +97,7 @@ const formatName = (name: string): string => {
 
 // fetches all publicly available names from the input roster page
 const linkToNamesLst = async (url: string) => {
+    console.log(`looking at roster page: ${url}`)
     const namesLst= await fetch(url, {method: "GET"})
         .then((res) => {
             if (res.ok) {
@@ -130,10 +131,14 @@ const linksToLeagueNames = async (urls: string[]) => {
         return await linkToNamesLst(url)
     })
 
+    console.log("acquired leagueNamesPromises")
+
     const leagueNames = Promise.all(leagueNamesPromises)
         .then((values) => {
             return values
         })
+
+    console.log("acquired leagueNames")
 
     return leagueNames
 }
