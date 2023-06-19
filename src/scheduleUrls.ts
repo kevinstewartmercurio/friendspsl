@@ -1,4 +1,4 @@
-export const fpslScheduleUrls: string[] = [
+export const fpsl2023ScheduleUrls: string[] = [
     "https://pada.org/t/team-01-11612/schedule/event_id/active_events_only/game_type/upcoming",
     "https://pada.org/t/team-02-8456/schedule/event_id/active_events_only/game_type/upcoming",
     "https://pada.org/t/team-03-7271/schedule/event_id/active_events_only/game_type/upcoming",
@@ -33,7 +33,7 @@ export const fpslScheduleUrls: string[] = [
     "https://pada.org/t/team-32-57/schedule/event_id/active_events_only/game_type/upcoming"
 ]
 
-export const uhleScheduleUrls: string[] = [
+export const uhle2023ScheduleUrls: string[] = [
     "https://pada.org/t/team-01-11588/schedule/event_id/active_events_only/game_type/upcoming",
     "https://pada.org/t/team-02-8437/schedule/event_id/active_events_only/game_type/upcoming",
     "https://pada.org/t/team-03-7262/schedule/event_id/active_events_only/game_type/upcoming",
@@ -44,4 +44,23 @@ export const uhleScheduleUrls: string[] = [
     "https://pada.org/t/team-08-2288/schedule/event_id/active_events_only/game_type/upcoming",
     "https://pada.org/t/team-09-1257/schedule/event_id/active_events_only/game_type/upcoming",
     "https://pada.org/t/team-10-1166/schedule/event_id/active_events_only/game_type/upcoming",
+]
+
+export const picl2023ScheduleUrls = [
+    "https://pada.org/t/team-01-11635/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-02-8468/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-03-7283/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-04-6505/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-05-4279/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-06-3924/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-07-2469/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-08-2298/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-09-1265/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-10-1173/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-11-857/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-12-814/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-13-537/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-14-507/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-15-441/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-16-411/schedule/event_id/active_events_only/game_type/upcoming"
 ]

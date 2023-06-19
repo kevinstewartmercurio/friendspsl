@@ -4,10 +4,10 @@ const { MongoClient } = require('mongodb')
 require("dotenv").config({path: "../.env"})
 const cheerio = require("cheerio")
 
-import { fpslScheduleUrls } from "@/scheduleUrls"
+import { fpsl2023ScheduleUrls } from "@/scheduleUrls"
 
 const leagueToScheduleUrls: {[key: string]: string[]} = {
-    fpsl: fpslScheduleUrls
+    fpsl: fpsl2023ScheduleUrls
 }
 
 const client = new MongoClient(process.env.MONGODB_URI, {
