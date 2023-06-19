@@ -10,6 +10,8 @@ const { MongoClient } = require("mongodb")
 require("dotenv").config({path: "../.env"})
 const cheerio = require("cheerio")
 const path = require("path")
+import getConfig from "next/config"
+const { publicRuntimeConfig } = getConfig();
 const XLSX = require("xlsx")
 
 const client = new MongoClient(process.env.MONGODB_URI, {
@@ -41,7 +43,7 @@ const leagueToRosterUrls: {[key: string]: string[]} = {
     uhle: uhle2023RosterUrls,
     picl: picl2023RosterUrls
 }
-const leagueToSpreadsheetPaths: {[key: string]: string} = {
+const leagueToSpreadsheetPath: {[key: string]: string} = {
     fpsl: "public/FPSL_Draft_2023.xlsx",
     uhle: "public/UHLe_Rosters_2023.xlsx",
     picl: "public/PICL_Rosters_2023.xlsx"
@@ -138,7 +140,8 @@ const linksToLeagueNames = async (urls: string[]) => {
 
 // populates the input spreadsheet with the input names
 const writeNamesToSpreadsheet = (names: string[][], spreadsheetPath: string) => {
-    const filePath = path.join(process.cwd(), spreadsheetPath)
+    // const filePath = path.join(process.cwd(), spreadsheetPath)
+    const filePath = path.join(publicRuntimeConfig, spreadsheetPath)
     const workbook = XLSX.readFile(filePath)
     const sheetName = workbook.SheetNames[0]
     const worksheet = workbook.Sheets[sheetName]
@@ -238,7 +241,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // updates roster spreadsheets for each league (excluding fpsl 2023, which stores draft data)
     for (let league of leagues.slice(1)) {
-        await linksToSpreadsheet(leagueToRosterUrls[league], leagueToSpreadsheetPaths[league])
+        await linksToSpreadsheet(leagueToRosterUrls[league], leagueToSpreadsheetPath[league])
     }
     
     res.status(200).end("Running cron job...")
