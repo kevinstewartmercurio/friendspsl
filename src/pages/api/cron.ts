@@ -146,6 +146,8 @@ const writeNamesToSpreadsheet = (names: string[][], spreadsheetPath: string) => 
     const sheetName = workbook.SheetNames[0]
     const worksheet = workbook.Sheets[sheetName]
 
+    console.log(`ready to write to ${spreadsheetPath}`)
+
     // clear the spreadsheet
     for (const cellAddress in worksheet) {
         delete worksheet[cellAddress]
@@ -164,6 +166,7 @@ const writeNamesToSpreadsheet = (names: string[][], spreadsheetPath: string) => 
 // populates the input spreadsheet with names fetched from the input list of roster page urls
 const linksToSpreadsheet = async (urls: string[], filePath: string): Promise<void> => {
     const names = await linksToLeagueNames(urls)
+    console.log(`acquired names from input urls`)
     writeNamesToSpreadsheet(names as string[][], filePath)
 }
 
@@ -241,6 +244,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // updates roster spreadsheets for each league (excluding fpsl 2023, which stores draft data)
     for (let league of leagues.slice(1)) {
+        console.log(`updating ${league} spreadsheet`)
         await linksToSpreadsheet(leagueToRosterUrls[league], leagueToSpreadsheetPath[league])
     }
     
