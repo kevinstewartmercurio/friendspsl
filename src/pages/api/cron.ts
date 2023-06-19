@@ -48,6 +48,113 @@ type PlayerlessEvent = {
     field?: string
 }
 
+
+
+// ROSTER UPDATING HELPER FUNCTIONS
+// for names that don't follow the formatting expectations in formatName
+const exceptions: {[key: string]: string} = {
+    "natalie felix didonato": "Natalie Felix DiDonato",
+    "geoff dimasi": "Geoff DiMasi",
+    "cj finnigan": "CJ Finnigan"
+}
+
+// removes extra spaces in names, fixes capitalization errors, etc.
+const formatName = (name: string): string => {
+    let retName = name.toLowerCase()
+
+    // check if name is in the list of name formatting exceptions
+    if (exceptions[retName]) {
+        return exceptions[retName]
+    }
+
+    // replace multiple space characters in a row with a single space character
+    retName = retName.replace(/ +/g, " ")
+
+    // remove periods and commas
+    retName = retName.replace(/[.,]/g, "")
+
+    // capitalize the first letter
+    retName = `${retName[0].toUpperCase()}${retName.substring(1)}`
+
+    // capitalize letters after spaces, hyphens, apostrophes, and "Mc"
+    let tempChar: string
+    for (let i = 1; i < retName.length; i++) {
+        if (retName[i - 1] === " " || retName[i - 1] === "-" || retName[i - 1] === "'" || retName.substring(i - 2, i) === "Mc") {
+            tempChar = retName.charAt(i).toUpperCase()
+            retName = `${retName.substring(0, i)}${tempChar}${retName.substring(i + 1)}`
+        }
+    }
+
+    return retName
+}
+
+// fetches all publicly available names from the input roster page
+const linkToNamesLst = async (url: string) => {
+    const namesLst= await fetch(url, {method: "GET"})
+        .then((res) => {
+            if (res.ok) {
+                return res.text()
+            } else {
+                throw new Error(`Failed to access roster page (${url})`)
+            }
+        })
+        .then((data) => {
+            const $ = cheerio.load(data)
+
+            const nameTags = $("div.media-item-tile-overlay.media-item-tile-overlay-bottom > h3")
+            
+            let names: string[] = []
+            let tempName: string
+            for (let i = 0; i < nameTags.length; i++) {
+                tempName = formatName($(nameTags[i]).text())
+                names.push(tempName)
+            }
+
+            return names
+        })
+        .catch((error) => console.error(error))
+
+    return namesLst
+}
+
+// takes a list of roster pages and outputs a list of lists of names
+const linksToLeagueNames = async (urls: string[]) => {
+    const leagueNamesPromises = urls.map(async (url) => {
+        return await linkToNamesLst(url)
+    })
+
+    const leagueNames = Promise.all(leagueNamesPromises)
+        .then((values) => {
+            return values
+        })
+
+    return leagueNames
+}
+
+// populates the input spreadsheet with the input names
+const writeNamesToSpreadsheet = (names: string[][], spreadsheetPath: string) => {
+    const filePath = path.join(process.cwd(), spreadsheetPath)
+    const workbook = XLSX.readFile(filePath)
+    const sheetName = workbook.SheetNames[0]
+    const worksheet = workbook.Sheets[sheetName]
+
+    // clear the spreadsheet
+    for (const cellAddress in worksheet) {
+        delete worksheet[cellAddress]
+    }
+
+    // populate the spreadsheet with names
+    names.forEach((innerLst, index) => {
+        innerLst.unshift((index + 1).toString())
+
+        XLSX.utils.sheet_add_aoa(worksheet, [innerLst], {origin: -1, skipHeader: false})
+    })
+
+    XLSX.writeFile(workbook, filePath)
+}
+
+
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // connect to database
     await client.connect()
@@ -57,7 +164,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // updates all schedule objects in the schedules collection for each league
     for (let league of leagues) {
         // ex: {league: "fpsl", 1: [schedule], 2: [schedule], ...}
-        const newNumberToTeamSchedules: {[key: number | string]: {[key: number]: PlayerlessEvent} | string} = {
+        const newNumberToTeamSchedules: {[key: number | string]: {[key: number]: PlayerlessEvent} | Date | string} = {
+            date: new Date(),
             league: league
         }
 
