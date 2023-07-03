@@ -1,6 +1,6 @@
 import { useState, useEffect, ChangeEvent } from "react"
 
-export function Input(props: {handleSubmit: (playersLst: string[]) => void, scheduleGenerated: boolean, readyToGenerate: boolean, errorType: string}) {
+export function InputNames(props: {league: string, handleSubmit: (playersLst: string[]) => void, scheduleGenerated: boolean, readyToGenerate: boolean, errorType: string}) {
     const [playerCount, setPlayerCount] = useState<number>(1)
     const [playersLst, setPlayersLst] = useState<string[]>([""])
     const [submitText, setSubmitText] = useState<string>("Generate Schedule")
@@ -38,7 +38,10 @@ export function Input(props: {handleSubmit: (playersLst: string[]) => void, sche
     return (
         <>
             {/* header height: 104px, footer height: 104px */}
-            <div className={`w-full py-6 text-sm md:text-base flex justify-center ${props.scheduleGenerated ? "" : "min-h-[calc(100vh-104px-104px)] items-center"}`}>
+            <div className={`w-full py-6 text-sm md:text-base flex flex-col justify-center ${props.scheduleGenerated ? "" : "min-h-[calc(100vh-104px-104px)] items-center"}`}>
+                <div className="text-gray-300 mb-4 text-lg">
+                    Looking at {props.league} friends!
+                </div>
                 <div className="w-3/5 max-w-[480px] min-w-[300px]">
                     {props.errorType === "Unrecognized name" ? (
                         <div className={`w-full ${playerCount > 1 ? "pr-[50px]" : ""}`}>
