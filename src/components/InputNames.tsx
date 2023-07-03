@@ -45,22 +45,27 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
                     </div>
                     {props.errorType === "Unrecognized name" ? (
                         <div className={`w-full ${playerCount > 1 ? "pr-[50px]" : ""}`}>
-                            <div className="bg-gray-300 border-red-700 border-[3px] rounded-lg w-full mb-6 px-4 py-2">
-                                <span className="text-red-700">
+                            <div className="bg-input-bg border-error-border border-[3px] rounded-lg w-full mb-6 px-4 py-2">
+                                <span className="text-error-text">
                                     Error:&nbsp;
                                 </span>
-                                At least one of the provided names was not found in the 2023 FPSL Draft data. If you are unable to generate a schedule for a name you believe is spelled correctly please&nbsp;
-                                <a href="mailto:kevinstewartmercurio@gmail.com" className="underline">
-                                    contact me
-                                </a>
-                                .
+                                <span>
+                                    At least one of the provided names was not found in the {props.league} data. 
+                                </span>
+                                <div className="mt-2">
+                                    Please&nbsp; 
+                                    <a href="mailto:kevinstewartmercurio@gmail.com" className="underline">
+                                        contact me
+                                    </a>
+                                    &nbsp;if you cannot generate a schedule for a name you believe is spelled correctly.
+                                </div>
                             </div>
                         </div>
                     ) : (<></>)}
                     {props.errorType === "Server error" ? (
                         <div className={`w-full ${playerCount > 1 ? "pr-[50px]" : ""}`}>
-                            <div className="bg-gray-300 border-red-700 border-[3px] rounded-lg w-full mb-6 px-4 py-2">
-                                <span className="text-red-700">
+                            <div className="bg-input-bg border-error-border border-[3px] rounded-lg w-full mb-6 px-4 py-2">
+                                <span className="text-error-text">
                                     Error:&nbsp;
                                 </span>
                                 The server could not complete your request. Please try again later.
@@ -83,7 +88,7 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
                         <div className="flex flex-row">
                             <div className={`input-container w-full mb-2 relative flex flex-col ${playerCount > 1 ? "mr-[50px]" : ""}`}>
                                 <input id="player0" type="text" value={playersLst[0]} onChange={(e) => {handlePlayerChange(e, 0)}}
-                                    className="bg-gray-300 border-gray-300 border-[1.5px] rounded-lg w-full h-12 px-4 pt-2 outline-none"/>
+                                    className="bg-input-bg border-input-bg border-[1.5px] rounded-lg w-full h-12 px-4 pt-2 outline-none"/>
                                 <label htmlFor="player0" className={playersLst[0] && "filled"}>
                                     Player Name
                                 </label>
@@ -93,7 +98,7 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
                             <div key={index} className="flex flex-row">
                                 <div className="input-container w-full mb-2 relative flex flex-col">
                                     <input id={`player${index + 1}`} type="text" value={playersLst[index + 1]} onChange={(e) => {handlePlayerChange(e, index + 1)}}
-                                        className="bg-gray-300 border-gray-300 border-[1.5px] rounded-lg w-full h-12 px-4 pt-2 outline-none"/>
+                                        className="bg-input-bg border-input-bg border-[1.5px] rounded-lg w-full h-12 px-4 pt-2 outline-none"/>
                                     <label htmlFor={`player${index + 1}`} className={playersLst[index + 1] && "filled"}>
                                         Player Name
                                     </label>

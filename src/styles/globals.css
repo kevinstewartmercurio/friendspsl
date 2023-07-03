@@ -4,6 +4,7 @@
 
 :root {
   --background: #e4e4d4;
+  --input-bg: #efefef;
 
   --primary-text: #555a56;
   --secondary-text: #8a9b69;
@@ -20,6 +21,8 @@
   --remove-player-text-hover: #e4e4d4;
   --remove-player-bg: #cbd0bf;
   --remove-player-bg-hover: #555a56;
+  --error-text: #b91c1c;
+  --error-border: #e30000;
 
   --schedule-accent: #d5d5c5;
 }
@@ -43,7 +46,8 @@ th {
 }
 
 .input-container label {
-  color: #9ca3af;
+  /* color: #9ca3af; */
+  color: var(--primary-text);
   position: absolute;
   pointer-events: none;
   transform: translate(17.25px, 14px) scale(1);

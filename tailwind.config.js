@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       colors: {
         "background": "var(--background)",
+        "input-bg": "var(--input-bg)",
         "primary-text": "var(--primary-text)",
         "secondary-text": "var(--secondary-text)",
         "menu-bg": "var(--menu-bg)",
@@ -23,6 +24,8 @@ module.exports = {
         "remove-player-text-hover": "var(--remove-player-text-hover)",
         "remove-player-bg": "var(--remove-player-bg)",
         "remove-player-bg-hover": "var(--remove-player-bg-hover)",
+        "error-text": "var(--error-text)",
+        "error-border": "var(--error-border)",
         "schedule-accent": "var(--schedule-accent)",
       },
       backgroundImage: {
