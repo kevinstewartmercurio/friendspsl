@@ -24,7 +24,7 @@ export function Schedule(props: {masterSchedule: [Date, Event[]][], scheduleGene
     return (
         <>
             <div className="w-full mt-16 flex justify-center">
-                <table className="text-gray-300 w-5/6 text-sm md:text-base font-normal">
+                <table className="text-primary-text w-5/6 text-sm md:text-base font-normal">
                     <thead className="text-left">
                         <tr>
                             <th className="w-1/5 sm:w-1/4 px-3">
@@ -51,7 +51,7 @@ export function Schedule(props: {masterSchedule: [Date, Event[]][], scheduleGene
                         {props.masterSchedule.map((outerItem: [Date, Event[]], outerIndex: number) => {
                             const dateTxt = parseDate(outerItem[0] as unknown as string)
 
-                            const conditionalBackground = `${outerIndex % 2 === 0 ? "bg-[#014961]" : "bg-[#003950]"}`
+                            const conditionalBackground = `${outerIndex % 2 === 0 ? "bg-schedule-accent" : "bg-background"}`
                             const conditionalRoundedLeft = `${outerIndex % 2 === 0 ? "rounded-l-lg" : ""} ${outerIndex === props.masterSchedule.length - 1 ? "rounded-l-lg" : ""}`
                             const conditionalRoundedRight = `${outerIndex % 2 === 0 ? "rounded-r-lg" : ""} ${outerIndex === props.masterSchedule.length - 1 ? "rounded-r-lg" : ""}`
 

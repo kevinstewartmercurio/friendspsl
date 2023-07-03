@@ -38,11 +38,11 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
     return (
         <>
             {/* header height: 104px, footer height: 104px */}
-            <div className={`w-full py-6 text-sm md:text-base flex flex-col justify-center ${props.scheduleGenerated ? "" : "min-h-[calc(100vh-104px-104px)] items-center"}`}>
-                <div className="text-gray-300 mb-4 text-lg">
-                    Looking at {props.league} friends!
-                </div>
+            <div className={`w-full py-6 text-sm md:text-base flex justify-center ${props.scheduleGenerated ? "" : "min-h-[calc(100vh-104px-104px)] items-center"}`}>
                 <div className="w-3/5 max-w-[480px] min-w-[300px]">
+                    <div className="text-primary-text mb-4 text-base md:text-lg text-center">
+                        Looking at {props.league} friends!
+                    </div>
                     {props.errorType === "Unrecognized name" ? (
                         <div className={`w-full ${playerCount > 1 ? "pr-[50px]" : ""}`}>
                             <div className="bg-gray-300 border-red-700 border-[3px] rounded-lg w-full mb-6 px-4 py-2">
@@ -98,7 +98,7 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
                                         Player Name
                                     </label>
                                 </div>
-                                <button className="text-[#82eaff] bg-[#014961] border-[#014961] border-[1.5px] rounded-lg w-12 ml-2 mb-2 flex justify-center items-center outline-none hover:text-[#014961] hover:bg-[#82eaff] duration-300" onClick={(e) => {
+                                <button className="text-remove-player-text bg-remove-player-bg border-remove-player-bg border-[1.5px] rounded-lg w-12 ml-2 mb-2 flex justify-center items-center outline-none hover:text-remove-player-text-hover hover:bg-remove-player-bg-hover duration-300" onClick={(e) => {
                                   e.preventDefault()
                                   decrementPlayerCount(index)
                                 }}> 
@@ -109,13 +109,13 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
                             </div>
                         ))}
                         <div className={`w-full mt-4 flex flex-row ${playerCount > 1 ? "pr-[50px]" : ""}`}>
-                            <button className="text-[#82eaff] bg-[#014961] border-[#014961] border-[1.5px] rounded-lg w-1/3 h-12 flex justify-center items-center outline-none hover:text-[#014961] hover:bg-[#82eaff] duration-300" onClick={(e) => {
+                            <button className="text-add-player-text bg-add-player-bg border-add-player-bg border-[1.5px] rounded-lg w-1/3 h-12 flex justify-center items-center outline-none hover:text-add-player-text-hover hover:bg-add-player-bg-hover duration-300" onClick={(e) => {
                                 e.preventDefault()
                                 incrementPlayerCount()
                             }}>
                                 Add Player
                             </button>
-                            <input type="submit" value={submitText} className="text-gray-300 bg-gray-800 border-gray-800 border-[1.5px] rounded-lg w-2/3 h-12 ml-2 flex justify-center items-center outline-none hover:cursor-pointer hover:text-gray-800 hover:bg-[#ffcefb] duration-300" />
+                            <input type="submit" value={submitText} className="text-generate-schedule-text bg-generate-schedule-bg border-generate-schedule-bg border-[1.5px] rounded-lg w-2/3 h-12 ml-2 flex justify-center items-center outline-none hover:cursor-pointer hover:bg-generate-schedule-bg-hover duration-300" />
                         </div>
                     </form>
                 </div>

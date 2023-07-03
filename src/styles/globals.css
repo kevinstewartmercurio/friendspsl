@@ -3,13 +3,29 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #ffffff;
-  --secondary-color: #000000;
-  --tertiary-color: #ff0000;
+  --background: #e4e4d4;
+
+  --primary-text: #555a56;
+  --secondary-text: #8a9b69;
+  --menu-bg: #f2f2e0;
+
+  --add-player-text: #555a56;
+  --add-player-text-hover: #e4e4d4;
+  --add-player-bg: #cbd0bf;
+  --add-player-bg-hover: #555a56;
+  --generate-schedule-text: #e4e4d4;
+  --generate-schedule-bg: #6b886b;
+  --generate-schedule-bg-hover: #555a56;
+  --remove-player-text: #555a56;
+  --remove-player-text-hover: #e4e4d4;
+  --remove-player-bg: #cbd0bf;
+  --remove-player-bg-hover: #555a56;
+
+  --schedule-accent: #d5d5c5;
 }
 
 body {
-  background: #003950;
+  background: var(--background);
   font-family: 'Courier New', Courier, monospace;
 }
 
