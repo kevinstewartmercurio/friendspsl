@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import {useState, useEffect} from "react"
 
 import { Header } from "@/components/Header"
 import { InputNames } from "@/components/InputNames"
@@ -7,14 +7,9 @@ import { Footer } from "@/components/Footer"
 import { HowItWorks } from "@/components/HowItWorks"
 import { HowItsBuilt } from "@/components/HowItsBuilt"
 
-export type Event = {
-    player: string,
-    date?: Date,
-    location: string,
-    field?: string
-}
+import type { Event } from "."
 
-export default function Home() {
+export default function Uhle() {
     const [popup, setPopup] = useState<string>("")
     const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][]>([])
     const [scheduleGenerated, setScheduleGenerated] = useState<boolean>(false)
@@ -36,17 +31,17 @@ export default function Home() {
         await fetch("/api/pullSchedules", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({league: "fpsl"})
+            body: JSON.stringify({league: "uhle"})
         })
 
         setScheduleGenerated(false)
         setReadyToGenerate(false)
         setErrorType("")
-        
+
         await fetch("/api/generateSchedule", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({league: "fpsl", playersLst: playersLst})
+            body: JSON.stringify({league: "uhle", playersLst: playersLst})
         })
             .then((res) => {
                 if (res.ok) {
@@ -65,7 +60,7 @@ export default function Home() {
                 console.error(error)
             })
     }
-    
+
     return (
         <>
             {popup !== "How it Works" ? (<></>) : (<HowItWorks handlePopup={handlePopup} />)}
@@ -75,7 +70,7 @@ export default function Home() {
                     <Header handlePopup={handlePopup} popupActive={popup !== "" ? true : false} />
                 </div>
                 <div>
-                    <InputNames league="2023 FPSL" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
+                    <InputNames league="2023 UHLe" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
                 </div>
                 <div>
                     <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />
