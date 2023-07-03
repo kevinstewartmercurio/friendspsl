@@ -27,6 +27,8 @@ module.exports = {
         "error-text": "var(--error-text)",
         "error-border": "var(--error-border)",
         "schedule-accent": "var(--schedule-accent)",
+        "popup-text": "var(--popup-text)",
+        "popup-bg": "var(--popup-bg)"
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

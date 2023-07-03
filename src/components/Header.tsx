@@ -45,6 +45,8 @@ export function Header(props: {handlePopup: (popupStr: string) => void, popupAct
             r.style.setProperty("--remove-player-bg-hover", "#555a56")
             r.style.setProperty("--error-border", "#e30000")
             r.style.setProperty("--schedule-accent", "#d5d5c5")
+            r.style.setProperty("--popup-text", "#555a56")
+            r.style.setProperty("--popup-bg", "#efefef")
         } else {
             // dark colors            
             r.style.setProperty("--background", "#1c1e26")
@@ -65,6 +67,8 @@ export function Header(props: {handlePopup: (popupStr: string) => void, popupAct
             r.style.setProperty("--remove-player-bg-hover", "#c4a88a")
             r.style.setProperty("--error-border", "#bd0000")
             r.style.setProperty("--schedule-accent", "#222531")
+            r.style.setProperty("--popup-text", "#1c1e26")
+            r.style.setProperty("--popup-bg", "#dddddd")
         }
     }, [theme])
 
@@ -99,7 +103,7 @@ export function Header(props: {handlePopup: (popupStr: string) => void, popupAct
                     </button>
                 </div>
                 {/* logo */}
-                <div className="w-5/6 md:w-1/2 text-2xl sm:text-3xl md:text-4xl font-medium py-4 flex justify-center items-center">
+                <div className="w-5/6 md:w-1/2 text-2xl min-[375px]:text-3xl md:text-4xl font-medium py-4 flex justify-center items-center">
                     <Link href="/">
                         {/* <span className="text-[#82eaff]"> */}
                         <span className="text-primary-text">

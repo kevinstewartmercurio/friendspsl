@@ -1,14 +1,14 @@
 export function HowItWorks(props: {handlePopup: (popupStr: string) => void}) {
     return (
         <>
-            <div className="w-full h-full absolute z-10 flex justify-center items-center">
-                <div className="bg-gray-300 border-gray-500 border-[1.5px] rounded-lg w-3/5 px-12 py-8">
+            <div className="text-popup-text w-full h-full absolute z-10 flex justify-center items-center">
+                <div className="bg-popup-bg border-popup-text border-[1.5px] rounded-lg w-3/5 px-12 py-8">
                     <div className="flex flex-row">
-                        <div className="w-4/5 h-full text-3xl">
+                        <div className="text-popup-text w-4/5 h-full text-3xl">
                             How it Works
                         </div>
                         <div className="w-1/5 h-full flex justify-end items-center">
-                            <button className="outline-none hover:cursor-pointer" onClick={(e) => {
+                            <button className="text-popup-text outline-none hover:cursor-pointer" onClick={(e) => {
                                 e.preventDefault
                                 props.handlePopup("")
                             }}>

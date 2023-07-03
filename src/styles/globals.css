@@ -25,6 +25,9 @@
   --error-border: #e30000;
 
   --schedule-accent: #d5d5c5;
+
+  --popup-text: #555a56;
+  --popup-bg: #efefef;
 }
 
 body {
