@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useAppSelector, useAppDispatch } from "@/redux/hooks"
+import {theme, update} from "@/features/theme/themeSlice"
 
 import { slide as Menu } from "react-burger-menu"
 
@@ -15,32 +17,15 @@ const menuLinks2023 = [
 ]
 
 export function Header(props: {handlePopup: (popupStr: string) => void, popupActive: boolean}) {
+    const theme = useAppSelector(state => state.theme.value)
+    const dispatch = useAppDispatch()
+
     const [openMenu, setOpenMenu] = useState<boolean>(false)
-    const [dark, setDark] = useState<boolean>(false)
 
     useEffect(() => {
         const r = document.querySelector(":root") as HTMLElement
 
-        if (dark) {
-            r.style.setProperty("--background", "#1c1e26")
-            r.style.setProperty("--input-bg", "#dddddd")
-            r.style.setProperty("--primary-text", "#bbb")
-            r.style.setProperty("--secondary-text", "#db886f")
-            r.style.setProperty("--menu-bg", "#262933")
-            r.style.setProperty("--add-player-text", "#bbb")
-            r.style.setProperty("--add-player-text-hover", "#1c1e26")
-            r.style.setProperty("--add-player-bg", "#17181f")
-            r.style.setProperty("--add-player-bg-hover", "#c4a88a")
-            r.style.setProperty("--generate-schedule-text", "#1c1e26")
-            r.style.setProperty("--generate-schedule-bg", "#7c7c7c")
-            r.style.setProperty("--generate-schedule-bg-hover", "#c4a88a")
-            r.style.setProperty("--remove-player-text", "#bbb")
-            r.style.setProperty("--remove-player-text-hover", "#1c1e26")
-            r.style.setProperty("--remove-player-bg", "#17181f")
-            r.style.setProperty("--remove-player-bg-hover", "#c4a88a")
-            r.style.setProperty("--error-border", "#bd0000")
-            r.style.setProperty("--schedule-accent", "#222531")
-        } else {
+        if (theme) {
             // default light colors
             r.style.setProperty("--background", "#e4e4d4")
             r.style.setProperty("--input-bg", "#efefef")
@@ -60,8 +45,28 @@ export function Header(props: {handlePopup: (popupStr: string) => void, popupAct
             r.style.setProperty("--remove-player-bg-hover", "#555a56")
             r.style.setProperty("--error-border", "#e30000")
             r.style.setProperty("--schedule-accent", "#d5d5c5")
+        } else {
+            // dark colors            
+            r.style.setProperty("--background", "#1c1e26")
+            r.style.setProperty("--input-bg", "#dddddd")
+            r.style.setProperty("--primary-text", "#bbb")
+            r.style.setProperty("--secondary-text", "#db886f")
+            r.style.setProperty("--menu-bg", "#262933")
+            r.style.setProperty("--add-player-text", "#bbb")
+            r.style.setProperty("--add-player-text-hover", "#1c1e26")
+            r.style.setProperty("--add-player-bg", "#17181f")
+            r.style.setProperty("--add-player-bg-hover", "#c4a88a")
+            r.style.setProperty("--generate-schedule-text", "#1c1e26")
+            r.style.setProperty("--generate-schedule-bg", "#7c7c7c")
+            r.style.setProperty("--generate-schedule-bg-hover", "#c4a88a")
+            r.style.setProperty("--remove-player-text", "#bbb")
+            r.style.setProperty("--remove-player-text-hover", "#1c1e26")
+            r.style.setProperty("--remove-player-bg", "#17181f")
+            r.style.setProperty("--remove-player-bg-hover", "#c4a88a")
+            r.style.setProperty("--error-border", "#bd0000")
+            r.style.setProperty("--schedule-accent", "#222531")
         }
-    }, [dark])
+    }, [theme])
 
     return (
         <>
@@ -126,15 +131,15 @@ export function Header(props: {handlePopup: (popupStr: string) => void, popupAct
                     </button>
                     <button className="h-full ml-8 pb-0.5 flex justify-center items-center" onClick={(e) => {
                         e.preventDefault()
-                        setDark((prev) => !prev)
+                        dispatch(update(!theme))
                     }}>
-                        {dark ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-sun-fill" viewBox="0 0 16 16">
-                                <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
-                            </svg>
-                        ) : (
+                        {theme ? (
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-moon-fill" viewBox="0 0 16 16">
                                 <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+                            </svg>
+                        ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-sun-fill" viewBox="0 0 16 16">
+                                <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
                             </svg>
                         )}
                     </button>
