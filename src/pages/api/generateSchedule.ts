@@ -13,14 +13,14 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 import { Event } from ".."
 
 const getPlayerTeamNumber = (league: string, player: string): number => {
-    // let filePath: any
-    // if (league === "uhle") {
-    //     filePath = path.join(process.cwd(), "public/UHLe_Rosters_2023.xlsx")
-    // } else if (league === "fpsl") {
-    //     filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")   
-    // }
+    let filePath: any
+    if (league === "uhle") {
+        filePath = path.join(process.cwd(), "public/UHLe_Rosters_2023.xlsx")
+    } else if (league === "fpsl") {
+        filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")   
+    }
 
-    const filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")
+    // const filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")
     const workbook = XLSX.readFile(filePath)
     const sheetName = workbook.SheetNames[0]
     const worksheet = workbook.Sheets[sheetName]
@@ -40,7 +40,7 @@ const getPlayerTeamNumber = (league: string, player: string): number => {
 const getPlayerSchedules = async (league: string, playersLst: string[]): Promise<Event[][]> => {
     await client.connect()
     const db = client.db(process.env.MONGODB_DBNAME)
-    const schedules = db.collection(process.env.MONGODB_COLLNAME)
+    const schedules = db.collection(process.env.MONGODB_SCHEDULES_COLL)
 
     const dbSchedulesRef = await schedules.find({league: league})
     const dbSchedulesPromise = dbSchedulesRef.toArray()

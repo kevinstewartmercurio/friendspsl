@@ -49,7 +49,6 @@ th {
 }
 
 .input-container label {
-  /* color: #9ca3af; */
   color: var(--primary-text);
   position: absolute;
   pointer-events: none;

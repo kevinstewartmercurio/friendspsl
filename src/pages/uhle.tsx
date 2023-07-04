@@ -17,6 +17,19 @@ export default function Uhle() {
     const [errorType, setErrorType] = useState<string>("")
 
     useEffect(() => {
+        const pullPlayers = async () => {
+            await fetch("/api/pullPlayers", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({league: "uhle"})
+            })
+                .catch((error) => console.error(error))
+        }
+
+        pullPlayers()
+    }, [])
+
+    useEffect(() => {
         if (masterSchedule.length > 0) {
             setScheduleGenerated(true)
             setReadyToGenerate(true)

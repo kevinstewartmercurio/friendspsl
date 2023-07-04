@@ -64,3 +64,50 @@ export const picl2023RosterUrls = [
     "https://pada.org/t/team-15-441/roster",
     "https://pada.org/t/team-16-411/roster"
 ]
+
+export const ccm2023RosterUrls = [
+    "https://pada.org/t/team-01-11676/roster",
+    "https://pada.org/t/team-02-8487/roster",
+    "https://pada.org/t/team-03-7300/roster",
+    "https://pada.org/t/team-04-6518/roster",
+    "https://pada.org/t/team-05-4288/roster",
+    "https://pada.org/t/team-06-3933/roster"
+]
+
+export const delawareOpen2023RosterUrls = [
+    "https://delawareultimate.com/t/team-01-11681/roster",
+    "https://delawareultimate.com/t/team-02-8490/roster",
+    "https://delawareultimate.com/t/team-03-7303/roster",
+    "https://delawareultimate.com/t/team-04-6521/roster"
+]
+
+export const rocky2023RosterUrls = [
+    "https://pada.org/t/team-01-11699/roster",
+    "https://pada.org/t/team-02-8505/roster",
+    "https://pada.org/t/team-03-7318/roster",
+    "https://pada.org/t/team-04-6536/roster",
+    "https://pada.org/t/team-05-4302/roster",
+    "https://pada.org/t/team-06-3947/roster",
+    "https://pada.org/t/team-07-2481/roster",
+    "https://pada.org/t/team-08-2310/roster"
+]
+
+export const delawareMixed2023RosterUrls = [
+    "https://delawareultimate.com/t/team-01-11672/roster",
+    "https://delawareultimate.com/t/team-02-8483/roster",
+    "https://delawareultimate.com/t/team-03-7296/roster",
+    "https://delawareultimate.com/t/team-04-6516/roster",
+    "https://delawareultimate.com/t/team-05-4286/roster",
+    "https://delawareultimate.com/t/team-06-3931/roster",
+    "https://delawareultimate.com/t/team-07-2474/roster",
+    "https://delawareultimate.com/t/team-08-2303/roster"
+]
+
+export const southJerseyMixed2023RosterUrls = [
+    "https://pada.org/t/team-01-11729/roster",
+    "https://pada.org/t/team-02-8527/roster",
+    "https://pada.org/t/team-03-7339/roster",
+    "https://pada.org/t/team-04-6556/roster",
+    "https://pada.org/t/team-05-4318/roster",
+    "https://pada.org/t/team-06-3962/roster"
+]

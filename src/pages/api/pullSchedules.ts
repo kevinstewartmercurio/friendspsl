@@ -21,7 +21,7 @@ type PlayerlessEvent = {
     field?: string
 }
 
-function compareDates(d1: Date, d2: Date): boolean {
+export function compareDates(d1: Date, d2: Date): boolean {
     // returns true if d1 and d2 are different days, false otherwise
     if (d1 === undefined) {
         return true
@@ -38,16 +38,16 @@ function compareDates(d1: Date, d2: Date): boolean {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     await client.connect()
     const db = client.db(process.env.MONGODB_DBNAME)
-    const schedules = db.collection(process.env.MONGODB_COLLNAME)
+    const schedules = db.collection(process.env.MONGODB_SCHEDULES_COLL)
 
     const oldSchedules = await schedules.find({league: req.body.league})
     if (oldSchedules) {
-        const oldDateStrPromise = oldSchedules.toArray()
+        const oldDatePromise = oldSchedules.toArray()
             .then((docs: any) => {
                 return docs[0].date
             })
             .catch((error: any) => console.error(error))
-        const oldDate = await oldDateStrPromise
+        const oldDate = await oldDatePromise
 
         if (!compareDates(oldDate, new Date())) {
             return res.status(200).json({})
