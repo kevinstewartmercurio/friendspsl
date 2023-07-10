@@ -80,7 +80,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         location: $(locationAnchors[i]).text()
                     }
 
-                    if ($(locationAnchors[i]).text() !== "PLD (Parking Lot Duty)") {
+                    if (($(locationAnchors[i]).text() !== "PLD (Parking Lot Duty)") && ($(locationAnchors[i]).text() !== "Ball Fields")) {
                         tempEvent["field"] = $(fieldSpans[i]).text().trim().slice(-2)
                     }
 
