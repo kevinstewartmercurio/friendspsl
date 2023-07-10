@@ -33,10 +33,13 @@ export default function Home() {
     }
 
     const handleSubmit = async (playersLst: string[]) => {
-        await fetch("/api/pullSchedules", {
+        await fetch("/api/updateSchedules", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({league: "fpsl"})
+            body: JSON.stringify({
+                league: "fpsl",
+                playersLst: playersLst
+            })
         })
 
         setScheduleGenerated(false)

@@ -41,10 +41,13 @@ export default function Uhle() {
     }
 
     const handleSubmit = async (playersLst: string[]) => {
-        await fetch("/api/pullSchedules", {
+        await fetch("/api/updateSchedules", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({league: "uhle"})
+            body: JSON.stringify({
+                league: "uhle",
+                playersLst: playersLst
+            })
         })
 
         setScheduleGenerated(false)

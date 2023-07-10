@@ -12,25 +12,37 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 
 import { Event } from ".."
 
-const getPlayerTeamNumber = (league: string, player: string): number => {
-    let filePath: any
-    if (league === "uhle") {
-        filePath = path.join(process.cwd(), "public/UHLe_Rosters_2023.xlsx")
-    } else if (league === "fpsl") {
-        filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")   
-    }
+export const getPlayerTeamNumber = async (league: string, player: string) => {
+    if (league === "fpsl") {
+        // FOR 2023 FPSL NAMES
+        const filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")
+        const workbook = XLSX.readFile(filePath)
+        const sheetName = workbook.SheetNames[0]
+        const worksheet = workbook.Sheets[sheetName]
 
-    // const filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")
-    const workbook = XLSX.readFile(filePath)
-    const sheetName = workbook.SheetNames[0]
-    const worksheet = workbook.Sheets[sheetName]
-
-    for (const cellAddress in worksheet) {
-        if (worksheet.hasOwnProperty(cellAddress)) {
-            const cellValue = worksheet[cellAddress].v
-            if (cellValue === player) {
-                return parseInt(cellAddress.slice(1))
+        for (const cellAddress in worksheet) {
+            if (worksheet.hasOwnProperty(cellAddress)) {
+                const cellValue = worksheet[cellAddress].v
+                if (cellValue === player) {
+                    return parseInt(cellAddress.slice(1))
+                }
             }
+        }
+    } else {
+        await client.connect()
+        const db = client.db(process.env.MONGODB_DBNAME)
+        const players = db.collection(process.env.MONGODB_PLAYERS_COLL)
+
+        const leaguePlayersCursor = players.find({league: league})
+        if (leaguePlayersCursor) {
+            const leaguePlayersPromise = leaguePlayersCursor.toArray()
+                .then((docs: any) => {
+                    return docs[0]
+                })
+                .catch((error: any) => console.error(error))
+            const leaguePlayers = await leaguePlayersPromise
+            
+            return leaguePlayers["players"][player]
         }
     }
 
@@ -42,23 +54,26 @@ const getPlayerSchedules = async (league: string, playersLst: string[]): Promise
     const db = client.db(process.env.MONGODB_DBNAME)
     const schedules = db.collection(process.env.MONGODB_SCHEDULES_COLL)
 
-    const dbSchedulesRef = await schedules.find({league: league})
-    const dbSchedulesPromise = dbSchedulesRef.toArray()
-        .then((docs: any) => {
-            return docs[0]
-        })
-        .catch((error: any) => console.error(error))
-    const dbSchedules = await dbSchedulesPromise
+    let leagueSchedules: any
+    const leagueSchedulesCursor = await schedules.find({league: league})
+    if (leagueSchedulesCursor) {
+        const leagueSchedulesPromise = leagueSchedulesCursor.toArray()
+            .then((docs: any) => {
+                return docs[0]
+            })
+            .catch((error: any) => console.error(error))
+        leagueSchedules = await leagueSchedulesPromise
+    }
     
     let playerSchedulesLst: Event[][] = []
 
     for (let player of playersLst) {
-        let teamNumber = getPlayerTeamNumber(league, player)
+        let teamNumber = await getPlayerTeamNumber(league, player)
         if (teamNumber === -1) {
             throw new Error(`Name "${player}" was not found.`)
         }
 
-        const playerlessEventLst = dbSchedules[teamNumber]
+        const playerlessEventLst = leagueSchedules[teamNumber].schedule
         let playerSchedule: Event[] = []
         for (let i = 0; i < Object.keys(playerlessEventLst).length; i++) {
             let tempEvent: Event = {

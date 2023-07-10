@@ -37,7 +37,6 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
     
     return (
         <>
-            {/* header height: 104px, footer height: 104px */}
             <div className={`w-full py-6 text-sm md:text-base flex justify-center ${props.scheduleGenerated ? "" : "min-h-[calc(100vh-104px-104px)] items-center"}`}>
                 <div className="w-3/5 max-w-[480px] min-w-[300px]">
                     <div className="text-primary-text mb-4 text-base md:text-lg text-center">
@@ -80,7 +79,7 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
                             const strippedPlayersLst = playersLst.filter((player) => player !== "")
 
                             if (strippedPlayersLst.length > 0) {
-                                setSubmitText("One moment please...")
+                                setSubmitText("One moment...")
                                 props.handleSubmit(strippedPlayersLst)
                             }
                         }

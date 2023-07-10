@@ -1,0 +1,146 @@
+import { NextApiRequest, NextApiResponse } from "next"
+
+const { MongoClient } = require('mongodb')
+require("dotenv").config({path: "../.env"})
+const cheerio = require("cheerio")
+
+const client = new MongoClient(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+
+import { compareDates } from "./pullSchedules"
+import { getPlayerTeamNumber } from "./generateSchedule"
+
+import { fpsl2023ScheduleUrls } from "@/scheduleUrls"
+import { uhle2023ScheduleUrls } from "@/scheduleUrls"
+
+const leagueToScheduleUrls: {[key: string]: string[]} = {
+    fpsl: fpsl2023ScheduleUrls,
+    uhle: uhle2023ScheduleUrls
+}
+
+type PlayerlessEvent = {
+    date: Date,
+    location: string,
+    field?: string
+}
+
+const getScheduleForTeamNumber = async (league: string, teamNumber: number) => {
+    const teamSchedule = await fetch(leagueToScheduleUrls[league][teamNumber - 1], {method: "GET"})
+        .then((res) => {
+            if (res.ok) {
+                return res.text()
+            }
+        })
+        .then((data) => {
+            const $ = cheerio.load(data)
+
+            const dateSpans = $("span.push-left").filter((_index: number, element: any) => $(element).children("a").length === 0).toArray()
+            const locationAnchors = $("span.push-left").find("a").toArray()
+            const fieldSpans = $("span.push-left").filter((_index: number, element: any) => $(element).find("a").length > 0).toArray()
+            let scheduleObj: {[key: number]: PlayerlessEvent} = {}
+
+            for (let i = 0; i < dateSpans.length; i++) {
+                let tempEvent: PlayerlessEvent = {
+                    date: new Date($(dateSpans[i]).text()),
+                    location: $(locationAnchors[i]).text()
+                }
+
+                if ($(locationAnchors[i]).text() !== "PLD (Parking Lot Duty)") {
+                    if (($(locationAnchors[i]).text() !== "Ball Fields") || ($(fieldSpans[i]).text().trim().slice(-2)[0] === "#")) {
+                        tempEvent["field"] = $(fieldSpans[i]).text().trim().slice(-2)
+                    }
+                }
+
+                // accounting for UHLe PLD format
+                if (tempEvent.location === "") {
+                    tempEvent.location = "PLD (Parking Lot Duty)"
+                }
+
+                scheduleObj[i] = tempEvent
+            }
+
+            return scheduleObj
+        })
+        .catch((error) => console.error(error))
+
+    return ({
+        schedule: teamSchedule,
+        date: new Date()
+    })
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    await client.connect()
+    const db = client.db(process.env.MONGODB_DBNAME)
+    const players = db.collection(process.env.MONGODB_PLAYERS_COLL)
+    const schedules = db.collection(process.env.MONGODB_SCHEDULES_COLL)
+
+    for (let player of req.body.playersLst) {
+        let teamNumber: number = -1
+        if (req.body.league === "fpsl") {
+            // FOR 2023 FPSL NAMES
+            teamNumber = await getPlayerTeamNumber("fpsl", player)
+        } else {
+            let leaguePlayersCursor = players.find({league: req.body.league})
+
+            if (leaguePlayersCursor) {
+                const leaguePlayersPromise = leaguePlayersCursor.toArray()
+                    .then((docs: any) => {
+                        return docs[0]
+                    })
+                    .catch((error: any) => console.error(error))
+                const leaguePlayers = await leaguePlayersPromise
+                teamNumber = leaguePlayers.players[player]
+            }
+        }
+
+        // if schedules does not have a document with league: req.body.league then create one
+        let leagueSchedulesCursor = schedules.find({league: req.body.league})
+        if (leagueSchedulesCursor) {
+            const leagueSchedulesPromise = leagueSchedulesCursor.toArray()
+                .then((docs: any) => {
+                    return docs[0]
+                })
+                .catch((error: any) => console.error(error))
+            const leagueSchedules = await leagueSchedulesPromise
+            
+            if (leagueSchedules === undefined) {
+                schedules.insertOne({league: req.body.league})
+            }
+        }
+
+        // check if the league document has a schedule for the current teamNumber
+        leagueSchedulesCursor = schedules.find({league: req.body.league})
+        if (leagueSchedulesCursor) {
+            const leagueSchedulesPromise = leagueSchedulesCursor.toArray()
+                .then((docs: any) => {
+                    return docs[0]
+                })
+                .catch((error: any) => console.error(error))
+            const leagueSchedules = await leagueSchedulesPromise
+
+            // if the league document in schedules doesn't have a schedule for the current teamNumber then create one
+            if (teamNumber in leagueSchedules) {
+                // if the current teamNumber schedule hasn't been updated today then update it
+                if (compareDates(new Date(), leagueSchedules[teamNumber].date)) {
+                    schedules.updateOne({league: req.body.league}, {
+                        $set: {
+                            [`${teamNumber}`]: await getScheduleForTeamNumber(req.body.league, teamNumber)
+                        }
+                    })
+                }
+            } else {
+                // add a schedule for teamNumber in the league document
+                schedules.updateOne({league: req.body.league}, {
+                    $set: {
+                        [`${teamNumber}`]: await getScheduleForTeamNumber(req.body.league, teamNumber)
+                    }
+                })
+            }
+        }
+    }
+
+    return res.status(200).json({})
+}
