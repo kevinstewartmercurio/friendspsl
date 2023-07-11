@@ -1,12 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { compareDates } from "./pullSchedules"
+import { formatName } from ".."
 
 import { 
     uhle2023RosterUrls,
     picl2023RosterUrls,
     ccm2023RosterUrls,
-    delawareOpen2023RosterUrls,
     rocky2023RosterUrls,
+    delawareOpen2023RosterUrls,
     delawareMixed2023RosterUrls,
     southJerseyMixed2023RosterUrls
 } from "@/rosterUrls"
@@ -24,45 +25,10 @@ const leagueToRosterUrls: {[key: string]: string[]} = {
     uhle: uhle2023RosterUrls,
     picl: picl2023RosterUrls,
     ccm: ccm2023RosterUrls,
-    delaware_open: delawareOpen2023RosterUrls,
     rocky: rocky2023RosterUrls,
+    delaware_open: delawareOpen2023RosterUrls,
     delaware_mixed: delawareMixed2023RosterUrls,
-    south_jersey: southJerseyMixed2023RosterUrls
-}
-
-const exceptions: {[key: string]: string} = {
-    "natalie felix didonato": "Natalie Felix DiDonato",
-    "geoff dimasi": "Geoff DiMasi",
-    "cj finnigan": "CJ Finnigan"
-}
-
-const formatName = (name: string): string => {
-    let retName = name.toLowerCase()
-
-    // check if name is in the list of name formatting exceptions
-    if (exceptions[retName]) {
-        return exceptions[retName]
-    }
-
-    // replace multiple space characters in a row with a single space character
-    retName = retName.replace(/ +/g, " ")
-
-    // remove periods and commas
-    retName = retName.replace(/[.,]/g, "")
-
-    // capitalize the first letter
-    retName = `${retName[0].toUpperCase()}${retName.substring(1)}`
-
-    // capitalize letters after spaces, hyphens, apostrophes, and "Mc"
-    let tempChar: string
-    for (let i = 1; i < retName.length; i++) {
-        if (retName[i - 1] === " " || retName[i - 1] === "-" || retName[i - 1] === "'" || retName.substring(i - 2, i) === "Mc") {
-            tempChar = retName.charAt(i).toUpperCase()
-            retName = `${retName.substring(0, i)}${tempChar}${retName.substring(i + 1)}`
-        }
-    }
-
-    return retName
+    south_jersey_mixed: southJerseyMixed2023RosterUrls
 }
 
 const rosterUrlToNamesLst = async (url: string) => {

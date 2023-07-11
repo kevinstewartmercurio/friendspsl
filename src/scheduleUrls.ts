@@ -64,3 +64,50 @@ export const picl2023ScheduleUrls = [
     "https://pada.org/t/team-15-441/schedule/event_id/active_events_only/game_type/upcoming",
     "https://pada.org/t/team-16-411/schedule/event_id/active_events_only/game_type/upcoming"
 ]
+
+export const ccm2023ScheduleUrls = [
+    "https://pada.org/t/team-01-11676/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-02-8487/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-03-7300/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-04-6518/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-05-4288/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-06-3933/schedule/event_id/active_events_only/game_type/upcoming"
+]
+
+export const delawareOpen2023ScheduleUrls = [
+    "https://delawareultimate.com/t/team-01-11681/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-02-8490/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-03-7303/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-04-6521/schedule/event_id/active_events_only/game_type/upcoming"
+]
+
+export const rocky2023ScheduleUrls = [
+    "https://pada.org/t/team-01-11699/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-02-8505/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-03-7318/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-04-6536/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-05-4302/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-06-3947/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-07-2481/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-08-2310/schedule/event_id/active_events_only/game_type/upcoming"
+]
+
+export const delawareMixed2023ScheduleUrls = [
+    "https://delawareultimate.com/t/team-01-11672/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-02-8483/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-03-7296/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-04-6516/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-05-4286/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-06-3931/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-07-2474/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-08-2303/schedule/event_id/active_events_only/game_type/upcoming"
+]
+
+export const southJerseyMixed2023ScheduleUrls = [
+    "https://pada.org/t/team-01-11729/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-02-8527/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-03-7339/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-04-6556/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-05-4318/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-06-3962/schedule/event_id/active_events_only/game_type/upcoming"
+]

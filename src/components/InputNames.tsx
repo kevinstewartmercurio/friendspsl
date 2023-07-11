@@ -1,4 +1,5 @@
 import { useState, useEffect, ChangeEvent } from "react"
+import Link from "next/link"
 
 export function InputNames(props: {league: string, handleSubmit: (playersLst: string[]) => void, scheduleGenerated: boolean, readyToGenerate: boolean, errorType: string}) {
     const [playerCount, setPlayerCount] = useState<number>(1)
@@ -51,12 +52,19 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
                                 <span>
                                     At least one of the provided names was not found in the {props.league} data. 
                                 </span>
-                                <div className="mt-2">
+                                {/* <div className="mt-2">
                                     Please&nbsp; 
                                     <a href="mailto:kevinstewartmercurio@gmail.com" className="underline">
                                         contact me
                                     </a>
                                     &nbsp;if you cannot generate a schedule for a name you believe is spelled correctly.
+                                </div> */}
+                                <div className="mt-2">
+                                    Please check out the privacy note on the&nbsp; 
+                                    <Link href="/help" className="underline">
+                                        help
+                                    </Link>
+                                    &nbsp; for troubleshooting information.
                                 </div>
                             </div>
                         </div>

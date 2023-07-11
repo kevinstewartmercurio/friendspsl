@@ -9,7 +9,7 @@ import { HowItsBuilt } from "@/components/HowItsBuilt"
 
 import type { Event } from "."
 
-export default function Uhle() {
+export default function SouthJerseyMixed() {
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
 
@@ -24,7 +24,7 @@ export default function Uhle() {
             await fetch("/api/pullPlayers", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({league: "uhle"})
+                body: JSON.stringify({league: "south_jersey_mixed"})
             })
                 .catch((error) => console.error(error))
         }
@@ -68,7 +68,7 @@ export default function Uhle() {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                league: "uhle",
+                league: "south_jersey_mixed",
                 playersLst: playersLst
             })
         })
@@ -80,7 +80,7 @@ export default function Uhle() {
         await fetch("/api/generateSchedule", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({league: "uhle", playersLst: playersLst})
+            body: JSON.stringify({league: "south_jersey_mixed", playersLst: playersLst})
         })
             .then((res) => {
                 if (res.ok) {
@@ -109,7 +109,7 @@ export default function Uhle() {
                     <Header handlePopup={handlePopup} popupActive={popup !== "" ? true : false} />
                 </div>
                 <div>
-                    <InputNames league="2023 UHLe" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
+                    <InputNames league="2023 South Jersey Mixed" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
                 </div>
                 <div>
                     <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />

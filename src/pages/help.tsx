@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { useAppSelector, useAppDispatch } from "@/redux/hooks"
 import { update } from "@/features/theme/themeSlice"
@@ -60,10 +60,33 @@ function Header() {
 }
 
 export default function Help() {
+    const contentRef = useRef<HTMLDivElement>(null)
+    const [contentHeight, setContentHeight] = useState(0)
+
+    // stores and constantly updates content height as state
+    useEffect(() => {
+        const resizeObserver = new ResizeObserver((entries) => {
+            if (entries && entries.length > 0) {
+                const { height } = entries[0].contentRect
+                setContentHeight(height)
+            }
+        })
+
+        if (contentRef.current) {
+            resizeObserver.observe(contentRef.current)
+        }
+
+        return () => {
+            if (contentRef.current) {
+                resizeObserver.unobserve(contentRef.current)
+            }
+        }
+    }, [contentRef])
+
     return (
-        <>
+        <div ref={contentRef}>
             <Header />
-            <div className="text-primary-text mb-6 px-4 md:px-6 lg:px-12 text-sm md:text-base lg:text-lg">
+            <div className="text-primary-text mb-6 px-6 lg:px-12 text-sm md:text-base lg:text-lg">
                 <div className="text-secondary-text mb-1 text-lg md:text-xl lg:text-2xl">
                     How it Works
                 </div>
@@ -82,7 +105,7 @@ export default function Help() {
                     at most once per day.
                 </div>
             </div>
-            <div className="text-primary-text mb-6 px-4 md:px-6 lg:px-12 text-sm md:text-base lg:text-lg">
+            <div className="text-primary-text mb-6 px-6 lg:px-12 text-sm md:text-base lg:text-lg">
                 <div className="text-secondary-text mb-1 text-lg md:text-xl lg:text-2xl">
                     How it's Built
                 </div>
@@ -91,13 +114,13 @@ export default function Help() {
                     and MongoDB and it's being hosted with Vercel. For those 
                     interested in the source code, the repository can be found on 
                     my&nbsp;
-                    <Link href="https://github.com/kevinstewartmercurio/friendspsl" className="underline">
+                    <a href="https://github.com/kevinstewartmercurio/friendspsl" className="underline" target="_blank" rel="noreferrer">
                         Github
-                    </Link>
+                    </a>
                     .
                 </div>
             </div>
-            <div className="text-primary-text mb-6 px-4 md:px-6 lg:px-12 text-sm md:text-base lg:text-lg">
+            <div className="text-primary-text mb-6 px-6 lg:px-12 text-sm md:text-base lg:text-lg">
                 <div className="text-secondary-text mb-1 text-lg md:text-xl lg:text-2xl">
                     A Note on Privacy
                 </div>
@@ -111,31 +134,53 @@ export default function Help() {
                         This means that your PADA profile page must be public 
                         for your name to appear on FriendsPSL.
                     </b>
+                    &nbsp;Additionally, your friends will need to have public
+                    PADA profile pages for you to be able to see them on
+                    FriendsPSL.
                 </div>
                 <div className="mb-3">
                     To change this setting go to your PADA account page, go to 
                     the "Preferences & Privacy" section, locate the "Who can 
                     see my profile page?" question, and select "Everyone".
                 </div>
+                <div className="mb-3">
+                    Please allow 24 hours for any PADA account changes to be
+                    reflected on FriendsPSL.
+                </div>
             </div>
-            <div className="text-primary-text mb-6 px-4 md:px-6 lg:px-12 text-sm md:text-base lg:text-lg">
+            <div className="text-primary-text mb-6 px-6 lg:px-12 text-sm md:text-base lg:text-lg">
                 <div className="text-secondary-text mb-1 text-lg md:text-xl lg:text-2xl">
                     Having Trouble with a Specific Name?
                 </div>
                 <div className="mb-3">
                     Please&nbsp;
-                    <Link href="mailto:kevinstewartmercurio@gmail.com" className="underline">
+                    <a href="mailto:kevinstewartmercurio@gmail.com" className="underline">
                         contact me
-                    </Link>
+                    </a>
                     &nbsp;if you're unable to generate a schedule for a name
                     you're sure you're spelling correctly. All names are
                     formatted to account for capitalization errors, unnecessary
-                    spaces, etc. Additionally some names need to be handled as
+                    spaces, etc. Additionally, some names need to be handled as
                     exceptions to the formatting rules. It's possible that this
                     process formatted a name incorrectly.
                 </div>
             </div>
-            <Footer />
-        </>
+            <div className="text-primary-text mb-6 px-6 lg:px-12 text-sm md:text-base lg:text-lg">
+                <div className="text-secondary-text mb-1 text-lg md:text-xl lg:text-2xl">
+                    Found a Bug?
+                </div>
+                <div className="mb-3">
+                    Please do&nbsp;
+                    <a href="mailto:kevinstewartmercurio@gmail.com" className="underline">
+                        let me know!
+                    </a>
+                    &nbsp;Though I try to be thorough, I'm sure that a bug will
+                    inevitably reach a user's eyes before mine. If that user is
+                    you and if you let me know, I'll do my best to get the
+                    problem resolved quickly.
+                </div>
+            </div>
+            <Footer contentHeight={contentHeight} />
+        </div>
     )
 }
