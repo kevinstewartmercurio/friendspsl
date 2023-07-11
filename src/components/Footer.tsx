@@ -15,8 +15,6 @@ export function Footer(props: {contentHeight: number}) {
         }
     }, [])
 
-    console.log("content: ", props.contentHeight, " screen: ", screenHeight)
-
     return (
         <>
             <div className={`text-primary-text w-full mt-16 px-4 pb-3 md:pb-4 text-center text-sm md:text-base ${props.contentHeight < screenHeight ? "fixed bottom-0" : ""}`}>
