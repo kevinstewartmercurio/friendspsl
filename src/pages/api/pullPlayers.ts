@@ -68,13 +68,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (oldPlayers) {
         const oldDatePromise = oldPlayers.toArray()
             .then((docs: any) => {
-                return docs[0].date
+                if (docs[0] !== undefined) {
+                    return docs[0].date
+                } else {
+                    return null
+                }
             })
             .catch((error: any) => console.error(error))
         const oldDate = await oldDatePromise
-
-        if (!compareDates(oldDate, new Date())) {
-            return res.status(200).json({})
+        
+        if (oldDate !== null) {
+            if (!compareDates(oldDate, new Date())) {
+                return res.status(200).json({})
+            }
         }
     }
 
@@ -90,7 +96,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
     }
     playerToTeamNumber["players"] = playersObj
-
     
     await players.deleteOne({league: req.body.league})
     await players.insertOne(playerToTeamNumber)
