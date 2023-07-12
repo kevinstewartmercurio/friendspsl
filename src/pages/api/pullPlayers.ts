@@ -64,20 +64,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const db = client.db(process.env.MONGODB_DBNAME)
     const players = db.collection(process.env.MONGODB_PLAYERS_COLL)
 
-    // PREVENTS PLAYERS FROM BEING PULLED MORE THAN ONCE PER DAY
-    // const oldPlayers = await players.find({league: req.body.league})
-    // if (oldPlayers) {
-    //     const oldDatePromise = oldPlayers.toArray()
-    //         .then((docs: any) => {
-    //             return docs[0].date
-    //         })
-    //         .catch((error: any) => console.error(error))
-    //     const oldDate = await oldDatePromise
+    const oldPlayers = await players.find({league: req.body.league})
+    if (oldPlayers) {
+        const oldDatePromise = oldPlayers.toArray()
+            .then((docs: any) => {
+                return docs[0].date
+            })
+            .catch((error: any) => console.error(error))
+        const oldDate = await oldDatePromise
 
-    //     if (!compareDates(oldDate, new Date())) {
-    //         return res.status(200).json({})
-    //     }
-    // }
+        if (!compareDates(oldDate, new Date())) {
+            return res.status(200).json({})
+        }
+    }
 
     const playerToTeamNumber: {[key: string]: Date | string | {[key: string]: number}} = {
         date: new Date(),
