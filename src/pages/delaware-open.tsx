@@ -8,13 +8,14 @@ import { HowItWorks } from "@/components/HowItWorks"
 import { HowItsBuilt } from "@/components/HowItsBuilt"
 
 import type { Event } from "."
+import { formatName } from "."
 
 export default function DelawareOpen() {
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
 
     const [popup, setPopup] = useState<string>("")
-    const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][]>([])
+    const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][] | null>(null)
     const [scheduleGenerated, setScheduleGenerated] = useState<boolean>(false)
     const [readyToGenerate, setReadyToGenerate] = useState<boolean>(true)
     const [errorType, setErrorType] = useState<string>("")
@@ -33,7 +34,7 @@ export default function DelawareOpen() {
     }, [])
 
     useEffect(() => {
-        if (masterSchedule.length > 0) {
+        if (masterSchedule !== null) {
             setScheduleGenerated(true)
             setReadyToGenerate(true)
         }
@@ -64,6 +65,10 @@ export default function DelawareOpen() {
     }
 
     const handleSubmit = async (playersLst: string[]) => {
+        playersLst.forEach((element, index) => {
+            playersLst[index] = formatName(element)
+        })
+
         await fetch("/api/pullSchedules", {
             method: "POST",
             headers: {"Content-Type": "application/json"},

@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next"
+import { formatName } from ".."
 
 const path = require("path")
 const XLSX = require("xlsx")
@@ -29,6 +30,48 @@ export const getPlayerTeamNumber = async (league: string, player: string) => {
             }
         }
     // TODO: handle leagues that required ranges to pull all players
+    } else if (league === "uhle") {
+        await client.connect()
+        const db = client.db(process.env.MONGODB_DBNAME)
+        const players = db.collection(process.env.MONGODB_PLAYERS_COLL)
+
+        const leaguePlayersCursor = players.find({league: "uhle"})
+        if (leaguePlayersCursor) {
+            const leaguePlayersPromise = leaguePlayersCursor.toArray()
+                .then((docs: any) => {
+                    return docs[0]
+                })
+                .catch((error: any) => console.error(error))
+            const leaguePlayers = await leaguePlayersPromise
+
+            if (leaguePlayers["players"]["1-5"][player] !== undefined) {
+                return leaguePlayers["players"]["1-5"][player]
+            } else if (leaguePlayers["players"]["6-10"][player] !== undefined) {
+                return leaguePlayers["players"]["6-10"][player]
+            }
+        }
+    } else if (league === "picl") {
+        await client.connect()
+        const db = client.db(process.env.MONGODB_DBNAME)
+        const players = db.collection(process.env.MONGODB_PLAYERS_COLL)
+
+        const leaguePlayersCursor = players.find({league: "picl"})
+        if (leaguePlayersCursor) {
+            const leaguePlayersPromise = leaguePlayersCursor.toArray()
+                .then((docs: any) => {
+                    return docs[0]
+                })
+                .catch((error: any) => console.error(error))
+            const leaguePlayers = await leaguePlayersPromise
+
+            if (leaguePlayers["players"]["1-6"][player] !== undefined) {
+                return leaguePlayers["players"]["1-6"][player]
+            } else if (leaguePlayers["players"]["7-11"][player] !== undefined) {
+                return leaguePlayers["players"]["7-11"][player]
+            } else if (leaguePlayers["players"]["12-16"][player] !== undefined) {
+                return leaguePlayers["players"]["12-16"][player]
+            }
+        }
     } else {
         await client.connect()
         const db = client.db(process.env.MONGODB_DBNAME)
@@ -131,6 +174,10 @@ const parseSchedules = (playerSchedulesLst: Event[][]): [Date, Event[]][] => {
     }
 
     // compile a list of events grouped by date
+    if (eventsSortedByDate[0] === undefined) {
+        return []
+    }
+
     let eventsGroupedByDateLst: [Date, Event[]][] = []
     let currentDate = eventsSortedByDate[0].date
     while (eventsSortedByDate.length > 0) {

@@ -99,7 +99,7 @@ export default function Help() {
                     The server stores all
                     available names from each team roster page and events from
                     each team schedule page in a databse and then uses that
-                    information to generate schedules for specified players. To
+                    information to compile a schedule for specified players. To
                     minimize requests being sent to the PADA website, each
                     team's stored roster and schedule information will update
                     at most once per day.

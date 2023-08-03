@@ -14,10 +14,20 @@ function parseDate(inStr: string): string {
     return `${month} ${day}, ${year}`
 }
 
-export function Schedule(props: {masterSchedule: [Date, Event[]][], scheduleGenerated: boolean}) {
+export function Schedule(props: {masterSchedule: ([Date, Event[]][] | null), scheduleGenerated: boolean}) {
     if (!props.scheduleGenerated) {
         return (
             <></>
+        )
+    } else if (props.masterSchedule === null) {
+        return (
+            <></>
+        )
+    } else if (props.masterSchedule!.length === 0) {
+        return (
+            <div className="text-primary-text my-12 text-sm md:text-base font-normal text-center">
+                No upcoming events found!
+            </div>
         )
     }
 
@@ -48,12 +58,12 @@ export function Schedule(props: {masterSchedule: [Date, Event[]][], scheduleGene
                         </tr>
                     </thead>
                     <tbody>
-                        {props.masterSchedule.map((outerItem: [Date, Event[]], outerIndex: number) => {
+                        {props.masterSchedule!.map((outerItem: [Date, Event[]], outerIndex: number) => {
                             const dateTxt = parseDate(outerItem[0] as unknown as string)
 
                             const conditionalBackground = `${outerIndex % 2 === 0 ? "bg-schedule-accent" : "bg-background"}`
-                            const conditionalRoundedLeft = `${outerIndex % 2 === 0 ? "rounded-l-lg" : ""} ${outerIndex === props.masterSchedule.length - 1 ? "rounded-l-lg" : ""}`
-                            const conditionalRoundedRight = `${outerIndex % 2 === 0 ? "rounded-r-lg" : ""} ${outerIndex === props.masterSchedule.length - 1 ? "rounded-r-lg" : ""}`
+                            const conditionalRoundedLeft = `${outerIndex % 2 === 0 ? "rounded-l-lg" : ""} ${outerIndex === props.masterSchedule!.length - 1 ? "rounded-l-lg" : ""}`
+                            const conditionalRoundedRight = `${outerIndex % 2 === 0 ? "rounded-r-lg" : ""} ${outerIndex === props.masterSchedule!.length - 1 ? "rounded-r-lg" : ""}`
 
                             return (
                                 <tr key={outerIndex} className={`${conditionalBackground}`}>

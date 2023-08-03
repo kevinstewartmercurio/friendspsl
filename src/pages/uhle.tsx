@@ -8,6 +8,7 @@ import { HowItWorks } from "@/components/HowItWorks"
 import { HowItsBuilt } from "@/components/HowItsBuilt"
 
 import type { Event } from "."
+import { formatName } from "."
 
 export default function Uhle() {
     const contentRef = useRef<HTMLDivElement>(null)
@@ -17,7 +18,7 @@ export default function Uhle() {
     const [pulling, setPulling] = useState<boolean[]>([false, false])
 
     const [popup, setPopup] = useState<string>("")
-    const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][]>([])
+    const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][] | null>(null)
     const [scheduleGenerated, setScheduleGenerated] = useState<boolean>(false)
     const [readyToGenerate, setReadyToGenerate] = useState<boolean>(true)
     const [errorType, setErrorType] = useState<string>("")
@@ -61,7 +62,7 @@ export default function Uhle() {
     }, [pulling[0]])
 
     useEffect(() => {
-        if (masterSchedule.length > 0) {
+        if (masterSchedule !== null) {
             setScheduleGenerated(true)
             setReadyToGenerate(true)
         }
@@ -92,6 +93,10 @@ export default function Uhle() {
     }
 
     const handleSubmit = async (playersLst: string[]) => {
+        playersLst.forEach((element, index) => {
+            playersLst[index] = formatName(element)
+        })
+
         await fetch("/api/pullSchedules", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
