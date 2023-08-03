@@ -13,6 +13,9 @@ export default function Picl() {
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
 
+    // 1-6, 7-11, 12-16
+    const [pulling, setPulling] = useState<boolean[]>([false, false, false])
+
     const [popup, setPopup] = useState<string>("")
     const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][]>([])
     const [scheduleGenerated, setScheduleGenerated] = useState<boolean>(false)
@@ -20,17 +23,59 @@ export default function Picl() {
     const [errorType, setErrorType] = useState<string>("")
 
     useEffect(() => {
-        const pullPlayers = async () => {
-            await fetch("/api/pullPlayers", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({league: "picl"})
-            })
-                .catch((error) => console.error(error))
-        }
+        if (pulling[0] === false) {
+            const pullPlayers1 = async () => {
+                await fetch("/api/pullPiclPlayers", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({start: 1, end: 6})
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            setPulling((prev) => [true, prev[1], prev[2]])
+                        }
+                    })
+            }
 
-        pullPlayers()
+            pullPlayers1()
+        }
     }, [])
+
+    useEffect(() => {
+        if (pulling[0] === true) {
+            const pullPlayers2 = async () => {
+                await fetch("/api/pullPiclPlayers", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({start: 7, end: 11})
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            setPulling((prev) => [prev[0], true, prev[2]])
+                        }
+                    })
+            }
+
+            pullPlayers2()
+        }
+    }, [pulling[0]])
+
+    useEffect(() => {
+        if (pulling[1] === true) {
+            const pullPlayers3 = async () => {
+                await fetch("/api/pullPiclPlayers", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({start: 12, end: 16})
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            setPulling((prev) => [prev[0], prev[1], true])
+                        }
+                    })
+            }
+        }
+    }, [pulling[1]])
 
     useEffect(() => {
         if (masterSchedule.length > 0) {

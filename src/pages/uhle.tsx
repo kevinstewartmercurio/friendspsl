@@ -13,6 +13,7 @@ export default function Uhle() {
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
 
+    // 1-5, 6-10
     const [pulling, setPulling] = useState<boolean[]>([false, false])
 
     const [popup, setPopup] = useState<string>("")
@@ -23,7 +24,6 @@ export default function Uhle() {
 
     useEffect(() => {
         if (pulling[0] === false) {
-            console.log("pulling 1")
             const pullPlayers1 = async () => {
                 await fetch("/api/pullUhlePlayers", {
                     method: "POST",
@@ -43,7 +43,6 @@ export default function Uhle() {
 
     useEffect(() => {
         if (pulling[0] === true) {
-            console.log("pulling 2")
             const pullPlayers2 = async () => {
                 await fetch("/api/pullUhlePlayers", {
                     method: "POST",
