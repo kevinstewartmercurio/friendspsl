@@ -8,32 +8,61 @@ import { HowItWorks } from "@/components/HowItWorks"
 import { HowItsBuilt } from "@/components/HowItsBuilt"
 
 import type { Event } from "."
+import { formatName } from "."
 
 export default function Uhle() {
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
 
+    // 1-5, 6-10
+    const [pulling, setPulling] = useState<boolean[]>([false, false])
+
     const [popup, setPopup] = useState<string>("")
-    const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][]>([])
+    const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][] | null>(null)
     const [scheduleGenerated, setScheduleGenerated] = useState<boolean>(false)
     const [readyToGenerate, setReadyToGenerate] = useState<boolean>(true)
     const [errorType, setErrorType] = useState<string>("")
 
     useEffect(() => {
-        const pullPlayers = async () => {
-            await fetch("/api/pullPlayers", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({league: "uhle"})
-            })
-                .catch((error) => console.error(error))
-        }
+        if (pulling[0] === false) {
+            const pullPlayers1 = async () => {
+                await fetch("/api/pullUhlePlayers", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({start: 1, end: 5})
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            setPulling((prev) => [true, prev[1]])
+                        }
+                    })
+            }
 
-        pullPlayers()
+            pullPlayers1()
+        }
     }, [])
 
     useEffect(() => {
-        if (masterSchedule.length > 0) {
+        if (pulling[0] === true) {
+            const pullPlayers2 = async () => {
+                await fetch("/api/pullUhlePlayers", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({start: 6, end: 10})
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            setPulling((prev) => [prev[0], true])
+                        }
+                    })
+            }
+
+            pullPlayers2()
+        }
+    }, [pulling[0]])
+
+    useEffect(() => {
+        if (masterSchedule !== null) {
             setScheduleGenerated(true)
             setReadyToGenerate(true)
         }
@@ -64,6 +93,10 @@ export default function Uhle() {
     }
 
     const handleSubmit = async (playersLst: string[]) => {
+        playersLst.forEach((element, index) => {
+            playersLst[index] = formatName(element)
+        })
+
         await fetch("/api/pullSchedules", {
             method: "POST",
             headers: {"Content-Type": "application/json"},

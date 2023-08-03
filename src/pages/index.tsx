@@ -55,13 +55,13 @@ export default function Home() {
     const [contentHeight, setContentHeight] = useState(0)
 
     const [popup, setPopup] = useState<string>("")
-    const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][]>([])
+    const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][] | null>(null)
     const [scheduleGenerated, setScheduleGenerated] = useState<boolean>(false)
     const [readyToGenerate, setReadyToGenerate] = useState<boolean>(true)
     const [errorType, setErrorType] = useState<string>("")
 
     useEffect(() => {
-        if (masterSchedule.length > 0) {
+        if (masterSchedule !== null) {
             setScheduleGenerated(true)
             setReadyToGenerate(true)
         }

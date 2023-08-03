@@ -31,7 +31,7 @@ const leagueToRosterUrls: {[key: string]: string[]} = {
     south_jersey_mixed: southJerseyMixed2023RosterUrls
 }
 
-const rosterUrlToNamesLst = async (url: string) => {
+export const rosterUrlToNamesLst = async (url: string) => {
     const namesLst = await fetch(url, {method: "GET"})
         .then((res) => {
             if (res.ok) {
