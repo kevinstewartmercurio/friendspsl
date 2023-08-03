@@ -28,6 +28,7 @@ export const getPlayerTeamNumber = async (league: string, player: string) => {
                 }
             }
         }
+    // TODO: handle leagues that required ranges to pull all players
     } else {
         await client.connect()
         const db = client.db(process.env.MONGODB_DBNAME)
