@@ -74,6 +74,8 @@ export default function Picl() {
                         }
                     })
             }
+
+            pullPlayers3()
         }
     }, [pulling[1]])
 
