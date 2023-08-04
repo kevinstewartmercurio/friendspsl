@@ -12,7 +12,7 @@ require("dotenv").config({path: "../.env"})
 
 const client = new MongoClient(process.env.MONGODB_URI, {
     useNewUrlParser: true,
-    useUnifiedTopolgy: true
+    useUnifiedTopology: true
 })
 
 const leagueToRosterUrls: {[key: string]: string[]} = {
