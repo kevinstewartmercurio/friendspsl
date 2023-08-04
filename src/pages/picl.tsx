@@ -26,10 +26,14 @@ export default function Picl() {
     useEffect(() => {
         if (pulling[0] === false) {
             const pullPlayers1 = async () => {
-                await fetch("/api/pullPiclPlayers", {
+                await fetch("/api/pullRangePlayers", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({start: 1, end: 6})
+                    body: JSON.stringify({
+                        league: "picl",
+                        start: 1,
+                        end: 6
+                    })
                 })
                     .then((res) => {
                         if (res.ok) {
@@ -45,10 +49,14 @@ export default function Picl() {
     useEffect(() => {
         if (pulling[0] === true) {
             const pullPlayers2 = async () => {
-                await fetch("/api/pullPiclPlayers", {
+                await fetch("/api/pullRangePlayers", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({start: 7, end: 11})
+                    body: JSON.stringify({
+                        league: "picl",
+                        start: 7,
+                        end: 11
+                    })
                 })
                     .then((res) => {
                         if (res.ok) {
@@ -64,10 +72,14 @@ export default function Picl() {
     useEffect(() => {
         if (pulling[1] === true) {
             const pullPlayers3 = async () => {
-                await fetch("/api/pullPiclPlayers", {
+                await fetch("/api/pullRangePlayers", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({start: 12, end: 16})
+                    body: JSON.stringify({
+                        league: "picl",
+                        start: 12, 
+                        end: 16
+                    })
                 })
                     .then((res) => {
                         if (res.ok) {

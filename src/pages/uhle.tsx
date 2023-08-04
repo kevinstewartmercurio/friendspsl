@@ -26,10 +26,14 @@ export default function Uhle() {
     useEffect(() => {
         if (pulling[0] === false) {
             const pullPlayers1 = async () => {
-                await fetch("/api/pullUhlePlayers", {
+                await fetch("/api/pullRangePlayers", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({start: 1, end: 5})
+                    body: JSON.stringify({
+                        league: "uhle",
+                        start: 1,
+                        end: 5
+                    })
                 })
                     .then((res) => {
                         if (res.ok) {
@@ -45,10 +49,14 @@ export default function Uhle() {
     useEffect(() => {
         if (pulling[0] === true) {
             const pullPlayers2 = async () => {
-                await fetch("/api/pullUhlePlayers", {
+                await fetch("/api/pullRangePlayers", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({start: 6, end: 10})
+                    body: JSON.stringify({
+                        league: "uhle",
+                        start: 6, 
+                        end: 10
+                    })
                 })
                     .then((res) => {
                         if (res.ok) {
