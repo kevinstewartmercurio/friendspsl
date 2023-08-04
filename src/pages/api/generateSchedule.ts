@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { formatName } from ".."
+import { Event } from ".."
+import { leagueToRangeLst } from "./pullSchedules"
 
 const path = require("path")
 const XLSX = require("xlsx")
@@ -10,8 +11,6 @@ const client = new MongoClient(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-
-import { Event } from ".."
 
 export const getPlayerTeamNumber = async (league: string, player: string) => {
     if (league === "fpsl") {
@@ -29,13 +28,13 @@ export const getPlayerTeamNumber = async (league: string, player: string) => {
                 }
             }
         }
-    // TODO: handle leagues that required ranges to pull all players
-    } else if (league === "uhle") {
+    // handling ranged leagues separately
+    } else if ((league === "uhle" || league === "picl")) {
         await client.connect()
         const db = client.db(process.env.MONGODB_DBNAME)
         const players = db.collection(process.env.MONGODB_PLAYERS_COLL)
 
-        const leaguePlayersCursor = players.find({league: "uhle"})
+        const leaguePlayersCursor = players.find({league: league})
         if (leaguePlayersCursor) {
             const leaguePlayersPromise = leaguePlayersCursor.toArray()
                 .then((docs: any) => {
@@ -44,32 +43,10 @@ export const getPlayerTeamNumber = async (league: string, player: string) => {
                 .catch((error: any) => console.error(error))
             const leaguePlayers = await leaguePlayersPromise
 
-            if (leaguePlayers["players"]["1-5"][player] !== undefined) {
-                return leaguePlayers["players"]["1-5"][player]
-            } else if (leaguePlayers["players"]["6-10"][player] !== undefined) {
-                return leaguePlayers["players"]["6-10"][player]
-            }
-        }
-    } else if (league === "picl") {
-        await client.connect()
-        const db = client.db(process.env.MONGODB_DBNAME)
-        const players = db.collection(process.env.MONGODB_PLAYERS_COLL)
-
-        const leaguePlayersCursor = players.find({league: "picl"})
-        if (leaguePlayersCursor) {
-            const leaguePlayersPromise = leaguePlayersCursor.toArray()
-                .then((docs: any) => {
-                    return docs[0]
-                })
-                .catch((error: any) => console.error(error))
-            const leaguePlayers = await leaguePlayersPromise
-
-            if (leaguePlayers["players"]["1-6"][player] !== undefined) {
-                return leaguePlayers["players"]["1-6"][player]
-            } else if (leaguePlayers["players"]["7-11"][player] !== undefined) {
-                return leaguePlayers["players"]["7-11"][player]
-            } else if (leaguePlayers["players"]["12-16"][player] !== undefined) {
-                return leaguePlayers["players"]["12-16"][player]
+            for (let range of leagueToRangeLst[league]) {
+                if (leaguePlayers["players"][range][player] !== undefined) {
+                    return leaguePlayers["players"][range][player]
+                }
             }
         }
     } else {

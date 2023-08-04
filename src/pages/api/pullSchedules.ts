@@ -33,6 +33,11 @@ const leagueToScheduleUrls: {[key: string]: string[]} = {
     south_jersey_mixed: southJerseyMixed2023ScheduleUrls
 }
 
+export const leagueToRangeLst: {[key: string]: string[]} = {
+    uhle: ["1-5", "6-10"],
+    picl: ["1-6", "7-11", "12-16"]
+}
+
 type PlayerlessEvent = {
     date: Date,
     location: string,
@@ -118,9 +123,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (req.body.league === "fpsl") {
             // FOR 2023 FPSL NAMES
             teamNumber = await getPlayerTeamNumber("fpsl", player)
-        // TODO: handle ranged leagues separately
-        } else if (req.body.league === "uhle") {
-            const leaguePlayersCursor = players.find({league: "uhle"})
+        // handling ranged leagues separately
+        } else if ((req.body.league === "uhle") || (req.body.league === "picl")) {
+            const leaguePlayersCursor = players.find({league: req.body.league})
             if (leaguePlayersCursor) {
                 const leaguePlayersPromise = leaguePlayersCursor.toArray()
                     .then((docs: any) => {
@@ -129,28 +134,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     .catch((error: any) => console.error(error))
                 const leaguePlayers = await leaguePlayersPromise
 
-                if (leaguePlayers["players"]["1-5"][player] !== undefined) {
-                    teamNumber = leaguePlayers["players"]["1-5"][player]
-                } else if (leaguePlayers["players"]["6-10"][player] !== undefined) {
-                    teamNumber = leaguePlayers["players"]["6-10"][player]
-                }
-            }
-        } else if (req.body.league === "picl") {
-            const leaguePlayersCursor = players.find({league: "picl"})
-            if (leaguePlayersCursor) {
-                const leaguePlayersPromise = leaguePlayersCursor.toArray()
-                    .then((docs: any) => {
-                        return docs[0]
-                    })
-                    .catch((error: any) => console.error(error))
-                const leaguePlayers = await leaguePlayersPromise
-
-                if (leaguePlayers["players"]["1-6"][player] !== undefined) {
-                    teamNumber = leaguePlayers["players"]["1-6"][player]
-                } else if (leaguePlayers["players"]["7-11"][player] !== undefined) {
-                    teamNumber = leaguePlayers["players"]["7-11"][player]
-                } else if (leaguePlayers["players"]["12-16"][player] !== undefined) {
-                    teamNumber = leaguePlayers["players"]["12-16"][player]
+                for (let range of leagueToRangeLst[req.body.league]) {
+                    if (leaguePlayers["players"][range][player] !== undefined) {
+                        teamNumber = leaguePlayers["players"][range][player]
+                    }
                 }
             }
         } else {

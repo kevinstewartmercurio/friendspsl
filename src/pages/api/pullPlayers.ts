@@ -2,9 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { compareDates } from "./pullSchedules"
 import { formatName } from ".."
 
-import { 
-    uhle2023RosterUrls,
-    picl2023RosterUrls,
+import {
     ccm2023RosterUrls,
     rocky2023RosterUrls,
     delawareOpen2023RosterUrls,
@@ -22,8 +20,6 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 })
 
 const leagueToRosterUrls: {[key: string]: string[]} = {
-    uhle: uhle2023RosterUrls,
-    picl: picl2023RosterUrls,
     ccm: ccm2023RosterUrls,
     rocky: rocky2023RosterUrls,
     delaware_open: delawareOpen2023RosterUrls,
