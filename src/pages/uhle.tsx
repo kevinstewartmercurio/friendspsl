@@ -35,6 +35,11 @@ export default function Uhle() {
                         end: 5
                     })
                 })
+                    .then((res) => {
+                        if (res.ok) {
+                            setPulling((prev) => [true, prev[1]])
+                        }
+                    })
             }
 
             pullPlayers1()
