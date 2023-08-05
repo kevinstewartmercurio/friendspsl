@@ -14,10 +14,8 @@ import { getPlayerTeamNumber } from "./generateSchedule"
 import { 
     fpsl2023ScheduleUrls,
     uhle2023ScheduleUrls,
-    picl2023ScheduleUrls,
     ccm2023ScheduleUrls,
     rocky2023ScheduleUrls,
-    delawareOpen2023ScheduleUrls,
     delawareMixed2023ScheduleUrls,
     southJerseyMixed2023ScheduleUrls
 } from "@/scheduleUrls"
@@ -25,17 +23,14 @@ import {
 const leagueToScheduleUrls: {[key: string]: string[]} = {
     fpsl: fpsl2023ScheduleUrls,
     uhle: uhle2023ScheduleUrls,
-    picl: picl2023ScheduleUrls,
     ccm: ccm2023ScheduleUrls,
     rocky: rocky2023ScheduleUrls,
-    delaware_open: delawareOpen2023ScheduleUrls,
     delaware_mixed: delawareMixed2023ScheduleUrls,
     south_jersey_mixed: southJerseyMixed2023ScheduleUrls
 }
 
 export const leagueToRangeLst: {[key: string]: string[]} = {
     uhle: ["1-5", "6-10"],
-    picl: ["1-6", "7-11", "12-16"]
 }
 
 type PlayerlessEvent = {
@@ -124,7 +119,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             // FOR 2023 FPSL NAMES
             teamNumber = await getPlayerTeamNumber("fpsl", player)
         // handling ranged leagues separately
-        } else if ((req.body.league === "uhle") || (req.body.league === "picl")) {
+        } else if (req.body.league === "uhle") {
             const leaguePlayersCursor = players.find({league: req.body.league})
             if (leaguePlayersCursor) {
                 const leaguePlayersPromise = leaguePlayersCursor.toArray()
