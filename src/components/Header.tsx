@@ -8,10 +8,8 @@ import { slide as Menu } from "react-burger-menu"
 const menuLinks2023 = [
     {name: "FPSL", href: "/"},
     {name: "UHLe", href: "/uhle"},
-    {name: "PICL", href: "/picl"},
     {name: "CCM", href: "/ccm"},
     {name: "Rocky", href: "/rocky"},
-    {name: "Delaware Open", href: "/delaware-open"},
     {name: "Delaware Mixed", href: "/delaware-mixed"},
     {name: "South Jersey Mixed", href: "/south-jersey-mixed"}
 ]
