@@ -3,7 +3,7 @@ import { compareDates } from "./pullSchedules"
 import { rosterUrlToNamesLst } from "./pullPlayers"
 
 import {
-    uhle2023RosterUrls,
+    
 } from "@/rosterUrls"
 
 const { MongoClient } = require("mongodb")
@@ -15,7 +15,7 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 })
 
 const leagueToRosterUrls: {[key: string]: string[]} = {
-    uhle: uhle2023RosterUrls,
+    
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

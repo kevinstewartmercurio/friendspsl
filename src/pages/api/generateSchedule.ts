@@ -29,7 +29,7 @@ export const getPlayerTeamNumber = async (league: string, player: string) => {
             }
         }
     // handling ranged leagues separately
-    } else if (league === "uhle") {
+    } else if (league === "LARGE_LEAGUE") {
         await client.connect()
         const db = client.db(process.env.MONGODB_DBNAME)
         const players = db.collection(process.env.MONGODB_PLAYERS_COLL)

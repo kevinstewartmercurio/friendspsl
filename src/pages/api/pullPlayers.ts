@@ -5,7 +5,6 @@ import { formatName } from ".."
 import {
     ccm2023RosterUrls,
     rocky2023RosterUrls,
-    delawareMixed2023RosterUrls,
     southJerseyMixed2023RosterUrls
 } from "@/rosterUrls"
 
@@ -21,7 +20,6 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 const leagueToRosterUrls: {[key: string]: string[]} = {
     ccm: ccm2023RosterUrls,
     rocky: rocky2023RosterUrls,
-    delaware_mixed: delawareMixed2023RosterUrls,
     south_jersey_mixed: southJerseyMixed2023RosterUrls
 }
 
