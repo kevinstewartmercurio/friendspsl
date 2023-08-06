@@ -13,24 +13,20 @@ import { getPlayerTeamNumber } from "./generateSchedule"
 
 import { 
     fpsl2023ScheduleUrls,
-    uhle2023ScheduleUrls,
     ccm2023ScheduleUrls,
     rocky2023ScheduleUrls,
-    delawareMixed2023ScheduleUrls,
     southJerseyMixed2023ScheduleUrls
 } from "@/scheduleUrls"
 
 const leagueToScheduleUrls: {[key: string]: string[]} = {
     fpsl: fpsl2023ScheduleUrls,
-    uhle: uhle2023ScheduleUrls,
     ccm: ccm2023ScheduleUrls,
     rocky: rocky2023ScheduleUrls,
-    delaware_mixed: delawareMixed2023ScheduleUrls,
     south_jersey_mixed: southJerseyMixed2023ScheduleUrls
 }
 
 export const leagueToRangeLst: {[key: string]: string[]} = {
-    uhle: ["1-5", "6-10"],
+    // uhle: ["1-5", "6-10"],
 }
 
 type PlayerlessEvent = {
@@ -58,15 +54,15 @@ const getScheduleForTeamNumber = async (league: string, teamNumber: number) => {
             let locationIndex = 0 // only necessary because uhle pld format will make dateSpans.length !== locationAnchors.length
             for (let i = 0; i < dateSpans.length; i++) {
                 // accounting for uhle pld format
-                if (($(opponentDivs[(i * 2) + 1]).text() === "PLD") && (league === "uhle")) {
-                    let tempEvent: PlayerlessEvent = {
-                        date: new Date($(dateSpans[i]).text()),
-                        location: "PLD (Parking Lot Duty)"
-                    }
+                // if (($(opponentDivs[(i * 2) + 1]).text() === "PLD") && (league === "uhle")) {
+                //     let tempEvent: PlayerlessEvent = {
+                //         date: new Date($(dateSpans[i]).text()),
+                //         location: "PLD (Parking Lot Duty)"
+                //     }
 
-                    scheduleObj[i] = tempEvent
-                    continue
-                }
+                //     scheduleObj[i] = tempEvent
+                //     continue
+                // }
 
                 let tempEvent: PlayerlessEvent = {
                     date: new Date($(dateSpans[i]).text()),
@@ -119,7 +115,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             // FOR 2023 FPSL NAMES
             teamNumber = await getPlayerTeamNumber("fpsl", player)
         // handling ranged leagues separately
-        } else if (req.body.league === "uhle") {
+        } else if (req.body.league === "LARGE_LEAGUE") {
             const leaguePlayersCursor = players.find({league: req.body.league})
             if (leaguePlayersCursor) {
                 const leaguePlayersPromise = leaguePlayersCursor.toArray()
