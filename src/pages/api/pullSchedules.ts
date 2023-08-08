@@ -13,14 +13,12 @@ import { getPlayerTeamNumber } from "./generateSchedule"
 
 import { 
     fpsl2023ScheduleUrls,
-    ccm2023ScheduleUrls,
     rocky2023ScheduleUrls,
     southJerseyMixed2023ScheduleUrls
 } from "@/scheduleUrls"
 
 const leagueToScheduleUrls: {[key: string]: string[]} = {
     fpsl: fpsl2023ScheduleUrls,
-    ccm: ccm2023ScheduleUrls,
     rocky: rocky2023ScheduleUrls,
     south_jersey_mixed: southJerseyMixed2023ScheduleUrls
 }

@@ -33,54 +33,6 @@ export const fpsl2023RosterUrls = [
     "https://pada.org/t/team-32-57/roster"
 ]
 
-export const uhle2023RosterUrls = [
-    "https://pada.org/t/team-01-11588/roster",
-    "https://pada.org/t/team-02-8437/roster",
-    "https://pada.org/t/team-03-7262/roster",
-    "https://pada.org/t/team-04-6491/roster",
-    "https://pada.org/t/team-05-4269/roster",
-    "https://pada.org/t/team-06-3914/roster",
-    "https://pada.org/t/team-07-2459/roster",
-    "https://pada.org/t/team-08-2288/roster",
-    "https://pada.org/t/team-09-1257/roster",
-    "https://pada.org/t/team-10-1166/roster"
-]
-
-export const picl2023RosterUrls = [
-    "https://pada.org/t/team-01-11635/roster",
-    "https://pada.org/t/team-02-8468/roster",
-    "https://pada.org/t/team-03-7283/roster",
-    "https://pada.org/t/team-04-6505/roster",
-    "https://pada.org/t/team-05-4279/roster",
-    "https://pada.org/t/team-06-3924/roster",
-    "https://pada.org/t/team-07-2469/roster",
-    "https://pada.org/t/team-08-2298/roster",
-    "https://pada.org/t/team-09-1265/roster",
-    "https://pada.org/t/team-10-1173/roster",
-    "https://pada.org/t/team-11-857/roster",
-    "https://pada.org/t/team-12-814/roster",
-    "https://pada.org/t/team-13-537/roster",
-    "https://pada.org/t/team-14-507/roster",
-    "https://pada.org/t/team-15-441/roster",
-    "https://pada.org/t/team-16-411/roster"
-]
-
-export const ccm2023RosterUrls = [
-    "https://pada.org/t/team-01-11676/roster",
-    "https://pada.org/t/team-02-8487/roster",
-    "https://pada.org/t/team-03-7300/roster",
-    "https://pada.org/t/team-04-6518/roster",
-    "https://pada.org/t/team-05-4288/roster",
-    "https://pada.org/t/team-06-3933/roster"
-]
-
-export const delawareOpen2023RosterUrls = [
-    "https://delawareultimate.com/t/team-01-11681/roster",
-    "https://delawareultimate.com/t/team-02-8490/roster",
-    "https://delawareultimate.com/t/team-03-7303/roster",
-    "https://delawareultimate.com/t/team-04-6521/roster"
-]
-
 export const rocky2023RosterUrls = [
     "https://pada.org/t/team-01-11699/roster",
     "https://pada.org/t/team-02-8505/roster",
@@ -90,17 +42,6 @@ export const rocky2023RosterUrls = [
     "https://pada.org/t/team-06-3947/roster",
     "https://pada.org/t/team-07-2481/roster",
     "https://pada.org/t/team-08-2310/roster"
-]
-
-export const delawareMixed2023RosterUrls = [
-    "https://delawareultimate.com/t/team-01-11672/roster",
-    "https://delawareultimate.com/t/team-02-8483/roster",
-    "https://delawareultimate.com/t/team-03-7296/roster",
-    "https://delawareultimate.com/t/team-04-6516/roster",
-    "https://delawareultimate.com/t/team-05-4286/roster",
-    "https://delawareultimate.com/t/team-06-3931/roster",
-    "https://delawareultimate.com/t/team-07-2474/roster",
-    "https://delawareultimate.com/t/team-08-2303/roster"
 ]
 
 export const southJerseyMixed2023RosterUrls = [
