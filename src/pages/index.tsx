@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react"
+import { useRouter } from "next/router"
 
 import { Header } from "@/components/Header"
 import { InputNames } from "@/components/InputNames"
@@ -51,6 +52,9 @@ export const formatName = (name: string): string => {
 }
 
 export default function Home() {
+    const router = useRouter()
+    router.push("/rocky")
+
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
 
