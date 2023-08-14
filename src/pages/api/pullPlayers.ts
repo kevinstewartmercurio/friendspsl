@@ -4,7 +4,6 @@ import { formatName } from ".."
 
 import {
     rocky2023RosterUrls,
-    southJerseyMixed2023RosterUrls
 } from "@/rosterUrls"
 
 const cheerio = require("cheerio")
@@ -18,7 +17,6 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 
 const leagueToRosterUrls: {[key: string]: string[]} = {
     rocky: rocky2023RosterUrls,
-    south_jersey_mixed: southJerseyMixed2023RosterUrls
 }
 
 export const rosterUrlToNamesLst = async (url: string) => {

@@ -2,8 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next"
 import { Event } from ".."
 import { leagueToRangeLst } from "./pullSchedules"
 
-const path = require("path")
-const XLSX = require("xlsx")
 require("dotenv").config({path: "../.env"})
 const { MongoClient } = require('mongodb')
 
@@ -13,23 +11,7 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 })
 
 export const getPlayerTeamNumber = async (league: string, player: string) => {
-    if (league === "fpsl") {
-        // FOR 2023 FPSL NAMES
-        const filePath = path.join(process.cwd(), "public/FPSL_Draft_2023.xlsx")
-        const workbook = XLSX.readFile(filePath)
-        const sheetName = workbook.SheetNames[0]
-        const worksheet = workbook.Sheets[sheetName]
-
-        for (const cellAddress in worksheet) {
-            if (worksheet.hasOwnProperty(cellAddress)) {
-                const cellValue = worksheet[cellAddress].v
-                if (cellValue === player) {
-                    return parseInt(cellAddress.slice(1))
-                }
-            }
-        }
-    // handling ranged leagues separately
-    } else if (league === "LARGE_LEAGUE") {
+    if (league === "LARGE_LEAGUE") {
         await client.connect()
         const db = client.db(process.env.MONGODB_DBNAME)
         const players = db.collection(process.env.MONGODB_PLAYERS_COLL)

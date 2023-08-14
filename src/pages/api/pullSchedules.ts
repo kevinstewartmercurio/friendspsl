@@ -9,18 +9,12 @@ const client = new MongoClient(process.env.MONGODB_URI, {
     useUnifiedTopology: true,
 })
 
-import { getPlayerTeamNumber } from "./generateSchedule"
-
-import { 
-    fpsl2023ScheduleUrls,
+import {
     rocky2023ScheduleUrls,
-    southJerseyMixed2023ScheduleUrls
 } from "@/scheduleUrls"
 
 const leagueToScheduleUrls: {[key: string]: string[]} = {
-    fpsl: fpsl2023ScheduleUrls,
     rocky: rocky2023ScheduleUrls,
-    south_jersey_mixed: southJerseyMixed2023ScheduleUrls
 }
 
 export const leagueToRangeLst: {[key: string]: string[]} = {
@@ -109,11 +103,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     for (let player of req.body.playersLst) {
         let teamNumber: number = -1
-        if (req.body.league === "fpsl") {
-            // FOR 2023 FPSL NAMES
-            teamNumber = await getPlayerTeamNumber("fpsl", player)
-        // handling ranged leagues separately
-        } else if (req.body.league === "LARGE_LEAGUE") {
+        if (req.body.league === "LARGE_LEAGUE") {
             const leaguePlayersCursor = players.find({league: req.body.league})
             if (leaguePlayersCursor) {
                 const leaguePlayersPromise = leaguePlayersCursor.toArray()

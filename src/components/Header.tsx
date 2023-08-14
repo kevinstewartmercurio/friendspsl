@@ -6,9 +6,7 @@ import { update } from "@/features/theme/themeSlice"
 import { slide as Menu } from "react-burger-menu"
 
 const menuLinks2023 = [
-    {name: "FPSL", href: "/"},
     {name: "Rocky", href: "/rocky"},
-    {name: "South Jersey Mixed", href: "/south-jersey-mixed"}
 ]
 
 export const toggleTheme = (theme: boolean) => {
@@ -74,7 +72,7 @@ export function Header(props: {handlePopup: (popupStr: string) => void, popupAct
     return (
         <>
             <div className={`${props.popupActive ? "hidden" : ""}`}>
-                <Menu className="text-primary-text bg-menu-bg px-6 py-16" isOpen={openMenu} onOpen={undefined} onClose={() => setOpenMenu(false)} width={236} customCrossIcon={
+                <Menu className="text-primary-text bg-menu-bg px-6 py-16" isOpen={openMenu} onOpen={undefined} onClose={() => setOpenMenu(false)} width={260} customCrossIcon={
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
                         <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
                     </svg>
@@ -87,6 +85,24 @@ export function Header(props: {handlePopup: (popupStr: string) => void, popupAct
                             <Link key={index} id={link.name.toLowerCase()} className="text-primary-text menu-item my-3 pl-4 text-xl" href={link.href}>
                                 {link.name}
                             </Link>
+                        )
+                    })}
+                    <div className="text-primary-text w-max border-transparent border-b-primary-text border-2 mt-10 mb-4 text-xl">
+                        Future Leagues...
+                    </div>
+                    {[
+                        "CCM Fall",
+                        "Philly Fall Competitive",
+                        "Philly Open Fall",
+                        "Delaware Fall Open",
+                        "Delaware Fall Mixed",
+                        "Philly Woman-Matching Fall",
+                        "Philly Fall Casual"
+                    ].map((str, index) => {
+                        return (
+                            <div key={index} className="text-primary-text menu-item my-3 pl-4 text-xl">
+                                {str}
+                            </div>
                         )
                     })}
                 </Menu>
