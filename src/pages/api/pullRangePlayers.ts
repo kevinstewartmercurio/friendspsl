@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { compareDates } from "./pullSchedules"
 import { rosterUrlToNamesLst } from "./pullPlayers"
 
-import {
+// import {
     
-} from "@/rosterUrls"
+// } from "@/rosterUrls"
 
 const { MongoClient } = require("mongodb")
 require("dotenv").config({path: "../.env"})
