@@ -9,12 +9,12 @@ const client = new MongoClient(process.env.MONGODB_URI, {
     useUnifiedTopology: true,
 })
 
-import {
-    rocky2023ScheduleUrls,
-} from "@/scheduleUrls"
+// import {
+//     rocky2023ScheduleUrls,
+// } from "@/scheduleUrls"
 
 const leagueToScheduleUrls: {[key: string]: string[]} = {
-    rocky: rocky2023ScheduleUrls,
+    // rocky: rocky2023ScheduleUrls,
 }
 
 export const leagueToRangeLst: {[key: string]: string[]} = {
