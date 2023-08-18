@@ -52,8 +52,8 @@ export const formatName = (name: string): string => {
 }
 
 export default function Home() {
-    const router = useRouter()
-    router.push("/rocky")
+    // const router = useRouter()
+    // router.push("/rocky")
 
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
@@ -144,8 +144,16 @@ export default function Home() {
                 <div>
                     <Header handlePopup={handlePopup} popupActive={popup !== "" ? true : false} />
                 </div>
-                <div>
+                {/* <div>
                     <InputNames league="2023 FPSL" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
+                </div> */}
+                <div className="w-full min-h-[calc(100vh-104px-104px)] px-8 flex flex-col justify-center items-center">
+                    <div className="text-primary-text mb-4 text-base md:text-lg text-center">
+                        No active leagues at the moment!
+                    </div>
+                    <div className="text-primary-text mb-4 text-base md:text-lg text-center">
+                        CCM Fall League and Philly Fall Competitive League will start on September 5th.
+                    </div>
                 </div>
                 <div>
                     <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />
