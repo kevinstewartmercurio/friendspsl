@@ -10,7 +10,7 @@ import { HowItsBuilt } from "@/components/HowItsBuilt"
 import type { Event } from "."
 import { formatName } from "."
 
-export default function Ccm() {
+export default function CcmFall() {
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
 
@@ -25,7 +25,7 @@ export default function Ccm() {
             await fetch("/api/pullPlayers", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({league: "ccm"})
+                body: JSON.stringify({league: "ccmfall"})
             })
                 .catch((error) => console.error(error))
         }
@@ -73,7 +73,7 @@ export default function Ccm() {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                league: "ccm",
+                league: "ccmfall",
                 playersLst: playersLst
             })
         })
@@ -85,7 +85,7 @@ export default function Ccm() {
         await fetch("/api/generateSchedule", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({league: "ccm", playersLst: playersLst})
+            body: JSON.stringify({league: "ccmfall", playersLst: playersLst})
         })
             .then((res) => {
                 if (res.ok) {
@@ -114,7 +114,7 @@ export default function Ccm() {
                     <Header handlePopup={handlePopup} popupActive={popup !== "" ? true : false} />
                 </div>
                 <div>
-                    <InputNames league="2023 CCM" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
+                    <InputNames league="2023 CCM Fall" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
                 </div>
                 <div>
                     <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />

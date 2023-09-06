@@ -9,16 +9,22 @@ const client = new MongoClient(process.env.MONGODB_URI, {
     useUnifiedTopology: true,
 })
 
-// import {
-//     rocky2023ScheduleUrls,
-// } from "@/scheduleUrls"
+import {
+    ccmfall2023ScheduleUrls,
+    phillyfallcompetitive2023ScheduleUrls,
+    phillyopenfall2023ScheduleUrls,
+    phillyfallcasual2023ScheduleUrls,
+} from "@/scheduleUrls"
 
 const leagueToScheduleUrls: {[key: string]: string[]} = {
-    // rocky: rocky2023ScheduleUrls,
+    ccmfall: ccmfall2023ScheduleUrls,
+    phillyfallcompetitive: phillyfallcompetitive2023ScheduleUrls,
+    phillyopenfall: phillyopenfall2023ScheduleUrls,
+    phillyfallcasual: phillyfallcasual2023ScheduleUrls,
 }
 
 export const leagueToRangeLst: {[key: string]: string[]} = {
-    // uhle: ["1-5", "6-10"],
+    phillyfallcompetitive: ["1-6", "7-12", "13-18", "19-22"]
 }
 
 type PlayerlessEvent = {
@@ -63,7 +69,9 @@ const getScheduleForTeamNumber = async (league: string, teamNumber: number) => {
 
                 if ($(locationAnchors[locationIndex]).text() !== "PLD (Parking Lot Duty)") {
                     if (($(locationAnchors[locationIndex]).text() !== "Ball Fields") || ($(fieldSpans[locationIndex]).text().trim().slice(-2)[0] === "#")) {
-                        tempEvent["field"] = $(fieldSpans[locationIndex]).text().trim().slice(-2)
+                        if ((league !== "ccmfall") && (league !== "phillyfallcompetitive") && (league !== "phillyopenfall") && (league !== "phillyfallcasual")) {
+                            tempEvent["field"] = $(fieldSpans[locationIndex]).text().trim().slice(-2)
+                        }
                     }
                 }
 
@@ -82,6 +90,8 @@ const getScheduleForTeamNumber = async (league: string, teamNumber: number) => {
 }
 
 export const compareDates = (d1: Date, d2: Date): boolean => {
+    return true
+
     // returns true if d1 and d2 are different days, false otherwise
     if (d1 === undefined) {
         return true
@@ -103,7 +113,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     for (let player of req.body.playersLst) {
         let teamNumber: number = -1
-        if (req.body.league === "LARGE_LEAGUE") {
+        if (req.body.league === "phillyfallcompetitive") {
             const leaguePlayersCursor = players.find({league: req.body.league})
             if (leaguePlayersCursor) {
                 const leaguePlayersPromise = leaguePlayersCursor.toArray()

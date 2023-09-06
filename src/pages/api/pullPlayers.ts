@@ -2,9 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { compareDates } from "./pullSchedules"
 import { formatName } from ".."
 
-// import {
-//     rocky2023RosterUrls,
-// } from "@/rosterUrls"
+import {
+    ccmfall2023RosterUrls,
+    phillyopenfall2023RosterUrls,
+    phillyfallcasual2023RosterUrls,
+} from "@/rosterUrls"
 
 const cheerio = require("cheerio")
 const { MongoClient } = require('mongodb')
@@ -16,7 +18,9 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 })
 
 const leagueToRosterUrls: {[key: string]: string[]} = {
-    // rocky: rocky2023RosterUrls,
+    ccmfall: ccmfall2023RosterUrls,
+    phillyopenfall: phillyopenfall2023RosterUrls,
+    phillyfallcasual: phillyfallcasual2023RosterUrls,
 }
 
 export const rosterUrlToNamesLst = async (url: string) => {

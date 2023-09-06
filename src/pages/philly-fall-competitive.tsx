@@ -10,9 +10,12 @@ import { HowItsBuilt } from "@/components/HowItsBuilt"
 import type { Event } from "."
 import { formatName } from "."
 
-export default function Rocky() {
+export default function PhillyFallCompetitive() {
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
+
+    // 1-6, 7-12, 13-18, 19-22
+    const [pulling, setPulling] = useState<boolean[]>([false, false, false, false])
 
     const [popup, setPopup] = useState<string>("")
     const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][] | null>(null)
@@ -21,17 +24,96 @@ export default function Rocky() {
     const [errorType, setErrorType] = useState<string>("")
 
     useEffect(() => {
-        const pullPlayers = async () => {
-            await fetch("/api/pullPlayers", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({league: "rocky"})
-            })
-                .catch((error) => console.error(error))
-        }
+        if (pulling[0] === false) {
+            const pullPlayers1 = async () => {
+                await fetch("/api/pullRangePlayers", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        league: "phillyfallcompetitive",
+                        start: 1,
+                        end: 6
+                    })
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            setPulling((prev) => [true, prev[1], prev[2], prev[3]])
+                        }
+                    })
+            }
 
-        pullPlayers()
+            pullPlayers1()
+        }
     }, [])
+
+    useEffect(() => {
+        if (pulling[0] === true) {
+            const pullPlayers2 = async () => {
+                await fetch("/api/pullRangePlayers", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        league: "phillyfallcompetitive",
+                        start: 7, 
+                        end: 12
+                    })
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            setPulling((prev) => [prev[0], true, prev[2], prev[3]])
+                        }
+                    })
+            }
+
+            pullPlayers2()
+        }
+    }, [pulling[0]])
+
+    useEffect(() => {
+        if (pulling[1] === true) {
+            const pullPlayers3 = async () => {
+                await fetch("/api/pullRangePlayers", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        league: "phillyfallcompetitive",
+                        start: 13,
+                        end: 18
+                    })
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            setPulling((prev) => [prev[0], prev[1], true, prev[3]])
+                        }
+                    })
+            }
+
+            pullPlayers3()
+        }
+    }, [pulling[1]])
+
+    useEffect(() => {
+        if (pulling[2] === true) {
+            const pullPlayers4 = async() => {
+                await fetch("/api/pullRangePlayers", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        league: "phillyfallcompetitive",
+                        start: 19,
+                        end: 22
+                    })
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            setPulling((prev) => [prev[0], prev[1], prev[2], true])
+                        }
+                    })
+            }
+
+            pullPlayers4()
+        }
+    }, [pulling[2]])
 
     useEffect(() => {
         if (masterSchedule !== null) {
@@ -73,7 +155,7 @@ export default function Rocky() {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                league: "rocky",
+                league: "phillyfallcompetitive",
                 playersLst: playersLst
             })
         })
@@ -85,7 +167,7 @@ export default function Rocky() {
         await fetch("/api/generateSchedule", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({league: "rocky", playersLst: playersLst})
+            body: JSON.stringify({league: "phillyfallcompetitive", playersLst: playersLst})
         })
             .then((res) => {
                 if (res.ok) {
@@ -114,7 +196,7 @@ export default function Rocky() {
                     <Header handlePopup={handlePopup} popupActive={popup !== "" ? true : false} />
                 </div>
                 <div>
-                    <InputNames league="2023 Rocky" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
+                    <InputNames league="2023 Philly Fall Competitive" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
                 </div>
                 <div>
                     <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />

@@ -10,7 +10,7 @@ import { HowItsBuilt } from "@/components/HowItsBuilt"
 import type { Event } from "."
 import { formatName } from "."
 
-export default function SouthJerseyMixed() {
+export default function PhillyOpenFall() {
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
 
@@ -25,7 +25,7 @@ export default function SouthJerseyMixed() {
             await fetch("/api/pullPlayers", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({league: "south_jersey_mixed"})
+                body: JSON.stringify({league: "phillyopenfall"})
             })
                 .catch((error) => console.error(error))
         }
@@ -73,7 +73,7 @@ export default function SouthJerseyMixed() {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                league: "south_jersey_mixed",
+                league: "phillyopenfall",
                 playersLst: playersLst
             })
         })
@@ -85,7 +85,7 @@ export default function SouthJerseyMixed() {
         await fetch("/api/generateSchedule", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({league: "south_jersey_mixed", playersLst: playersLst})
+            body: JSON.stringify({league: "phillyopenfall", playersLst: playersLst})
         })
             .then((res) => {
                 if (res.ok) {
@@ -114,7 +114,7 @@ export default function SouthJerseyMixed() {
                     <Header handlePopup={handlePopup} popupActive={popup !== "" ? true : false} />
                 </div>
                 <div>
-                    <InputNames league="2023 South Jersey Mixed" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
+                    <InputNames league="2023 Philly Open Fall" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
                 </div>
                 <div>
                     <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />

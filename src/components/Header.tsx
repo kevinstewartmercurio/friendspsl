@@ -6,7 +6,10 @@ import { update } from "@/features/theme/themeSlice"
 import { slide as Menu } from "react-burger-menu"
 
 const menuLinks2023 = [
-    // {name: "Rocky", href: "/rocky"},
+    {name: "CCM Fall", href: "/ccm-fall"},
+    {name: "Philly Fall Casual", href: "/philly-fall-casual"},
+    {name: "Philly Fall Competitive", href: "/philly-fall-competitive"},
+    {name: "Philly Open Fall", href: "/philly-open-fall"},
 ]
 
 export const toggleTheme = (theme: boolean) => {
@@ -77,7 +80,7 @@ export function Header(props: {handlePopup: (popupStr: string) => void, popupAct
                         <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
                     </svg>
                 }>
-                    {/* <div className="text-primary-text w-max border-transparent border-b-primary-text border-2 mb-4 text-xl">
+                    <div className="text-primary-text w-max border-transparent border-b-primary-text border-2 mb-4 text-xl">
                         2023
                     </div>
                     {menuLinks2023.map((link, index) => {
@@ -86,18 +89,14 @@ export function Header(props: {handlePopup: (popupStr: string) => void, popupAct
                                 {link.name}
                             </Link>
                         )
-                    })} */}
+                    })}
                     <div className="text-primary-text w-max border-transparent border-b-primary-text border-2 mb-4 text-xl">
                         Future Leagues...
                     </div>
                     {[
-                        "CCM Fall",
-                        "Philly Fall Competitive",
-                        "Philly Open Fall",
                         "Delaware Fall Open",
                         "Delaware Fall Mixed",
                         "Philly Woman-Matching Fall",
-                        "Philly Fall Casual"
                     ].map((str, index) => {
                         return (
                             <div key={index} className="text-primary-text menu-item my-3 pl-4 text-xl">
