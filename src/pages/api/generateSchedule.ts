@@ -11,7 +11,7 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 })
 
 export const getPlayerTeamNumber = async (league: string, player: string) => {
-    if (league === "LARGE_LEAGUE") {
+    if (league === "phillyfallcompetitive") {
         await client.connect()
         const db = client.db(process.env.MONGODB_DBNAME)
         const players = db.collection(process.env.MONGODB_PLAYERS_COLL)

@@ -125,10 +125,7 @@ export default function Help() {
                     A Note on Privacy
                 </div>
                 <div className="mb-3">
-                    The first iteration of this project provided access to 2023 
-                    FPSL data using the draft spreadsheet that was posted on the
-                    PADA Twitter account. In the spirit of protecting private 
-                    information, all other leagues (current and future) will 
+                    In the spirit of protecting private information, all leagues
                     rely on team roster pages for player names.&nbsp;
                     <b>
                         This means that your PADA profile page must be public 
@@ -142,10 +139,6 @@ export default function Help() {
                     To change this setting go to your PADA account page, go to 
                     the "Preferences & Privacy" section, locate the "Who can 
                     see my profile page?" question, and select "Everyone".
-                </div>
-                <div className="mb-3">
-                    Please allow 24 hours for any PADA account changes to be
-                    reflected on FriendsPSL.
                 </div>
             </div>
             <div className="text-primary-text mb-6 px-6 lg:px-12 text-sm md:text-base lg:text-lg">

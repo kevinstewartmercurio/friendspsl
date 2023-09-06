@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { compareDates } from "./pullSchedules"
 import { rosterUrlToNamesLst } from "./pullPlayers"
 
-// import {
-    
-// } from "@/rosterUrls"
+import {
+    phillyfallcompetitive2023RosterUrls
+} from "@/rosterUrls"
 
 const { MongoClient } = require("mongodb")
 require("dotenv").config({path: "../.env"})
@@ -15,7 +15,7 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 })
 
 const leagueToRosterUrls: {[key: string]: string[]} = {
-    
+    phillyfallcompetitive: phillyfallcompetitive2023RosterUrls
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
