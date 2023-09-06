@@ -46,12 +46,13 @@ export function Schedule(props: {masterSchedule: ([Date, Event[]][] | null), sch
                                         Player(s)
                                     </div>
                                     <div className="w-1/2 flex flex-row">
-                                        <div className="w-4/5">
+                                        {/* <div className="w-4/5"> */}
+                                        <div className="w-full">
                                             Location
                                         </div>
-                                        <div className="hidden md:block">
+                                        {/* <div className="hidden md:block">
                                             Field
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </th>
@@ -73,7 +74,7 @@ export function Schedule(props: {masterSchedule: ([Date, Event[]][] | null), sch
                                     <td className={`pr-3 py-3 ${conditionalRoundedRight}`}>
                                         <div className="flex flex-col">
                                             {outerItem[1].map((innerItem: Event, innerIndex: number) => {
-                                                const conditionalPLDWidth = `${innerItem.location === "PLD (Parking Lot Duty)" ? "w-full" : "w-4/5"}`
+                                                // const conditionalPLDWidth = `${innerItem.location === "PLD (Parking Lot Duty)" ? "w-full" : "w-4/5"}`
 
                                                 return (
                                                     <div key={innerIndex} className="flex flex-row">
@@ -81,14 +82,15 @@ export function Schedule(props: {masterSchedule: ([Date, Event[]][] | null), sch
                                                             {innerItem.player}
                                                         </div>
                                                         <div className="w-1/2 flex flex-row">
-                                                            <div className={`${conditionalPLDWidth}`}>
+                                                            {/* <div className={`${conditionalPLDWidth}`}> */}
+                                                            <div className="w-full">
                                                                 {innerItem.location}
                                                             </div>
-                                                            {innerItem.location === "PLD (Parking Lot Duty)" ? <></> : (
+                                                            {/* {innerItem.location === "PLD (Parking Lot Duty)" ? <></> : (
                                                                 <div className="w-1/5">
                                                                     {innerItem.field}
                                                                 </div>
-                                                            )}
+                                                            )} */}
                                                         </div>
                                                     </div>
                                                 )
