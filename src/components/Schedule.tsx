@@ -2,7 +2,7 @@ import { Event } from "@/pages"
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-function parseDate(inStr: string): string {
+const parseDate = (inStr: string): string => {
     const year = inStr.slice(0, 4)
     const month = months[parseInt(inStr.slice(5,7)) - 1]
     let day = inStr.slice(8, 10)
@@ -12,6 +12,24 @@ function parseDate(inStr: string): string {
     }
 
     return `${month} ${day}, ${year}`
+}
+
+const fieldInMasterSchedule = (masterSchedule: [Date, Event[]][] | null): boolean => {
+    if (Array.isArray(masterSchedule)) {
+        if (masterSchedule.some((day) => {
+            if (day[1].some((eventObj) => {
+                if (eventObj["field"]) {
+                    return true
+                }
+            })) {
+                return true
+            }
+        })) {
+            return true
+        }
+    }
+
+    return false
 }
 
 export function Schedule(props: {masterSchedule: ([Date, Event[]][] | null), scheduleGenerated: boolean}) {
@@ -45,14 +63,15 @@ export function Schedule(props: {masterSchedule: ([Date, Event[]][] | null), sch
                                     <div className="w-1/2">
                                         Player(s)
                                     </div>
-                                    <div className="w-1/2 flex flex-row">
-                                        {/* <div className="w-4/5"> */}
+                                    <div className={`${fieldInMasterSchedule(props.masterSchedule) ? "w-4/5" : "w-1/2"} flex flex-row`}>
                                         <div className="w-full">
                                             Location
                                         </div>
-                                        {/* <div className="hidden md:block">
-                                            Field
-                                        </div> */}
+                                        {fieldInMasterSchedule(props.masterSchedule) &&
+                                            <div className="w-1/5 hidden md:block">
+                                                Field
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </th>
@@ -75,22 +94,24 @@ export function Schedule(props: {masterSchedule: ([Date, Event[]][] | null), sch
                                         <div className="flex flex-col">
                                             {outerItem[1].map((innerItem: Event, innerIndex: number) => {
                                                 // const conditionalPLDWidth = `${innerItem.location === "PLD (Parking Lot Duty)" ? "w-full" : "w-4/5"}`
-
                                                 return (
                                                     <div key={innerIndex} className="flex flex-row">
                                                         <div className="w-1/2">
                                                             {innerItem.player}
                                                         </div>
-                                                        <div className="w-1/2 flex flex-row">
-                                                            {/* <div className={`${conditionalPLDWidth}`}> */}
+                                                        <div className={`${fieldInMasterSchedule(props.masterSchedule) ? "w-4/5" : "w-1/2"} flex flex-row`}>
                                                             <div className="w-full">
                                                                 {innerItem.location}
                                                             </div>
-                                                            {/* {innerItem.location === "PLD (Parking Lot Duty)" ? <></> : (
-                                                                <div className="w-1/5">
-                                                                    {innerItem.field}
-                                                                </div>
-                                                            )} */}
+                                                            {innerItem.location === "PLD (Parking Lot Duty)" ? <></> : (
+                                                                <>
+                                                                    {fieldInMasterSchedule(props.masterSchedule) &&
+                                                                        <div className="w-1/5">
+                                                                            {innerItem.field}
+                                                                        </div>
+                                                                    }
+                                                                </>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 )

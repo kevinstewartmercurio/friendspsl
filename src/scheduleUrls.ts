@@ -49,3 +49,19 @@ export const phillyfallcasual2023ScheduleUrls = [
     "https://pada.org/t/team-07-2543/schedule/event_id/active_events_only/game_type/upcoming",
     "https://pada.org/t/team-08-2369/schedule/event_id/active_events_only/game_type/upcoming"
 ]
+
+export const delawareFallOpen2023ScheduleUrls = [
+    "https://delawareultimate.com/t/team-01-12136/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-02-8836/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-03-7601/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://delawareultimate.com/t/team-04-6793/schedule/event_id/active_events_only/game_type/upcoming"
+]
+
+export const phillywomanmatchingfall2023ScheduleUrls = [
+    "https://pada.org/t/team-01-12121/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-02-8822/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-03-7589/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-04-6781/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-05-4445/schedule/event_id/active_events_only/game_type/upcoming",
+    "https://pada.org/t/team-06-4084/schedule/event_id/active_events_only/game_type/upcoming"
+]
