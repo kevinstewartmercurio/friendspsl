@@ -9,7 +9,9 @@ const menuLinks2023 = [
     {name: "CCM Fall", href: "/ccm-fall"},
     {name: "Philly Fall Casual", href: "/philly-fall-casual"},
     {name: "Philly Fall Competitive", href: "/philly-fall-competitive"},
+    {name: "Philly Woman-Matching Fall", href: "/philly-woman-matching-fall"},
     {name: "Philly Open Fall", href: "/philly-open-fall"},
+    {name: "Delaware Fall Open", href: "/delaware-fall-open"}
 ]
 
 export const toggleTheme = (theme: boolean) => {
@@ -90,20 +92,18 @@ export function Header(props: {handlePopup: (popupStr: string) => void, popupAct
                             </Link>
                         )
                     })}
-                    <div className="text-primary-text w-max border-transparent border-b-primary-text border-2 mb-4 text-xl">
+                    {/* <div className="text-primary-text w-max border-transparent border-b-primary-text border-2 mb-4 text-xl">
                         Future Leagues...
                     </div>
                     {[
-                        "Delaware Fall Open",
                         "Delaware Fall Mixed",
-                        "Philly Woman-Matching Fall",
                     ].map((str, index) => {
                         return (
                             <div key={index} className="text-primary-text menu-item my-3 pl-4 text-xl">
                                 {str}
                             </div>
                         )
-                    })}
+                    })} */}
                 </Menu>
             </div>
             <div className="w-full mb-8 px-6 md:px-12 flex flex-row">

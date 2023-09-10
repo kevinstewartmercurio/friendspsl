@@ -49,3 +49,19 @@ export const phillyfallcasual2023RosterUrls = [
     "https://pada.org/t/team-07-2543/roster",
     "https://pada.org/t/team-08-2369/roster"
 ]
+
+export const delawareFallOpen2023RosterUrls = [
+    "https://delawareultimate.com/t/team-01-12136/roster",
+    "https://delawareultimate.com/t/team-02-8836/roster",
+    "https://delawareultimate.com/t/team-03-7601/roster",
+    "https://delawareultimate.com/t/team-04-6793/roster"
+]
+
+export const phillywomanmatchingfall2023RosterUrls = [
+    "https://pada.org/t/team-01-12121/roster",
+    "https://pada.org/t/team-02-8822/roster",
+    "https://pada.org/t/team-03-7589/roster",
+    "https://pada.org/t/team-04-6781/roster",
+    "https://pada.org/t/team-05-4445/roster",
+    "https://pada.org/t/team-06-4084/roster"
+]

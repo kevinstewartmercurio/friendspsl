@@ -14,6 +14,8 @@ import {
     phillyfallcompetitive2023ScheduleUrls,
     phillyopenfall2023ScheduleUrls,
     phillyfallcasual2023ScheduleUrls,
+    delawareFallOpen2023ScheduleUrls,
+    phillywomanmatchingfall2023ScheduleUrls
 } from "@/scheduleUrls"
 
 const leagueToScheduleUrls: {[key: string]: string[]} = {
@@ -21,6 +23,8 @@ const leagueToScheduleUrls: {[key: string]: string[]} = {
     phillyfallcompetitive: phillyfallcompetitive2023ScheduleUrls,
     phillyopenfall: phillyopenfall2023ScheduleUrls,
     phillyfallcasual: phillyfallcasual2023ScheduleUrls,
+    delawarefallopen: delawareFallOpen2023ScheduleUrls,
+    phillywomanmatchingfall: phillywomanmatchingfall2023ScheduleUrls
 }
 
 export const leagueToRangeLst: {[key: string]: string[]} = {

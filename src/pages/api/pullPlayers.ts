@@ -6,6 +6,8 @@ import {
     ccmfall2023RosterUrls,
     phillyopenfall2023RosterUrls,
     phillyfallcasual2023RosterUrls,
+    delawareFallOpen2023RosterUrls,
+    phillywomanmatchingfall2023RosterUrls,
 } from "@/rosterUrls"
 
 const cheerio = require("cheerio")
@@ -21,6 +23,8 @@ const leagueToRosterUrls: {[key: string]: string[]} = {
     ccmfall: ccmfall2023RosterUrls,
     phillyopenfall: phillyopenfall2023RosterUrls,
     phillyfallcasual: phillyfallcasual2023RosterUrls,
+    delawarefallopen: delawareFallOpen2023RosterUrls,
+    phillywomanmatchingfall: phillywomanmatchingfall2023RosterUrls
 }
 
 export const rosterUrlToNamesLst = async (url: string) => {
