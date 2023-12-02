@@ -2,6 +2,13 @@
 
 A scheduling tool for Philadelphia Area Disc Alliance's (PADA) Fairmount Park Summer League (FPSL).
 
+## ⚡️ Technologies
+[![image](https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![image](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![image](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![image](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![image](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+
 ## 🏃‍♂️ FPSL
 Every Summer PADA organizes an Ultimate Frisbee league for over 500 participants. Unlike other leagues with field sites spread throughout the Philadelphia region, FPSL is hosted in Fairmount Park on one big field. With over 30 teams, weekly games have to be scheduled over multiple weeknights. So even if you have friends playing FPSL you aren't guaranteed to be playing on the same night.
 
