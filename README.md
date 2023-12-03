@@ -1,4 +1,4 @@
-# 🥏 F(riends)PSL
+# 🥏 FriendsPSL
 
 A scheduling tool for Philadelphia Area Disc Alliance's (PADA) Fairmount Park Summer League (FPSL).
 
@@ -26,7 +26,7 @@ The website used to show each team's schedule leaves much to be desired. Any tim
 Comparing two schedules was arduous enough but comparing any more than three schedules was too much of a hassle. Maybe you'd text the friends you really wanted to see, but otherwise you'd show up, see who you saw, and miss whoever you didn't.
 
 ## 🙂 Solution
-Enter F(riends)PSL! By compiling all available player data and webscraping the constantly changing team schedules, F(riends)PSL is able to take a list of players and output a schedule that is formatted and easy to read.
+Enter FriendsPSL! By compiling all available player data and webscraping the constantly changing team schedules, FriendsPSL is able to take a list of players and output a schedule that is formatted and easy to read.
 
 Now you can say hello to (or avoid 🙈) all the people who you know will be at the fields on any given night!
 
@@ -34,6 +34,6 @@ Now you can say hello to (or avoid 🙈) all the people who you know will be at 
 After getting lots of positive feedback from FPSL users, I started to make the site available to other leagues that PADA offers. Maintaining and updating is still the biggest challenge and the next step for this project will be creating documentation for the process of adding/removing leagues.
 
 ## 📷 Images
-![F(riends)PSL Light Theme](/public/friendspsl-light.png)
+![FriendsPSL Light Theme](/public/friendspsl-light.png)
 
-![F(riends)PSL Dark Theme](/public/friendspsl-dark.png)
+![FriendsPSL Dark Theme](/public/friendspsl-dark.png)
