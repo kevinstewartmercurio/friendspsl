@@ -1,12 +1,10 @@
 import { useState, useEffect, useRef } from "react"
-import { useRouter } from "next/router"
 
 import { Header } from "@/components/Header"
 import { InputNames } from "@/components/InputNames"
 import { Schedule } from "@/components/Schedule"
 import { Footer } from "@/components/Footer"
-import { HowItWorks } from "@/components/HowItWorks"
-import { HowItsBuilt } from "@/components/HowItsBuilt"
+import Link from "next/link"
 
 export type Event = {
     player: string,
@@ -52,17 +50,9 @@ export const formatName = (name: string): string => {
 }
 
 export default function Home() {
-    const router = useRouter()
-    router.push("/ccm-fall")
-
-    return (
-        <></>
-    )
-
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
 
-    const [popup, setPopup] = useState<string>("")
     const [masterSchedule, setMasterSchedule] = useState<[Date, Event[]][] | null>(null)
     const [scheduleGenerated, setScheduleGenerated] = useState<boolean>(false)
     const [readyToGenerate, setReadyToGenerate] = useState<boolean>(true)
@@ -95,10 +85,6 @@ export default function Home() {
         }
     }, [contentRef])
 
-    const handlePopup = (popupStr: string) => {
-        setPopup(popupStr)
-    }
-
     const handleSubmit = async (playersLst: string[]) => {
         playersLst.forEach((element, index) => {
             playersLst[index] = formatName(element)
@@ -116,7 +102,7 @@ export default function Home() {
         setScheduleGenerated(false)
         setReadyToGenerate(false)
         setErrorType("")
-        
+
         await fetch("/api/generateSchedule", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -139,29 +125,27 @@ export default function Home() {
                 console.error(error)
             })
     }
-    
+
     return (
         <div ref={contentRef}>
-            {popup !== "How it Works" ? (<></>) : (<HowItWorks handlePopup={handlePopup} />)}
-            {popup !== "How it's Built" ? (<></>) : (<HowItsBuilt handlePopup={handlePopup} />)}
-            <div className={`${popup !== "" ? "blur-sm" : ""}`}>
+            <div>
                 <div>
-                    <Header handlePopup={handlePopup} popupActive={popup !== "" ? true : false} />
+                    <Header />
                 </div>
                 {/* <div>
                     <InputNames league="2023 FPSL" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
                 </div> */}
                 <div className="w-full min-h-[calc(100vh-104px-104px)] px-8 flex flex-col justify-center items-center">
                     <div className="text-primary-text mb-4 text-base md:text-lg text-center">
-                        No active leagues at the moment!
+                        Get ready for FPSL 2024!
                     </div>
                     <div className="text-primary-text mb-4 text-base md:text-lg text-center">
-                        CCM Fall League and Philly Fall Competitive League will start on September 5th.
+                        Visit <Link href="https://pada.org/e/fairmount-park-summer-league-2024" className="text-secondary-text border-transparent border-[1.5px] hover:border-b-secondary-text">https://pada.org</Link> to learn more.
                     </div>
                 </div>
-                <div>
+                {/* <div>
                     <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />
-                </div>
+                </div> */}
                 <div>
                     <Footer contentHeight={contentHeight} />
                 </div>
