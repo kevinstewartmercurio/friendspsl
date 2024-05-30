@@ -92,18 +92,9 @@ export default function Help() {
                         How it Works
                     </div>
                     <div className="mb-3">
-                        After providing a list of player names you can click 
-                        "Generate Schedule" to see all upcoming events for those 
+                        After providing a list of player names you can click
+                        "Generate Schedule" to see all upcoming events for those
                         players.
-                    </div>
-                    <div className="mb-3">
-                        The server stores all
-                        available names from each team roster page and events from
-                        each team schedule page in a databse and then uses that
-                        information to compile a schedule for specified players. To
-                        minimize requests being sent to the PADA website, each
-                        team's stored roster and schedule information will update
-                        at most once per day.
                     </div>
                 </div>
                 <div className="text-primary-text mb-6 px-6 lg:px-12 text-sm md:text-base lg:text-lg">
@@ -111,9 +102,9 @@ export default function Help() {
                         How it's Built
                     </div>
                     <div className="mb-3">
-                        This project was built using Next.js, Tailwind, TypeScript, 
-                        and MongoDB and it's being hosted with Vercel. For those 
-                        interested in the source code, the repository can be found on 
+                        This project was built using Next.js, Tailwind, TypeScript,
+                        and MongoDB and it's being hosted with Vercel. For those
+                        interested in the source code, the repository can be found on
                         my&nbsp;
                         <a href="https://github.com/kevinstewartmercurio/friendspsl" className="underline" target="_blank" rel="noreferrer">
                             Github
@@ -121,27 +112,6 @@ export default function Help() {
                         .
                     </div>
                 </div>
-                {/* <div className="text-primary-text mb-6 px-6 lg:px-12 text-sm md:text-base lg:text-lg">
-                    <div className="text-secondary-text mb-1 text-lg md:text-xl lg:text-2xl">
-                        A Note on Privacy
-                    </div>
-                    <div className="mb-3">
-                        In the spirit of protecting private information, all leagues
-                        rely on team roster pages for player names.&nbsp;
-                        <b>
-                            This means that your PADA profile page must be public 
-                            for your name to appear on FriendsPSL.
-                        </b>
-                        &nbsp;Additionally, your friends will need to have public
-                        PADA profile pages for you to be able to see them on
-                        FriendsPSL.
-                    </div>
-                    <div className="mb-3">
-                        To change this setting go to your PADA account page, go to 
-                        the "Preferences & Privacy" section, locate the "Who can 
-                        see my profile page?" question, and select "Everyone".
-                    </div>
-                </div> */}
                 <div className="text-primary-text mb-6 px-6 lg:px-12 text-sm md:text-base lg:text-lg">
                     <div className="text-secondary-text mb-1 text-lg md:text-xl lg:text-2xl">
                         Having Trouble with a Specific Name?

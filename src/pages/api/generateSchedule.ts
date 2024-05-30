@@ -9,27 +9,6 @@ const client = new MongoClient(process.env.MONGODB_URI, {
     useUnifiedTopology: true,
 });
 
-// export const getPlayerTeamNumber = async (player: string) => {
-//     await client.connect();
-//     const db = client.db(process.env.MONGODB_DBNAME);
-//     const players = db.collection(process.env.MONGODB_PLAYERS_COLL);
-
-//     const leaguePlayersCursor = players.find({ league: league });
-//     if (leaguePlayersCursor) {
-//         const leaguePlayersPromise = leaguePlayersCursor
-//             .toArray()
-//             .then((docs: any) => {
-//                 return docs[0];
-//             })
-//             .catch((error: any) => console.error(error));
-//         const leaguePlayers = await leaguePlayersPromise;
-
-//         return leaguePlayers["players"][player];
-//     }
-
-//     return -1;
-// };
-
 const getPlayerSchedules = async (playersLst: string[]): Promise<Event[][]> => {
     await client.connect();
     const db = client.db(process.env.MONGODB_DBNAME);

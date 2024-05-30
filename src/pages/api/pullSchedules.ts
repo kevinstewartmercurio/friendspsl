@@ -91,8 +91,6 @@ const getScheduleForTeamNumber = async (teamNumber: number) => {
 };
 
 export const compareDates = (d1: Date, d2: Date): boolean => {
-    return false;
-
     // returns true if d1 and d2 are different days, false otherwise
     if (d1 === undefined) {
         return true;
