@@ -4,7 +4,6 @@ import { Header } from "@/components/Header"
 import { InputNames } from "@/components/InputNames"
 import { Schedule } from "@/components/Schedule"
 import { Footer } from "@/components/Footer"
-import Link from "next/link"
 
 export type Event = {
     player: string,
@@ -58,13 +57,6 @@ export default function Home() {
     const [readyToGenerate, setReadyToGenerate] = useState<boolean>(true)
     const [errorType, setErrorType] = useState<string>("")
 
-    useEffect(() => {
-        if (masterSchedule !== null) {
-            setScheduleGenerated(true)
-            setReadyToGenerate(true)
-        }
-    }, [masterSchedule])
-
     // stores and constantly updates content height as state
     useEffect(() => {
         const resizeObserver = new ResizeObserver((entries) => {
@@ -94,7 +86,6 @@ export default function Home() {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                league: "fpsl",
                 playersLst: playersLst
             })
         })
@@ -106,7 +97,7 @@ export default function Home() {
         await fetch("/api/generateSchedule", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({league: "fpsl", playersLst: playersLst})
+            body: JSON.stringify({playersLst: playersLst})
         })
             .then((res) => {
                 if (res.ok) {
@@ -119,6 +110,9 @@ export default function Home() {
             })
             .then((data) => {
                 setMasterSchedule(Object.values(data.masterSchedule))
+                setScheduleGenerated(true)
+                setReadyToGenerate(true)
+                setErrorType("")
             })
             .catch((error) => {
                 setReadyToGenerate(true)
@@ -132,20 +126,20 @@ export default function Home() {
                 <div>
                     <Header />
                 </div>
-                {/* <div>
-                    <InputNames league="2023 FPSL" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
-                </div> */}
-                <div className="w-full min-h-[calc(100vh-104px-104px)] px-8 flex flex-col justify-center items-center">
+                <div>
+                    <InputNames league="2024 FPSL" handleSubmit={handleSubmit} scheduleGenerated={scheduleGenerated} readyToGenerate={readyToGenerate} errorType={errorType} />
+                </div>
+                {/* <div className="w-full min-h-[calc(100vh-104px-104px)] px-8 flex flex-col justify-center items-center">
                     <div className="text-primary-text mb-4 text-base md:text-lg text-center">
                         Get ready for FPSL 2024!
                     </div>
                     <div className="text-primary-text mb-4 text-base md:text-lg text-center">
                         Visit <Link href="https://pada.org/e/fairmount-park-summer-league-2024" className="text-secondary-text border-transparent border-[1.5px] hover:border-b-secondary-text">https://pada.org</Link> to learn more.
                     </div>
-                </div>
-                {/* <div>
-                    <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />
                 </div> */}
+                <div>
+                    <Schedule masterSchedule={masterSchedule} scheduleGenerated={scheduleGenerated} />
+                </div>
                 <div>
                     <Footer contentHeight={contentHeight} />
                 </div>
