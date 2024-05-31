@@ -41,7 +41,7 @@ export const formatName = (name: string): string => {
     for (let i = 1; i < retName.length; i++) {
         if (retName[i - 1] === " " || retName[i - 1] === "-" || retName[i - 1] === "'" || retName.substring(i - 2, i) === "Mc") {
             tempChar = retName.charAt(i).toUpperCase()
-            retName = `${retName.substring(0, i)}${tempChar}${retName.substring(i + 1)}`
+            retName = `${retName.substring(0, i)}${tempChar}${retName.substring(i + 1)}`.trim()
         }
     }
 
