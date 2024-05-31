@@ -35,7 +35,7 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
       setPlayerCount((prev) => prev - 1)
       setPlayersLst((prev) => prev.filter((_, idx) => idx !== (index + 1)))
     }
-    
+
     return (
         <>
             <div className={`w-full py-6 text-sm md:text-base flex justify-center ${props.scheduleGenerated ? "" : "min-h-[calc(100vh-104px-104px)] items-center"}`}>
@@ -50,21 +50,14 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
                                     Error:&nbsp;
                                 </span>
                                 <span>
-                                    At least one of the provided names was not found in the {props.league} data. 
+                                    At least one of the provided names was not found in the {props.league} data.
                                 </span>
-                                {/* <div className="mt-2">
-                                    Please&nbsp; 
-                                    <a href="mailto:kevinstewartmercurio@gmail.com" className="underline">
-                                        contact me
-                                    </a>
-                                    &nbsp;if you cannot generate a schedule for a name you believe is spelled correctly.
-                                </div> */}
                                 <div className="mt-2">
-                                    Please check out the privacy note on the&nbsp; 
+                                    Please check out the&nbsp;
                                     <Link href="/help" className="underline">
                                         help
                                     </Link>
-                                    &nbsp; for troubleshooting information.
+                                    &nbsp;page for troubleshooting information.
                                 </div>
                             </div>
                         </div>
@@ -83,7 +76,6 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
                         e.preventDefault()
 
                         if (props.readyToGenerate) {
-                            // remove all empty strings from playersLst
                             const strippedPlayersLst = playersLst.filter((player) => player !== "")
 
                             if (strippedPlayersLst.length > 0) {
@@ -113,7 +105,7 @@ export function InputNames(props: {league: string, handleSubmit: (playersLst: st
                                 <button className="text-remove-player-text bg-remove-player-bg border-remove-player-bg border-[1.5px] rounded-lg w-12 ml-2 mb-2 flex justify-center items-center outline-none hover:text-remove-player-text-hover hover:bg-remove-player-bg-hover duration-300" onClick={(e) => {
                                   e.preventDefault()
                                   decrementPlayerCount(index)
-                                }}> 
+                                }}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
                                         <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
                                     </svg>

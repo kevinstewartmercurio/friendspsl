@@ -3,17 +3,6 @@ import Link from "next/link"
 import { useAppSelector, useAppDispatch } from "@/redux/hooks"
 import { update } from "@/features/theme/themeSlice"
 
-import { slide as Menu } from "react-burger-menu"
-
-const menuLinks2023 = [
-    {name: "CCM Fall", href: "/ccm-fall"},
-    {name: "Philly Fall Casual", href: "/philly-fall-casual"},
-    {name: "Philly Fall Competitive", href: "/philly-fall-competitive"},
-    {name: "Philly Woman-Matching Fall", href: "/philly-woman-matching-fall"},
-    {name: "Philly Open Fall", href: "/philly-open-fall"},
-    {name: "Delaware Fall Open", href: "/delaware-fall-open"}
-]
-
 export const toggleTheme = (theme: boolean) => {
     const r = document.querySelector(":root") as HTMLElement
 
@@ -37,10 +26,8 @@ export const toggleTheme = (theme: boolean) => {
         r.style.setProperty("--remove-player-bg-hover", "#555a56")
         r.style.setProperty("--error-border", "#e30000")
         r.style.setProperty("--schedule-accent", "#d5d5c5")
-        r.style.setProperty("--popup-text", "#555a56")
-        r.style.setProperty("--popup-bg", "#efefef")
     } else {
-        // dark colors            
+        // dark colors
         r.style.setProperty("--background", "#1c1e26")
         r.style.setProperty("--input-bg", "#dddddd")
         r.style.setProperty("--primary-text", "#bbb")
@@ -59,16 +46,12 @@ export const toggleTheme = (theme: boolean) => {
         r.style.setProperty("--remove-player-bg-hover", "#c4a88a")
         r.style.setProperty("--error-border", "#bd0000")
         r.style.setProperty("--schedule-accent", "#222531")
-        r.style.setProperty("--popup-text", "#1c1e26")
-        r.style.setProperty("--popup-bg", "#dddddd")
     }
 }
 
-export function Header(props: {handlePopup: (popupStr: string) => void, popupActive: boolean}) {
+export function Header() {
     const theme = useAppSelector(state => state.theme.value)
     const dispatch = useAppDispatch()
-
-    const [openMenu, setOpenMenu] = useState<boolean>(false)
 
     useEffect(() => {
         toggleTheme(theme)
@@ -76,45 +59,9 @@ export function Header(props: {handlePopup: (popupStr: string) => void, popupAct
 
     return (
         <>
-            <div className={`${props.popupActive ? "hidden" : ""}`}>
-                <Menu className="text-primary-text bg-menu-bg px-6 py-16" isOpen={openMenu} onOpen={undefined} onClose={() => setOpenMenu(false)} width={260} customCrossIcon={
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
-                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-                    </svg>
-                }>
-                    <div className="text-primary-text w-max border-transparent border-b-primary-text border-2 mb-4 text-xl">
-                        2023
-                    </div>
-                    {menuLinks2023.map((link, index) => {
-                        return (
-                            <Link key={index} id={link.name.toLowerCase()} className="text-primary-text menu-item my-3 pl-4 text-xl" href={link.href}>
-                                {link.name}
-                            </Link>
-                        )
-                    })}
-                    {/* <div className="text-primary-text w-max border-transparent border-b-primary-text border-2 mb-4 text-xl">
-                        Future Leagues...
-                    </div>
-                    {[
-                        "Delaware Fall Mixed",
-                    ].map((str, index) => {
-                        return (
-                            <div key={index} className="text-primary-text menu-item my-3 pl-4 text-xl">
-                                {str}
-                            </div>
-                        )
-                    })} */}
-                </Menu>
-            </div>
             <div className="w-full mb-8 px-6 md:px-12 flex flex-row">
                 {/* hamburger */}
-                <div className="w-1/12 md:w-1/4 flex items-center">
-                    <button className="text-primary-text" onClick={() => setOpenMenu(true)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-list" viewBox="0 0 16 16">
-                            <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-                        </svg>
-                    </button>
-                </div>
+                <div className="w-1/12 md:w-1/4"></div>
                 {/* logo */}
                 <div className="w-5/6 md:w-1/2 text-2xl min-[375px]:text-3xl md:text-4xl font-medium py-4 flex justify-center items-center">
                     <Link href="/">
